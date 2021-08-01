@@ -1,0 +1,59 @@
+---
+---
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<!--
+Copyright 2021 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+        <title>{{ site.title }}</title>
+        <script>
+            const root = document.documentElement;
+
+            function enableControl(id, property, valueCallback) {
+                const control = document.getElementById(id);
+                function updateControl() {
+                    root.style.setProperty(property, valueCallback(control));
+                }
+                control.addEventListener('change', updateControl);
+                window.addEventListener('load', updateControl);
+            }
+        </script>
+        <link rel="stylesheet" href="{{ 'assets/css/style.css' | relative_url }}">
+    </head>
+    <body>
+        <form id="form">
+            <label>
+                Bold:
+                <input type="checkbox" id="bold">
+            </label>
+            <label>
+                Decoration:
+                <select id="decoration">
+                    <option value="none">None
+                    <option value="line-through">Strikethrough
+                    <option value="underline">Underline
+                    <option value="dashed underline">Dashed underline
+                </select>
+            </label>
+            <script>
+                enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
+                enableControl('decoration', '--decoration', control => control.value);
+            </script>
+        </form>
+        <textarea></textarea>
+    </body>
+</html>
