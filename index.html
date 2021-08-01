@@ -35,25 +35,87 @@ limitations under the License.
         <link rel="stylesheet" href="{{ 'assets/css/style.css' | relative_url }}">
     </head>
     <body>
-        <form id="form">
-            <label>
-                Bold:
-                <input type="checkbox" id="bold">
-            </label>
-            <label>
-                Decoration:
-                <select id="decoration">
-                    <option value="none">None
-                    <option value="line-through">Strikethrough
-                    <option value="underline">Underline
-                    <option value="dashed underline">Dashed underline
-                </select>
-            </label>
-            <script>
-                enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
-                enableControl('decoration', '--decoration', control => control.value);
-            </script>
-        </form>
-        <textarea></textarea>
+        <label>
+            Bold:
+            <input type="checkbox" id="bold">
+        </label>
+        <label>
+            Decoration:
+            <select id="decoration">
+                <option value="none">None
+                <option value="line-through">Strikethrough
+                <option value="underline">Underline
+                <option value="dashed underline">Dashed underline
+            </select>
+        </label>
+        <script>
+            enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
+            enableControl('decoration', '--decoration', control => control.value);
+        </script>
+        <textarea id="output" class="Dupl normal" rows="2"></textarea>
+        Keycap colors:
+        <span class="normal">Normal</span>
+        <span class="alt">Alternative form</span>
+        <span class="non-orienting">Non-orienting form</span>
+        <div id="keyboard">
+            <span class="Dupl normal">𛰀</span>
+            <span class="Dupl normal">𛰁</span>
+            <span class="Dupl normal">𛰂</span>
+            <span class="Dupl normal">𛰃</span>
+            <span class="Dupl normal">𛰄</span>
+            <span class="Dupl normal">𛰅</span>
+            <span class="Dupl normal">𛰆</span>
+            <span class="Dupl normal">𛰛</span>
+            <span class="Dupl normal">𛰜</span>
+            <span class="Dupl normal">𛰚</span>
+            <span class="Dupl normal">𛰙</span>
+            <span class="Dupl normal">𛰇</span>
+            <span class="Dupl normal">𛰈</span>
+            <span class="Dupl normal">𛰉</span>
+            <span class="Dupl normal">𛰊</span>
+            <span class="Dupl normal">𛰋</span>
+            <span class="Dupl normal">𛰑</span>
+            <span class="Dupl normal">𛰔</span>
+            <span class="Dupl normal">𛰖</span>
+            <span class="Dupl normal">𛰗</span>
+            <span class="Dupl normal">𛰥</span>
+            <span class="Dupl normal">𛰣</span>
+            <span class="Dupl normal">𛰢</span>
+            <span class="Dupl normal">𛰘</span>
+            <span class="Dupl normal">𛱁</span>
+            <span class="Dupl alt">𛱂</span>
+            <span class="Dupl normal">𛱄</span>
+            <span class="Dupl normal">𛱛</span>
+            <span class="Dupl normal">𛱚</span>
+            <span class="Dupl normal">𛱜</span>
+            <span class="Dupl normal">𛱆</span>
+            <span class="Dupl alt">𛱇</span>
+            <span class="Dupl non-orienting">𛱈</span>
+            <span class="Dupl non-orienting">𛱉</span>
+            <span class="Dupl non-orienting">𛱊</span>
+            <span class="Dupl non-orienting">𛱋</span>
+            <span class="Dupl normal">𛱑</span>
+            <span class="Dupl alt">𛱒</span>
+            <span class="Dupl normal">𛱓</span>
+            <span class="Dupl normal">𛱢</span>
+            <span class="Dupl alt">𛱤</span>
+            <span class="Dupl normal">𛱝</span>
+            <span class="Dupl normal">𛱞</span>
+            <span class="Dupl normal">𛱟</span>
+            <span class="Dupl normal">𛱠</span>
+            <span class="Dupl normal">𛲟</span>
+            <span class="Dupl normal">⸼</span>
+            <span class="Dupl normal">𛲜</span>
+            <span class="Dupl normal">𛰜𛲡𛰃</span>
+            <span class="Dupl normal">𛰛𛲡𛰅</span>
+            <span class="Dupl normal">𛰜𛲡𛰇𛲡𛰛</span>
+            <span class="Dupl normal">𛱇𛰃𛲡𛰜</span>
+            <span class="normal" data-string=" ">space</span>
+            <span class="normal" data-string="&#x200C;">syll. break</span>
+            <span class="normal" data-string="&#x1BCA1;">overlap</span>
+            <span class="alt" data-string="&#x1BCA0;">overlap</span>
+            <span class="normal" data-string="&#x1BC9D;">shade</span>
+        </div>
+        <script src="{{ 'assets/js/keyboard.js' | relative_url }}"></script>
     </body>
 </html>
