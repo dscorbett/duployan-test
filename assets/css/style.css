@@ -42,6 +42,8 @@ limitations under the License.
     font-weight: var(--weight);
     font-size: 2em;
     text-decoration: var(--decoration);
+    text-decoration-thickness: from-font;
+    text-underline-position: from-font;
     resize: vertical;
     padding: var(--small-gap);
 }
