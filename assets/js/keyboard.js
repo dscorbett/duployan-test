@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const textarea = document.querySelector('#output');
+const outputText = document.querySelector('#output');
+const inputText = document.createElement('textarea');
 
 function extract(node) {
     function extract(node) {
@@ -32,11 +33,178 @@ function extract(node) {
     return node.dataset.string ?? extract(node);
 }
 
-document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener('click', () => {
-    const text = extract(key);
+function type(textarea, text) {
     const valueBefore = textarea.value.substr(0, textarea.selectionStart) + text;
     const valueAfter = textarea.value.substr(textarea.selectionEnd);
     textarea.value = valueBefore + valueAfter;
     const newPosition = valueBefore.length;
     textarea.setSelectionRange(newPosition, newPosition);
+}
+
+document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener('click', e => {
+    e.preventDefault();
+    type(outputText, extract(key));
 }));
+
+function transliterate() {
+    return inputText.value.match(/<[^>]*|[^<]*/g).map(substring => {
+        if (substring.startsWith('<')) {
+            return substring;
+        }
+        substring = (substring
+            .normalize()
+            .replaceAll(/(?<=\p{L})\p{Upper}/gu, '\u{1BCA1}$&')
+            .toLowerCase()
+            .replaceAll(/(?<=\d)o/g, '\u00BA')
+            .replaceAll(/e|y(?!u)/g, 'i')
+            .replaceAll('q', 'k')
+            .replaceAll('z', 's')
+            .replaceAll(/ʼ|’/g, "'")
+            .replaceAll(/wii(?![aio])/g, '\u{1BC5F}')
+            .replaceAll(/waw(?![aio])/g, '\u{1BC60}')
+            .replaceAll('th', '\u{1BC11}')
+            .replaceAll('lh', '\u{1BC17}')
+            .replaceAll('rh', '\u{1BC18}')
+            .replaceAll('sh', '\u{1BC1B}')
+            .replaceAll('ch', '\u{1BC23}')
+            .replaceAll("k'", '\u{1BC14}')
+            .replaceAll('hl', '\u{1BC16}')
+            .replaceAll('ng', '\u{1BC22}')
+            .replaceAll('ts', '\u{1BC25}')
+            .replaceAll('yu', '\u{1BC51}')
+            .replaceAll('YU', '\u{1BC52}')
+            .replaceAll('iu', '\u{1BC53}')
+            .replaceAll(/aw(?![ao]|i(?![aio]))/g, '\u{1BC5A}')
+            .replaceAll('wa', '\u{1BC5C}')
+            .replaceAll('wo', '\u{1BC5D}')
+            .replaceAll(/wi(?![aio])/g, '\u{1BC5E}')
+            .replaceAll('xw', '\u{1BC53}')
+            .replaceAll(/(?<=\p{L});(?=\p{L})/gu, '\u{200C}')
+            .replaceAll('-', '\u{2E40}')
+            .replaceAll('h', '\u{1BC00}')
+            .replaceAll('x', '\u{1BC01}')
+            .replaceAll('p', '\u{1BC02}')
+            .replaceAll('t', '\u{1BC03}')
+            .replaceAll('f', '\u{1BC04}')
+            .replaceAll('k', '\u{1BC05}')
+            .replaceAll('l', '\u{1BC06}')
+            .replaceAll('b', '\u{1BC07}')
+            .replaceAll('d', '\u{1BC08}')
+            .replaceAll('v', '\u{1BC09}')
+            .replaceAll('g', '\u{1BC0A}')
+            .replaceAll('r', '\u{1BC0B}')
+            .replaceAll('m', '\u{1BC19}')
+            .replaceAll('n', '\u{1BC1A}')
+            .replaceAll('j', '\u{1BC1B}')
+            .replaceAll('s', '\u{1BC1C}')
+            .replaceAll('c', '\u{1BC25}')
+            .replaceAll('a', '\u{1BC41}')
+            .replaceAll('o', '\u{1BC44}')
+            .replaceAll('i', '\u{1BC46}')
+            .replaceAll('u', '\u{1BC5B}')
+            .replaceAll('w', '\u{1BC44}')
+            .replaceAll('å', '\u{1BC9C}')
+            .replaceAll('⊕', '\u{1BC9C}')
+            .replaceAll('=', '\u{1BC9F}')
+            .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
+        );
+        return substring.match(/\p{L}+|\P{L}*/gu).map(word => {
+            if (!word.match(/\p{L}/u)) {
+                return word;
+            }
+            const hConsonant = '[\u{1BC00}\u{1BC01}]'
+            const pConsonant = '[\u{1BC02}\u{1BC07}]';
+            const tConsonant = '[\u{1BC03}\u{1BC08}\u{1BC11}]';
+            const fConsonant = '[\u{1BC04}\u{1BC09}]';
+            const kConsonant = '[\u{1BC05}\u{1BC0A}\u{1BC14}]';
+            const lConsonant = '[\u{1BC06}\u{1BC0B}\u{1BC16}-\u{1BC18}]';
+            const sConsonant = '[\u{1BC1C}\u{1BC25}]';
+            const curveConsonant = '[\u{1BC19}-\u{1BC1C}\u{1BC22}\u{1BC23}\u{1BC25}]';
+            const consonant = '[\u{1BC02}-\u{1BC0B}\u{1BC11}\u{1BC14}\u{1BC16}-\u{1BC1C}\u{1BC22}\u{1BC23}\u{1BC25}\u{1BC4A}]';
+            const circleVowel = '[\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
+            const wVowel = '[\u{1BC5C}-\u{1BC60}]';
+            const vowel = `(?:${circleVowel}|${wVowel}|[\u{1BC46}\u{1BC47}\u{1BC4B}\u{1BC51}-\u{1BC53}])`;
+            return (word
+                .replaceAll(RegExp(`(?<=^|\\P{L}|${circleVowel}|\u{1BC46}|\u{1BC47})[\u{1BC46}\u{1BC47}](?=${circleVowel})`, 'gu'), '\u{1BC4A}')
+                .replaceAll(RegExp(`(?<=[\u{1BC1A}\u{1BC22}]${circleVowel})[\u{1BC46}\u{1BC47}]`, 'gu'), '\u{1BC4B}')
+                .replaceAll(RegExp(`(?<=${consonant}${vowel}+(?!${consonant}[\u{1BC06}\u{1BC0B}])${consonant}?)(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${consonant}${vowel}+)(?=${consonant}[\u{1BC06}\u{1BC0B}]${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel}${consonant})(?=${consonant}${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel}${consonant})(?=${consonant}[\u{1BC06}\u{1BC0B}]?${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel}${consonant}?)(?=${hConsonant}${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel})(?=${consonant}+${vowel}+${consonant})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel})(?=${hConsonant}${vowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${wVowel})(?=${wVowel}|${circleVowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${wVowel}|${circleVowel})(?=${wVowel})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${vowel})(?=\u{1BC4A})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=(^|\\P{L})${lConsonant})(?=${consonant})`, 'gu'), '\u200C')
+                .replaceAll(RegExp(`(?<=${pConsonant})\u{1BC41}(?=\u{1BC46}(?!${tConsonant}|${lConsonant}))`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${fConsonant})\u{1BC41}(?=\u{1BC46}(${tConsonant}|${kConsonant}))`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${kConsonant})\u{1BC41}(?=\u{1BC46}${fConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC41}(?=\u{1BC46}${tConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC41}(?=${pConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC41}(?=${tConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC41}(?=${tConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC46}(?=${tConsonant})`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${tConsonant})`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC41}(?=${lConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC46}(?=${lConsonant})`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${lConsonant})`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC46}(?=${curveConsonant})`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${curveConsonant})`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<=${pConsonant})\u{1BC41}(?=${sConsonant})`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC41}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC46}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC51}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC41}(?=${hConsonant}|${lConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC46}(?!${circleVowel})`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC51}(?=${hConsonant}|${lConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<=${curveConsonant})\u{1BC46}`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<=${curveConsonant})\u{1BC51}`, 'gu'), '\u{1BC52}')
+                .replaceAll(RegExp(`(?<!\\p{L})\u{1BC46}\u200C?(?=${hConsonant}|[\u{1BC46}\u{1BC47}])`, 'gu'), '\u{1BC47}')
+                .replaceAll(RegExp(`(?<=${hConsonant})\u{1BC46}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC47}')
+                .replaceAll(/^𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
+                .replaceAll(/^𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
+                .replaceAll(/^𛱇𛰀𛰃/g, '𛱆𛰀𛰃')
+            );
+        }).join('');
+    }).join('');
+}
+
+let previousOutputSelectionStart = 0;
+let previousOutputSelectionEnd = 0;
+
+document.getElementById('output').addEventListener('beforeinput', e => {
+    if (e.inputType === 'insertFromDrop'
+        || e.inputType === 'insertFromPaste'
+        || e.inputType === 'insertFromPasteAsQuotation'
+        || e.inputType === 'insertFromYank'
+        || e.inputType === 'insertText'
+    ) {
+        e.preventDefault();
+        let lengthAfterCursor = inputText.value.substr(inputText.selectionEnd).length;
+        if (outputText.selectionStart !== previousOutputSelectionStart
+            || outputText.selectionEnd !== previousOutputSelectionEnd
+        ) {
+            inputText.value = '';
+        }
+        const emptyInput = inputText.value === '';
+        if (emptyInput) {
+            const valueBefore = outputText.value.substr(0, outputText.selectionStart);
+            const valueAfter = outputText.value.substr(outputText.selectionEnd);
+            lengthAfterCursor = valueAfter.length;
+            inputText.value = valueBefore + valueAfter;
+            inputText.setSelectionRange(valueBefore.length, inputText.value.length - lengthAfterCursor);
+        }
+        type(inputText, e.data);
+        outputText.value = transliterate();
+        let newPosition = outputText.value.length - lengthAfterCursor;
+        outputText.setSelectionRange(newPosition, newPosition);
+        newPosition = inputText.value.length - lengthAfterCursor;
+        inputText.setSelectionRange(newPosition, newPosition);
+    } else {
+        inputText.value = '';
+    }
+    previousOutputSelectionStart = outputText.selectionStart;
+    previousOutputSelectionEnd = outputText.selectionEnd;
+});
