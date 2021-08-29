@@ -16,6 +16,8 @@ limitations under the License.
 
 'use strict';
 
+const autotransliteration = document.querySelector('#autotransliteration');
+const autosyllabification = document.querySelector('#autosyllabification');
 const outputText = document.querySelector('#output');
 const inputText = document.createElement('textarea');
 
@@ -48,10 +50,22 @@ document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener(
     type(outputText, extract(key));
 }));
 
+function resetInput() {
+    inputText.value = '';
+    textBefore = outputText.value.substr(0, outputText.selectionStart);
+    textAfter = outputText.value.substr(outputText.selectionEnd);
+}
+
+autotransliteration.addEventListener('change', resetInput);
+autosyllabification.addEventListener('change', resetInput);
+
 let textBefore = '';
 let textAfter = '';
 
 function transliterate() {
+    if (!autotransliteration.checked) {
+        return inputText.value;
+    }
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
     return inputText.value.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
         if (disabled || substring.startsWith('<')) {
@@ -151,7 +165,7 @@ function transliterate() {
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
             const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
-            if (!word.startsWith('\u200C')) {
+            if (autosyllabification.checked && !word.startsWith('\u200C')) {
                 word = (word
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
@@ -230,9 +244,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         if (outputText.selectionStart !== previousOutputSelectionStart
             || outputText.selectionEnd !== previousOutputSelectionEnd
         ) {
-            inputText.value = '';
-            textBefore = outputText.value.substr(0, outputText.selectionStart);
-            textAfter = outputText.value.substr(outputText.selectionEnd);
+            resetInput();
         }
         const emptyInput = inputText.value === '';
         if (emptyInput) {

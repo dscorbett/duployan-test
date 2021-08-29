@@ -48,6 +48,14 @@ limitations under the License.
                 <option value="dashed underline">Dashed underline
             </select>
         </label>
+        <label>
+            Auto-transliterate:
+            <input type="checkbox" id="autotransliteration" checked>
+        </label>
+        <label>
+            Auto-syllabify:
+            <input type="checkbox" id="autosyllabification" checked>
+        </label>
         <script>
             enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
             enableControl('decoration', '--decoration', control => control.value);
