@@ -138,6 +138,7 @@ function transliterate() {
             .replaceAll('ã', '\u{1BC64}\u0301')
             .replaceAll('å', '\u{1BC9C}')
             .replaceAll('⊕', '\u{1BC9C}')
+            .replaceAll('', '\u{1BC9C}')
             .replaceAll('=', '\u{1BC9F}')
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
         );
