@@ -48,6 +48,7 @@ function type(textarea, text) {
 document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener('click', e => {
     e.preventDefault();
     type(outputText, extract(key));
+    resetInput();
 }));
 
 function resetInput() {
