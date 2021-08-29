@@ -169,7 +169,7 @@ function transliterate() {
                     .replaceAll(RegExp(`(?<=${uVowel})(?=${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})(?=${wVowel}|\u{1BC4A})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=(^|\\P{L})\u{1BC06})(?=${consonant})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel})(?!(?<=${circleVowel})${iVowel}${circleVowel})(?=${vowel}{2})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${vowel})(?!(?<=[\u{1BC41}\u{1BC42}])${iVowel}${circleVowel})(?=${vowel}{2})`, 'gu'), '\u200C')
                 );
             }
             return (word
