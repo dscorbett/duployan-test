@@ -212,11 +212,13 @@ let previousOutputSelectionStart = 0;
 let previousOutputSelectionEnd = 0;
 
 document.getElementById('output').addEventListener('beforeinput', e => {
-    if (e.inputType === 'insertFromDrop'
-        || e.inputType === 'insertFromPaste'
-        || e.inputType === 'insertFromPasteAsQuotation'
-        || e.inputType === 'insertFromYank'
-        || e.inputType === 'insertText'
+    if (
+        (e.inputType === 'insertFromDrop'
+            || e.inputType === 'insertFromPaste'
+            || e.inputType === 'insertFromPasteAsQuotation'
+            || e.inputType === 'insertFromYank'
+            || e.inputType === 'insertText'
+        ) && !e.data.match(/[\u{1BC00}-\u{1BCA3}]/u)
     ) {
         e.preventDefault();
         let lengthAfterCursor = inputText.value.substr(inputText.selectionEnd).length;
