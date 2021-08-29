@@ -83,6 +83,7 @@ function transliterate() {
             .replaceAll(/u~|ũ/g, 'ə̃')
             .replaceAll(/(?<=\d)o/g, '\u00BA')
             .replaceAll(/e|y(?!u)/g, 'i')
+            .replaceAll('qu', 'kw')
             .replaceAll('q', 'k')
             .replaceAll(/(?<=\p{L})wh/gu, '.hw')
             .replaceAll('wh', 'hw')
