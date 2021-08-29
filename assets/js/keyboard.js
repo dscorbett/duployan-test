@@ -156,7 +156,6 @@ function transliterate() {
             const jConsonant = '[\u{1BC1B}\u{1BC23}]';
             const sConsonant = '[\u{1BC1C}\u{1BC25}]';
             const curveConsonant = `(?:${mConsonant}|${nConsonant}|${jConsonant}|${sConsonant})`;
-            const consonant = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant}|${lConsonant}|${curveConsonant}|\u{1BC4A})`;
             const circleVowel = '[\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
             const iVowel = '[\u{1BC46}\u{1BC47}]';
             const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}][\u0300\u0301\u0316\u0317]?)';
@@ -164,9 +163,12 @@ function transliterate() {
             const wVowel = '[\u{1BC5C}-\u{1BC60}]';
             const consonantNotInOnsetBeforeL = `(?:${lConsonant}|${curveConsonant})`;
             const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]${iVowel}(?=${pConsonant}|${fConsonant}))`;
+            const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel})|\u{1BC4A})`;
+            const consonant = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant}|${lConsonant}|${curveConsonant}|${consonantalI})`;
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
             const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
+            const syllabifying = autosyllabification.checked && !word.startsWith('\u200C');
             if (autosyllabification.checked && !word.startsWith('\u200C')) {
                 word = (word
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), '\u200C')
@@ -190,7 +192,7 @@ function transliterate() {
             }
             return (word
                 .replaceAll(/^\u200C+/g, '')
-                .replaceAll(RegExp(`(?<=^|\\P{L})${iVowel}(?=${circleVowel})`, 'gu'), '\u{1BC4A}')
+                .replaceAll(RegExp(consonantalI, 'gu'), '\u{1BC4A}')
                 .replaceAll(RegExp(`(?<=[\u{1BC1A}\u{1BC22}]${circleVowel})${iVowel}`, 'gu'), '\u{1BC4B}')
                 .replaceAll(/(?<!\p{L})\u{1BC62}\u0316(?!\p{L})/gu, '\u{1BC61}')
                 .replaceAll(/(?<!\p{L})\u{1BC62}\u0317(?!\p{L})/gu, '\u{1BC62}')
