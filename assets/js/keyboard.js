@@ -125,8 +125,8 @@ function transliterate() {
             .replaceAll('=', '\u{1BC9F}')
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
         );
-        return substring.match(/\p{L}+|\P{L}*/gu).map(word => {
-            if (!word.match(/\p{L}/u)) {
+        return substring.match(/[\p{L}\u200C]+|[^\p{L}\u200C]*/gu).map(word => {
+            if (!word.match(/\p{L}|\u200C/u)) {
                 return word;
             }
             const hConsonant = '[\u{1BC00}\u{1BC01}]'
