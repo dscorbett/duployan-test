@@ -240,21 +240,16 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         ) && !e.data.match(/[\u{1BC00}-\u{1BCA3}]/u)
     ) {
         e.preventDefault();
-        let lengthAfterCursor = inputText.value.substr(inputText.selectionEnd).length;
         if (outputText.selectionStart !== previousOutputSelectionStart
             || outputText.selectionEnd !== previousOutputSelectionEnd
         ) {
             resetInput();
         }
-        const emptyInput = inputText.value === '';
-        if (emptyInput) {
-            lengthAfterCursor = textAfter.length;
-        }
         type(inputText, e.data);
         outputText.value = textBefore + transliterate() + textAfter;
-        let newPosition = outputText.value.length - lengthAfterCursor;
+        let newPosition = outputText.value.length - textAfter.length;
         outputText.setSelectionRange(newPosition, newPosition);
-        newPosition = inputText.value.length - lengthAfterCursor;
+        newPosition = inputText.value.length - textAfter.length;
         inputText.setSelectionRange(newPosition, newPosition);
     } else {
         inputText.value = '';
