@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+'use strict';
+
 const outputText = document.querySelector('#output');
 const inputText = document.createElement('textarea');
 
@@ -46,11 +48,17 @@ document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener(
     type(outputText, extract(key));
 }));
 
+let textBefore = '';
+let textAfter = '';
+
 function transliterate() {
-    return inputText.value.match(/<[^>]*|[^<]*/g).map(substring => {
-        if (substring.startsWith('<')) {
+    let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
+    return inputText.value.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
+        if (disabled || substring.startsWith('<')) {
+            disabled = false;
             return substring;
         }
+        disabled = false;
         substring = (substring
             .normalize()
             .replaceAll(/(?<=\p{L})\p{Upper}/gu, '\u{1BCA1}$&')
@@ -216,17 +224,15 @@ document.getElementById('output').addEventListener('beforeinput', e => {
             || outputText.selectionEnd !== previousOutputSelectionEnd
         ) {
             inputText.value = '';
+            textBefore = outputText.value.substr(0, outputText.selectionStart);
+            textAfter = outputText.value.substr(outputText.selectionEnd);
         }
         const emptyInput = inputText.value === '';
         if (emptyInput) {
-            const valueBefore = outputText.value.substr(0, outputText.selectionStart);
-            const valueAfter = outputText.value.substr(outputText.selectionEnd);
-            lengthAfterCursor = valueAfter.length;
-            inputText.value = valueBefore + valueAfter;
-            inputText.setSelectionRange(valueBefore.length, inputText.value.length - lengthAfterCursor);
+            lengthAfterCursor = textAfter.length;
         }
         type(inputText, e.data);
-        outputText.value = transliterate();
+        outputText.value = textBefore + transliterate() + textAfter;
         let newPosition = outputText.value.length - lengthAfterCursor;
         outputText.setSelectionRange(newPosition, newPosition);
         newPosition = inputText.value.length - lengthAfterCursor;
