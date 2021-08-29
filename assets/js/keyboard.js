@@ -63,7 +63,7 @@ function transliterate() {
             .replaceAll(/e|y(?!u)/g, 'i')
             .replaceAll('q', 'k')
             .replaceAll('z', 's')
-            .replaceAll(/ʼ|’/g, "'")
+            .replaceAll(/(?<=k)[ʼ’]/g, "'")
             .replaceAll(/wii(?![aio])/g, '\u{1BC5F}')
             .replaceAll(/waw(?![aio])/g, '\u{1BC60}')
             .replaceAll('th', '\u{1BC11}')
