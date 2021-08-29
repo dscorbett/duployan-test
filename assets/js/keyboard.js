@@ -139,8 +139,9 @@ function transliterate() {
             .replaceAll('=', '\u{1BC9F}')
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
         );
-        return substring.match(/[\p{L}\u200C]+|[^\p{L}\u200C]*/gu).map(word => {
-            if (!word.match(/\p{L}|\u200C/u)) {
+        const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
+        return substring.match(RegExp(`[${wordCharacter}]+|[^${wordCharacter}]*`, 'gu')).map(word => {
+            if (!word.match(RegExp(`[${wordCharacter}]`, 'u'))) {
                 return word;
             }
             const hConsonant = '[\u{1BC00}\u{1BC01}]'
@@ -221,6 +222,8 @@ function transliterate() {
                 .replaceAll(/^𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
                 .replaceAll(/^𛰙𛱇𛰃‌𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
                 .replaceAll(/^𛰚𛱁‌𛱞𛰃‌𛰅𛱁/g, '𛰚𛱁‌𛱞‌𛰃𛰅𛱁')
+                .replaceAll(/^𛰜𛲡𛰛𛲡𛰇$/g, '𛰜𛲡𛰇𛲡𛰛')
+                .replaceAll(/^𛱆𛲡𛰃𛲡𛰜$/g, '𛱇𛰃𛲡𛰜')
                 .replaceAll(/^𛱇𛰀𛰃/g, '𛱆𛰀𛰃')
             );
         }).join('');
