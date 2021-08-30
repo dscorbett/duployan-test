@@ -108,6 +108,7 @@ function transliterate() {
             .replaceAll('wa', '\u{1BC5C}')
             .replaceAll('wo', '\u{1BC5D}')
             .replaceAll(/wi(?![aio])/g, '\u{1BC5E}')
+            .replaceAll(/wī(?![aio])/g, '\u{1BC5E}\u0304')
             .replaceAll('xw', '\u{1BC53}')
             .replaceAll(/;+(?=\p{L})/gu, '\u200C')
             .replaceAll('-', '\u{2E40}')
@@ -123,6 +124,7 @@ function transliterate() {
             .replaceAll('v', '\u{1BC09}')
             .replaceAll('g', '\u{1BC0A}')
             .replaceAll('r', '\u{1BC0B}')
+            .replaceAll('ɬ', '\u{1BC16}')
             .replaceAll('m', '\u{1BC19}')
             .replaceAll('n', '\u{1BC1A}')
             .replaceAll('j', '\u{1BC1B}')
@@ -130,7 +132,9 @@ function transliterate() {
             .replaceAll('c', '\u{1BC25}')
             .replaceAll('a', '\u{1BC41}')
             .replaceAll(/o|w/g, '\u{1BC44}')
+            .replaceAll(/ŏ|ŭ/g, '\u{1BC44}\u0306')
             .replaceAll('i', '\u{1BC46}')
+            .replaceAll('ī', '\u{1BC46}\u0323')
             .replaceAll('u', '\u{1BC5B}')
             .replaceAll('ə̃', '\u{1BC62}\u0316')
             .replaceAll('õ', '\u{1BC62}\u0317')
@@ -158,11 +162,11 @@ function transliterate() {
             const jConsonant = '[\u{1BC1B}\u{1BC23}]';
             const sConsonant = '[\u{1BC1C}\u{1BC25}]';
             const curveConsonant = `(?:${mConsonant}|${nConsonant}|${jConsonant}|${sConsonant})`;
-            const circleVowel = '[\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
-            const iVowel = '[\u{1BC46}\u{1BC47}]';
-            const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}][\u0300\u0301\u0316\u0317]?)';
-            const curveVowel = `(?:${iVowel}|${uVowel}|\u{1BC4B})`;
-            const wVowel = '[\u{1BC5C}-\u{1BC60}]';
+            const circleVowel = '(?:[\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5A}\u{1BC5B}]\\p{M}*)';
+            const iVowel = '(?:[\u{1BC46}\u{1BC47}]\\p{M}*)';
+            const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}]\\p{M}*)';
+            const curveVowel = `(?:(?:${iVowel}|${uVowel}|\u{1BC4B})\\p{M}*)`;
+            const wVowel = '(?:[\u{1BC5C}-\u{1BC60}]\\p{M}*)';
             const consonantNotInOnsetBeforeL = `(?:${lConsonant}|${curveConsonant})`;
             const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]${iVowel}(?=${pConsonant}|${fConsonant}))`;
             const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel})|\u{1BC4A})`;
