@@ -216,6 +216,7 @@ function transliterate() {
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${curveConsonant})`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<=${pConsonant})\u{1BC41}(?=${sConsonant})`, 'gu'), '\u{1BC42}')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC41}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC42}')
+                .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})\u{1BC41}(?=${tConsonant})`, 'gu'), '\u{1BC42}')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC46}(?![\u{1BC46}\u1BC47]*(${lConsonant}|${jConsonant}))`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC51}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC41}(?=${hConsonant}|${lConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC42}')
