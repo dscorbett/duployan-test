@@ -244,8 +244,8 @@ function transliterate() {
     }).join('');
 }
 
-let previousOutputSelectionStart = 0;
-let previousOutputSelectionEnd = 0;
+let previousOutputSelectionStart;
+let previousOutputSelectionEnd;
 
 document.getElementById('output').addEventListener('beforeinput', e => {
     if (
@@ -268,9 +268,11 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         outputText.setSelectionRange(newPosition, newPosition);
         newPosition = inputText.value.length - textAfter.length;
         inputText.setSelectionRange(newPosition, newPosition);
+        previousOutputSelectionStart = outputText.selectionStart;
+        previousOutputSelectionEnd = outputText.selectionEnd;
     } else {
         inputText.value = '';
+        previousOutputSelectionStart = undefined;
+        previousOutputSelectionEnd = undefined;
     }
-    previousOutputSelectionStart = outputText.selectionStart;
-    previousOutputSelectionEnd = outputText.selectionEnd;
 });
