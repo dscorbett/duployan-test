@@ -49,6 +49,7 @@ document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener(
     e.preventDefault();
     type(outputText, extract(key));
     resetInput();
+    outputText.focus();
 }));
 
 function resetInput() {
