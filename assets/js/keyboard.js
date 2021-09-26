@@ -223,7 +223,6 @@ function transliterate() {
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${curveConsonant})`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<=${pConsonant})${normalCircleVowel}(?=${sConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${tConsonant})${normalCircleVowel}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})${normalCircleVowel}(?=${tConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC46}(?![\u{1BC46}\u1BC47]*(${lConsonant}|${jConsonant}))`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC51}(?=${hConsonant}|${tConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<=${lConsonant})${normalCircleVowel}(?=${hConsonant}|${lConsonant}|\\P{L}|$)`, 'gu'), '$&R')
