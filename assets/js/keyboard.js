@@ -216,7 +216,7 @@ function transliterate() {
                 .replaceAll(RegExp(`(?<=${fConsonant})${normalCircleVowel}(?=\u{1BC46}(${tConsonant}|${kConsonant}))`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${kConsonant})${normalCircleVowel}(?=\u{1BC46}${fConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${lConsonant})${normalCircleVowel}(?=\u{1BC46}${tConsonant})`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<!${consonant}|${vowel})${normalCircleVowel}(?=${pConsonant}|${kConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})${normalCircleVowel}(?=${pConsonant}|${fConsonant}|${kConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<!${consonant}${vowel}*)\u{1BC46}(?=${iVowel}*(${tConsonant}|${lConsonant}|${curveConsonant}))`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${tConsonant})`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${lConsonant})`, 'gu'), '\u{1BC52}')
