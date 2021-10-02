@@ -61,6 +61,7 @@ function resetInput() {
 
 autotransliteration.addEventListener('change', resetInput);
 autosyllabification.addEventListener('change', resetInput);
+pua.addEventListener('change', resetInput);
 
 let textBefore = '';
 let textAfter = '';
