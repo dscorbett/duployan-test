@@ -174,7 +174,7 @@ function transliterate() {
             const wVowel = '(?:[\u{1BC5C}-\u{1BC60}]\\p{M}*)';
             const consonantNotInOnsetBeforeL = `(?:${lConsonant}|${curveConsonant})`;
             const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]${iVowel}(?=${pConsonant}|${fConsonant}))`;
-            const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel})|\u{1BC4A})`;
+            const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel}(?!${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant}))|\u{1BC4A})`;
             const consonant = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant}|${lConsonant}|${curveConsonant}|${consonantalI})`;
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
