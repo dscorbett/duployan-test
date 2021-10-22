@@ -250,6 +250,12 @@ function transliterate() {
                     .replaceAll(/\u{1BC5A}R/gu, '\uEC5A')
                     .replaceAll(/\u{1BC5B}R/gu, '\uEC5B')
                 );
+            } else {
+                word = (word
+                    .replaceAll(/\u{1BC44}R/gu, '\u{1BC44}\u034F\u034F\u034F')
+                    .replaceAll(/\u{1BC5A}R/gu, '\u{1BC5A}\u034F\u034F\u034F')
+                    .replaceAll(/\u{1BC5B}R/gu, '\u{1BC5B}\u034F\u034F\u034F')
+                );
             }
             return (word
                 .replaceAll(/R/g, '')
