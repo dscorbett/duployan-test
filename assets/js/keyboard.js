@@ -168,6 +168,7 @@ function transliterate() {
             const sConsonant = '[\u{1BC1C}\u{1BC25}]';
             const curveConsonant = `(?:${mConsonant}|${nConsonant}|${jConsonant}|${sConsonant})`;
             const normalCircleVowel = '[\u{1BC41}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
+            const reversibleCircleVowel = `(?:${normalCircleVowel}|[\u{1BC5C}\u{1BC5D}\u{1BC60}])`;
             const circleVowel = `(?:(?:[\uEC44\uEC5A\uEC5B\u{1BC42}]|${normalCircleVowel}R?)\\p{M}*)`;
             const iVowel = '(?:[\u{1BC46}\u{1BC47}]\\p{M}*)';
             const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}]\\p{M}*)';
@@ -211,23 +212,23 @@ function transliterate() {
                 .replaceAll(/(?<!\p{L})\u{1BC64}\u0300(?!\p{L})/gu, '\u{1BC63}')
                 .replaceAll(/(?<!\p{L})\u{1BC64}\u0301(?!\p{L})/gu, '\u{1BC64}')
                 .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})\u{1BC41}(?=\u{1BC46}(${hConsonant}|\\P{L}|$))`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})${normalCircleVowel}(?=\u{1BC46}(?!${hConsonant}|\\P{L}|$))`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})${reversibleCircleVowel}(?=\u{1BC46}(?!${hConsonant}|\\P{L}|$))`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=(^|\\P{L}|${hConsonant})${normalCircleVowel})\u{1BC46}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC47}')
-                .replaceAll(RegExp(`(?<=${pConsonant})${normalCircleVowel}(?=\u{1BC46}(?!${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant}))`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=${fConsonant})${normalCircleVowel}(?=\u{1BC46}(${tConsonant}|${kConsonant}))`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=${kConsonant})${normalCircleVowel}(?=\u{1BC46}${fConsonant})`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=${lConsonant})${normalCircleVowel}(?=\u{1BC46}${tConsonant})`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<!${consonant}|${vowel})${normalCircleVowel}(?=${pConsonant}|${fConsonant}|${kConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${pConsonant})${reversibleCircleVowel}(?=\u{1BC46}(?!${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant}))`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${fConsonant})${reversibleCircleVowel}(?=\u{1BC46}(${tConsonant}|${kConsonant}))`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${kConsonant})${reversibleCircleVowel}(?=\u{1BC46}${fConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${lConsonant})${reversibleCircleVowel}(?=\u{1BC46}${tConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<!${consonant}|${vowel})${reversibleCircleVowel}(?=${pConsonant}|${fConsonant}|${kConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<!${consonant}${vowel}*)\u{1BC46}(?=${iVowel}*(${tConsonant}|${lConsonant}|${curveConsonant}))`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${tConsonant})`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${lConsonant})`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<!${consonant}|${vowel})\u{1BC51}(?=${curveConsonant})`, 'gu'), '\u{1BC52}')
-                .replaceAll(RegExp(`(?<=${pConsonant})${normalCircleVowel}(?=${pConsonant}|${sConsonant})`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=${tConsonant})${normalCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${pConsonant})${reversibleCircleVowel}(?=${pConsonant}|${sConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${tConsonant})${reversibleCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC46}(?!${iVowel}*(${lConsonant}|${jConsonant}))`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC51}`, 'gu'), '\u{1BC52}')
-                .replaceAll(RegExp(`(?<=${kConsonant})(?!\u{1BC5B})${normalCircleVowel}(?=${kConsonant})`, 'gu'), '$&R')
-                .replaceAll(RegExp(`(?<=${lConsonant})${normalCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${kConsonant})(?!\u{1BC5B}|${wVowel})${normalCircleVowel}(?=${kConsonant})`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=${lConsonant})${reversibleCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC46}`, 'gu'), '\u{1BC47}')
                 .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC51}`, 'gu'), '\u{1BC52}')
                 .replaceAll(RegExp(`(?<=${curveConsonant})\u{1BC46}`, 'gu'), '\u{1BC47}')
@@ -267,9 +268,7 @@ function transliterate() {
                 );
             } else {
                 word = (word
-                    .replaceAll(/\u{1BC44}R/gu, '\u{1BC44}\u034F\u034F\u034F')
-                    .replaceAll(/\u{1BC5A}R/gu, '\u{1BC5A}\u034F\u034F\u034F')
-                    .replaceAll(/\u{1BC5B}R/gu, '\u{1BC5B}\u034F\u034F\u034F')
+                    .replaceAll(RegExp(`${reversibleCircleVowel}R`, 'gu'), '$&\u034F\u034F\u034F')
                 );
             }
             return word.replaceAll(/R/g, '');
