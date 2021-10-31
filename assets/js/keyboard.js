@@ -249,7 +249,7 @@ function transliterate() {
                 .replaceAll(/^𛰃𛱇𛱁‌𛱞𛰃/g, '𛰃𛱆‌𛱚‌𛱇𛰃')
                 .replaceAll(/^𛰃𛱛R‌𛰙𛱄‌𛰆𛱄R/g, '𛰃𛱛‌𛰙𛱄𛰆𛱄R')
                 .replaceAll(/^𛰃𛱛R‌𛰙𛱄𛰆𛱄R/g, '𛰃𛱛‌𛰙𛱄𛰆𛱄R')
-                .replaceAll(/^𛰖/g, '𛰀𛰆')
+                .replaceAll(/^𛰖(?!\u200C|$)/g, '𛰀𛰆')
                 .replaceAll(/^𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
                 .replaceAll(/^𛰙𛱇𛰃‌𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
                 .replaceAll(/^𛰚𛱁‌𛱞𛰃‌𛰅𛱁/g, '𛰚𛱁‌𛱞‌𛰃𛰅𛱁')
