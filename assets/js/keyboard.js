@@ -204,7 +204,8 @@ function transliterate() {
             word = (word
                 .replaceAll(/^\u200C+/g, '')
                 .replaceAll(RegExp(consonantalI, 'gu'), '\u{1BC4A}')
-                .replaceAll(RegExp(`(?<=[\u{1BC1A}\u{1BC22}]${circleVowel})${iVowel}`, 'gu'), '\u{1BC4B}')
+                .replaceAll(RegExp(`(?<=${nConsonant}${circleVowel})${iVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC4B}')
+                .replaceAll(RegExp(`(?<=${nConsonant}${circleVowel})${iVowel}`, 'gu'), '\u{1BC47}')
                 .replaceAll(/(?<!\p{L})\u{1BC62}\u0316(?!\p{L})/gu, '\u{1BC61}')
                 .replaceAll(/(?<!\p{L})\u{1BC62}\u0317(?!\p{L})/gu, '\u{1BC62}')
                 .replaceAll(/(?<!\p{L})\u{1BC64}\u0300(?!\p{L})/gu, '\u{1BC63}')
