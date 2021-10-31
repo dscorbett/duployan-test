@@ -18,7 +18,6 @@ limitations under the License.
 
 const autotransliteration = document.querySelector('#autotransliteration');
 const autosyllabification = document.querySelector('#autosyllabification');
-const pua = document.querySelector('#pua');
 const outputText = document.querySelector('#output');
 const inputText = document.createElement('textarea');
 
@@ -61,7 +60,6 @@ function resetInput() {
 
 autotransliteration.addEventListener('change', resetInput);
 autosyllabification.addEventListener('change', resetInput);
-pua.addEventListener('change', resetInput);
 
 let textBefore = '';
 let textAfter = '';
@@ -259,19 +257,10 @@ function transliterate() {
                 .replaceAll(/^𛰜𛲡𛰛𛲡𛰇$/g, '𛰜𛲡𛰇𛲡𛰛')
                 .replaceAll(/^𛱆𛲡𛰃𛲡𛰜$/g, '𛱇𛰃𛲡𛰜')
                 .replaceAll(/^𛱇𛰀𛰃/g, '𛱆𛰀𛰃')
+                .replaceAll(RegExp(`${reversibleCircleVowel}R`, 'gu'), '$&\u034F\u034F\u034F')
+                .replaceAll('R', '')
             );
-            if (pua.checked) {
-                word = (word
-                    .replaceAll(/\u{1BC44}R/gu, '\uEC44')
-                    .replaceAll(/\u{1BC5A}R/gu, '\uEC5A')
-                    .replaceAll(/\u{1BC5B}R/gu, '\uEC5B')
-                );
-            } else {
-                word = (word
-                    .replaceAll(RegExp(`${reversibleCircleVowel}R`, 'gu'), '$&\u034F\u034F\u034F')
-                );
-            }
-            return word.replaceAll(/R/g, '');
+            return word;
         }).join('');
     }).join('');
 }
