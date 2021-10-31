@@ -175,14 +175,17 @@ function transliterate() {
             const consonantNotInOnsetBeforeL = `(?:${lConsonant}|${curveConsonant})`;
             const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]${iVowel}(?=${pConsonant}|${fConsonant}))`;
             const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel}(?!${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant}))|\u{1BC4A})`;
-            const consonant = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant}|${lConsonant}|${curveConsonant}|${consonantalI})`;
+            const lineObstruent = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant})`;
+            const consonant = `(?:${lineObstruent}|${lConsonant}|${curveConsonant}|${consonantalI})`;
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
             const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
-            const syllabifying = autosyllabification.checked && !word.startsWith('\u200C');
+            const onset = `(?:${hConsonant}|${consonant}|\u{1BC1C}(?:${lConsonant}|${mConsonant}|${nConsonant})|\u{1BC1C}?${lineObstruent}${lConsonant}?)`;
+            const complexCoda = `(?:(?:${lConsonant}?(?:${lineObstruent}|${mConsonant}|${nConsonant})\u{1BC1C})|(?:${lConsonant}(?:${lineObstruent}|${mConsonant}|${nConsonant})|(?:${pConsonant}|${fConsonant}|${kConsonant})(?:${tConsonant}|\u{1BC25}(?!\u{1BC1C}))|\u{1BC0B}\u{1BC06}|${mConsonant}${pConsonant}|\u{1BC1A}(?:${tConsonant}|${kConsonant})|\u{1BC1C}(?:${pConsonant}|${tConsonant}|${kConsonant}))\u{1BC1C}?|(?:${lConsonant}|${mConsonant}|${nConsonant})\u{1BC1C}|(?:${lConsonant}|${nConsonant})(?:${jConsonant}|\u{1BC25}))`;
             if (autosyllabification.checked && !word.startsWith('\u200C')) {
                 word = (word
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})${noLip}(?=(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}]${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}${vowel})`, 'gu'), '\u200C')
@@ -197,7 +200,8 @@ function transliterate() {
                     .replaceAll(RegExp(`(?<=(?!\u{1BC5B})${vowel})(?=${uVowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${uVowel})(?=${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})(?=${wVowel}|\u{1BC4A})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(^|\\P{L})\u{1BC06})(?=${consonant})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06})(?=${consonant})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=[\u{1BC41}\u{1BC42}]${iVowel})(?=${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})(?=${vowel}{2})`, 'gu'), '\u200C')
                 );
             }
