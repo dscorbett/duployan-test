@@ -79,7 +79,7 @@ function transliterate() {
             .normalize()
             .replaceAll(/(?<=\p{L})\p{Upper}/gu, '\u{1BCA1}$&')
             .toLowerCase()
-            .replaceAll(/(?<=[0-9])\/(?=[0-9])/g, '\u2044')
+            .replaceAll(/(?<=(?<!\/)[0-9]+)\/(?=[0-9])(?![0-9]+\/)/g, '\u2044')
             .replaceAll(/[ae]~|ẽ/g, 'ã')
             .replaceAll('i~', 'ĩ')
             .replaceAll('o~', 'õ')
