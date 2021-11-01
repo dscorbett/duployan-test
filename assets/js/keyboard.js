@@ -179,14 +179,17 @@ function transliterate() {
             const consonant = `(?:${lineObstruent}|${lConsonant}|${curveConsonant}|${consonantalI})`;
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
-            const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
+            const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})?${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
             const onset = `(?:${hConsonant}|${consonant}|\u{1BC1C}(?:${lConsonant}|${mConsonant}|${nConsonant})|\u{1BC1C}?${lineObstruent}${lConsonant}?)`;
-            const complexCoda = `(?:(?:${lConsonant}?(?:${lineObstruent}|${mConsonant}|${nConsonant})\u{1BC1C})|(?:${lConsonant}(?:${lineObstruent}|${mConsonant}|${nConsonant})|(?:${pConsonant}|${fConsonant}|${kConsonant})(?:${tConsonant}|\u{1BC25}(?!\u{1BC1C}))|\u{1BC0B}\u{1BC06}|${mConsonant}${pConsonant}|\u{1BC1A}(?:${tConsonant}|${kConsonant})|\u{1BC1C}(?:${pConsonant}|${tConsonant}|${kConsonant}))\u{1BC1C}?|(?:${lConsonant}|${mConsonant}|${nConsonant})\u{1BC1C}|(?:${lConsonant}|${nConsonant})(?:${jConsonant}|\u{1BC25}))`;
+            const complexCoda = `(?:(?:${lConsonant}?(?:${lineObstruent}|${mConsonant}|${nConsonant})\u{1BC1C})|(?:${lConsonant}(?:${lineObstruent}|${mConsonant}|${nConsonant})|(?:${pConsonant}|${fConsonant}|${kConsonant})(?:${tConsonant}|\u{1BC25}(?!\u{1BC1C}))|\u{1BC0B}\u{1BC06}|${mConsonant}${pConsonant}|\u{1BC1A}(?:${tConsonant}|${kConsonant})|\u{1BC22}${kConsonant}|\u{1BC1C}(?:${pConsonant}|${tConsonant}|${kConsonant}))\u{1BC1C}?|(?:${lConsonant}|${mConsonant}|${nConsonant})\u{1BC1C}|(?:${lConsonant}|\u{1BC1A})(?:${jConsonant}|\u{1BC25})|\u{1BC03}[\u{1BC1B}\u{1BC23}])`;
             if (autosyllabification.checked && !word.startsWith('\u200C')) {
                 word = (word
-                    .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), 'Z')
+                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda}(?<!${consonant}{3}))${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda})${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=(^|\\p{L})\\p{M}*${vowel}\\p{M}*)Z(?=${consonant})`, 'gu'), '')
+                    .replaceAll('Z', '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})${noLip}(?=(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}]${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}[\u{1BC06}\u{1BC0B}]?${vowel})`, 'gu'), '\u200C')
