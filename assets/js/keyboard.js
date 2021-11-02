@@ -188,7 +188,7 @@ function transliterate() {
                     .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda}(?<!${consonant}{3}))${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda})${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${openSyllable}${consonant})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(^|\\p{L})\\p{M}*${vowel}\\p{M}*)Z(?=${consonant})`, 'gu'), '')
+                    .replaceAll(RegExp(`(?<=(^|\\P{L})\\p{M}*${vowel}\\p{M}*)Z(?=${consonant})`, 'gu'), '')
                     .replaceAll('Z', '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})${noLip}(?=(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}]${vowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}${vowel})`, 'gu'), '\u200C')
