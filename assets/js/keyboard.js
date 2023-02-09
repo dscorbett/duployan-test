@@ -1,5 +1,6 @@
 /*
 Copyright 2021 Google LLC
+Copyright 2023 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,6 +22,15 @@ const autosyllabification = document.querySelector('#autosyllabification');
 const outputText = document.querySelector('#output');
 const inputText = document.createElement('textarea');
 
+window.addEventListener('load', () => {
+    outputText.style.height = window.getComputedStyle(outputText).height;
+    outputText.textContent = '';
+});
+
+function protectWhiteSpace(text) {
+    return text.replaceAll(/[\t\n\r ]/g, '$&\u034F\u034F\u034F');
+}
+
 function extract(node) {
     function extract(node) {
         return [...node.childNodes].reduce(
@@ -34,15 +44,58 @@ function extract(node) {
             '');
     }
 
-    return node.dataset.string ?? extract(node);
+    return protectWhiteSpace(node.dataset.string ?? extract(node));
 }
 
-function type(textarea, text) {
-    const valueBefore = textarea.value.substr(0, textarea.selectionStart) + text;
-    const valueAfter = textarea.value.substr(textarea.selectionEnd);
-    textarea.value = valueBefore + valueAfter;
+function setSelectionRange(element, start, end) {
+    if (element.nodeName === 'TEXTAREA') {
+        element.setSelectionRange(start, end);
+    } else {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const textNode = element.firstChild;
+        if (textNode !== null) {
+            range.setStart(textNode, start);
+            range.setEnd(textNode, end);
+        }
+        const selection = window.getSelection();
+        selection.removeAllRanges()
+        selection.addRange(range);
+    }
+}
+
+function scrollToCursor(start, end) {
+    if (window.getSelection().rangeCount !== 0) {
+        const innerHTML = outputText.innerHTML;
+        outputText.innerHTML = outputText.textContent.substr(0, previousOutputSelectionStart) + '<br id="scrollTarget">' + outputText.textContent.substr(previousOutputSelectionEnd);
+        const scrollTarget = document.querySelector('#scrollTarget');
+        scrollTarget.scrollIntoView({block: 'end'});
+        scrollTarget.remove();
+        outputText.innerHTML = innerHTML;
+        setSelectionRange(outputText, start, end);
+    }
+}
+
+function type(element, text) {
+    let valueBefore;
+    let valueAfter;
+    if (element.nodeName === 'TEXTAREA') {
+        valueBefore = element.value.substr(0, element.selectionStart) + text;
+        valueAfter = element.value.substr(element.selectionEnd);
+        element.value = valueBefore + valueAfter;
+    } else {
+        const range = getOutputTextRange();
+        if (range !== null && outputText === element) {
+            valueBefore = element.textContent.substr(0, range.startOffset) + text;
+            valueAfter = element.textContent.substr(range.endOffset);
+        } else {
+            valueBefore = element.textContent + text;
+            valueAfter = '';
+        }
+        element.textContent = valueBefore + valueAfter;
+    }
     const newPosition = valueBefore.length;
-    textarea.setSelectionRange(newPosition, newPosition);
+    setSelectionRange(element, newPosition, newPosition);
 }
 
 document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener('click', e => {
@@ -50,16 +103,57 @@ document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener(
     type(outputText, extract(key));
     resetInput();
     outputText.focus();
+    scrollToCursor(getOutputSelectionStart(), getOutputSelectionEnd());
 }));
+
+function getOutputTextRange() {
+    const selection = window.getSelection();
+    if (selection.rangeCount !== 0) {
+        const range = selection.getRangeAt(0);
+        const ancestor = range.commonAncestorContainer;
+        if (ancestor === outputText && range.startOffset === 0 && range.endOffset === 1) {
+            setSelectionRange(outputText, 0, outputText.textContent.length);
+            return window.getSelection().getRangeAt(0);
+        } else if (ancestor === outputText && range.startOffset === 0 && range.endOffset === 0) {
+            setSelectionRange(outputText, 0, 0);
+            return window.getSelection().getRangeAt(0);
+        } else if (ancestor.parentNode === outputText) {
+            return selection.getRangeAt(0);
+        }
+    }
+    return null;
+}
+
+function getOutputSelectionStart() {
+    const range = getOutputTextRange();
+    return range !== null ? range.startOffset : outputText.textContent.length;
+}
+
+function getOutputSelectionEnd() {
+    const range = getOutputTextRange();
+    return range !== null ? range.endOffset : outputText.textContent.length;
+}
 
 function resetInput() {
     inputText.value = '';
-    textBefore = outputText.value.substr(0, outputText.selectionStart);
-    textAfter = outputText.value.substr(outputText.selectionEnd);
+    textBefore = outputText.textContent.substr(0, getOutputSelectionStart());
+    textAfter = outputText.textContent.substr(getOutputSelectionEnd());
 }
 
 autotransliteration.addEventListener('change', resetInput);
 autosyllabification.addEventListener('change', resetInput);
+
+function copyOrCut(e) {
+    e.preventDefault();
+    const selection = window.getSelection();
+    e.clipboardData.setData('text/plain', selection.toString().replaceAll(/([\t\n\r ])\u034F\u034F\u034F/g, '$1'));
+    if (e.type === 'cut') {
+        selection.deleteFromDocument();
+    }
+}
+
+outputText.addEventListener('copy', copyOrCut);
+outputText.addEventListener('cut', copyOrCut);
 
 let textBefore = '';
 let textAfter = '';
@@ -259,22 +353,22 @@ function transliterate() {
                 .replaceAll(RegExp(`(?<=${sConsonant}\u{1BC47})${normalCircleVowel}(?=${sConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${iVowel})${normalCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                 .replaceAll(/\u{1BC41}R/gu, '\u{1BC42}')
-                .replaceAll(/^𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
-                .replaceAll(/^𛰃𛱇$/g, '𛰃𛱆')
-                .replaceAll(/^𛰃𛱇‌𛱚‌𛱇𛰃/g, '𛰃𛱆‌𛱚‌𛱇𛰃')
-                .replaceAll(/^𛰃𛱇𛱂‌𛱞𛰃/g, '𛰃𛱆‌𛱚‌𛱇𛰃')
-                .replaceAll(/^𛰃𛱛R‌𛰙𛱄‌𛰆𛱄R/g, '𛰃𛱛‌𛰙𛱄𛰆𛱄R')
-                .replaceAll(/^𛰃𛱛R‌𛰙𛱄𛰆𛱄R/g, '𛰃𛱛‌𛰙𛱄𛰆𛱄R')
-                .replaceAll(/^𛰖(?!\u200C|$)/g, '𛰀𛰆')
-                .replaceAll(/^𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
-                .replaceAll(/^𛰙𛱇𛰃‌𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
-                .replaceAll(/^𛰙𛱇𛰃𛰆𛱂𛱆𛰃/g, '𛰙𛱆𛰃𛰆𛱂𛱆𛰃')
-                .replaceAll(/^𛰚𛱁‌𛱞𛰃‌𛰅𛱁/g, '𛰚𛱁‌𛱞‌𛰃𛰅𛱁')
-                .replaceAll(/^𛰜𛲡𛰛𛲡𛰇$/g, '𛰜𛲡𛰇𛲡𛰛')
-                .replaceAll(/^𛱆‌𛰃𛰆𛱛𛱆𛰆/g, '𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰆')
-                .replaceAll(/^𛱆‌𛰃𛰆𛱛𛱆𛰗/g, '𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰗')
-                .replaceAll(/^𛱆𛲡𛰃𛲡𛰜$/g, '𛱇𛰃𛲡𛰜')
-                .replaceAll(/^𛱇𛰀𛰃/g, '𛱆𛰀𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '$1𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇$/g, '$1𛰃𛱆')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇‌𛱚‌𛱇𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇𛱂‌𛱞𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄‌𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰖(?!\u200C|$)/g, '$1𛰀𛰆')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '$1𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰙𛱇𛰃‌𛰆𛱂𛱆𛰃/g, '$1𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰙𛱇𛰃𛰆𛱂𛱆𛰃/g, '$1𛰙𛱆𛰃𛰆𛱂𛱆𛰃')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰚𛱁‌𛱞𛰃‌𛰅𛱁/g, '$1𛰚𛱁‌𛱞‌𛰃𛰅𛱁')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰜𛲡𛰛𛲡𛰇$/g, '$1𛰜𛲡𛰇𛲡𛰛')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱆‌𛰃𛰆𛱛𛱆𛰆/g, '$1𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰆')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱆‌𛰃𛰆𛱛𛱆𛰗/g, '$1𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰗')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱆𛲡𛰃𛲡𛰜$/g, '$1𛱇𛰃𛲡𛰜')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱇𛰀𛰃/g, '$1𛱆𛰀𛰃')
                 .replaceAll(RegExp(`${reversibleCircleVowel}R`, 'gu'), '$&\u034F\u034F\u034F')
                 .replaceAll('R', '')
             );
@@ -286,29 +380,54 @@ function transliterate() {
 let previousOutputSelectionStart;
 let previousOutputSelectionEnd;
 
-document.getElementById('output').addEventListener('beforeinput', e => {
-    if (
-        (e.inputType === 'insertFromDrop'
-            || e.inputType === 'insertFromPaste'
-            || e.inputType === 'insertFromPasteAsQuotation'
-            || e.inputType === 'insertFromYank'
-            || e.inputType === 'insertText'
-        ) && !e.data.match(/[\u{1BC00}-\u{1BCA3}]/u)
+const DOUBLE_CGJ = /[^\u034F]\u034F\u034F(?!\u034F)/u;
+
+document.getElementById('output').addEventListener('input', e => {
+    if (outputText.textContent.match(DOUBLE_CGJ)) {
+        const newPosition = outputText.textContent.search(DOUBLE_CGJ);
+        outputText.textContent = outputText.textContent.replace(DOUBLE_CGJ, '');
+        setSelectionRange(outputText, newPosition, newPosition);
+    }
+});
+
+const DUPLOYAN_PATTERN = /[\u{1BC00}-\u{1BCA3}]/u;
+
+function getTextData(e) {
+    let data;
+    if (e.inputType === 'insertText') {
+        data = e.data;
+    } else if (e.inputType === 'insertParagraph') {
+        data = '\n';
+    } else if (e.inputType === 'insertFromDrop'
+        || e.inputType === 'insertFromPaste'
+        || e.inputType === 'insertFromPasteAsQuotation'
+        || e.inputType === 'insertFromYank'
     ) {
+        data = e.dataTransfer.getData('text/plain');
+    } else {
+        return null;
+    }
+    return data.match(DUPLOYAN_PATTERN) ? null : protectWhiteSpace(data);
+}
+
+document.getElementById('output').addEventListener('beforeinput', e => {
+    const text = getTextData(e);
+    if (text !== null) {
         e.preventDefault();
-        if (outputText.selectionStart !== previousOutputSelectionStart
-            || outputText.selectionEnd !== previousOutputSelectionEnd
+        if (getOutputSelectionStart() !== previousOutputSelectionStart
+            || getOutputSelectionEnd() !== previousOutputSelectionEnd
         ) {
             resetInput();
         }
-        type(inputText, e.data);
-        outputText.value = textBefore + transliterate() + textAfter;
-        let newPosition = outputText.value.length - textAfter.length;
-        outputText.setSelectionRange(newPosition, newPosition);
-        newPosition = inputText.value.length - textAfter.length;
-        inputText.setSelectionRange(newPosition, newPosition);
-        previousOutputSelectionStart = outputText.selectionStart;
-        previousOutputSelectionEnd = outputText.selectionEnd;
+        type(inputText, text);
+        outputText.textContent = textBefore + transliterate() + textAfter;
+        let newPosition = outputText.textContent.length - textAfter.length;
+        setSelectionRange(outputText, newPosition, newPosition);
+        newPosition = inputText.value.length;
+        setSelectionRange(inputText, newPosition, newPosition);
+        previousOutputSelectionStart = getOutputSelectionStart();
+        previousOutputSelectionEnd = getOutputSelectionEnd();
+        scrollToCursor(previousOutputSelectionStart, previousOutputSelectionEnd);
     } else {
         inputText.value = '';
         previousOutputSelectionStart = undefined;

@@ -6,6 +6,7 @@
         <meta charset="utf-8">
 <!--
 Copyright 2021 Google LLC
+Copyright 2023 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -60,7 +61,9 @@ limitations under the License.
             enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
             enableControl('decoration', '--decoration', control => control.value);
         </script>
-        <textarea id="output" class="Dupl normal" autofocus rows="2"></textarea>
+        <div id="output" class="Dupl normal" autofocus contenteditable>
+
+</div>
         Keycap colors:
         <span class="normal">Normal</span>
         <span class="alt">Alternative form</span>
