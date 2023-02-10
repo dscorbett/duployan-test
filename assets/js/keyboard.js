@@ -251,7 +251,7 @@ function transliterate() {
             .replaceAll(/ø+/g, ' ')
         );
         const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
-        return substring.match(RegExp(`[${wordCharacter}]+|[^${wordCharacter}]*`, 'gu')).map(word => {
+        return substring.match(RegExp(`(?!\u034F)[${wordCharacter}]+|\u034F+|[^${wordCharacter}]*`, 'gu')).map(word => {
             if (!word.match(RegExp(`[${wordCharacter}]`, 'u'))) {
                 return word;
             }
