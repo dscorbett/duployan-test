@@ -163,7 +163,7 @@ function transliterate() {
         return inputText.value;
     }
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
-    return inputText.value.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
+    return protectWhiteSpace(inputText.value.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
         if (disabled || substring.startsWith('<')) {
             disabled = false;
             return substring;
@@ -242,6 +242,13 @@ function transliterate() {
             .replaceAll('', '\u{1BC9C}')
             .replaceAll('=', '\u{1BC9F}')
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
+            .replaceAll('[ø]', 'ø')
+            .replaceAll(/(?<= \u034F*)ø(?=[\p{L}\p{N}\p{S}])/gu, '')
+            .replaceAll(/ \u034F*ø/g, '')
+            .replaceAll(/(?<=[\p{L}\p{N}\p{S}])ø(?= )/gu, '')
+            .replaceAll(/ø \u034F*/g, '')
+            .replace(/^ø+$/, '')
+            .replaceAll(/ø+/g, ' ')
         );
         const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
         return substring.match(RegExp(`[${wordCharacter}]+|[^${wordCharacter}]*`, 'gu')).map(word => {
@@ -374,7 +381,7 @@ function transliterate() {
             );
             return word;
         }).join('');
-    }).join('');
+    }).join(''));
 }
 
 let previousOutputSelectionStart;
