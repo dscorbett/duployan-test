@@ -146,7 +146,7 @@ autosyllabification.addEventListener('change', resetInput);
 function copyOrCut(e) {
     e.preventDefault();
     const selection = window.getSelection();
-    e.clipboardData.setData('text/plain', selection.toString().replaceAll(/([\t\n\r ])\u034F\u034F\u034F/g, '$1'));
+    e.clipboardData.setData('text/plain', selection.toString().replaceAll(/(^|[\t\n\r ])\u034F\u034F\u034F/g, '$1'));
     if (e.type === 'cut') {
         selection.deleteFromDocument();
     }
