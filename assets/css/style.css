@@ -71,6 +71,7 @@ limitations under the License.
     text-align: center;
     border-radius: var(--small-gap);
     user-select: none;
+    position: relative;
 }
 
 #keyboard span:hover {
@@ -79,6 +80,18 @@ limitations under the License.
     left: 1px;
     border-color: #e5e5e5;
     cursor: pointer;
+}
+
+#keyboard span > div {
+    position: absolute;
+    bottom: -40%;
+    right: 5%;
+    font-size: 50%;
+    color: grey;
+}
+
+#keyboard span > div.top {
+    top: -30%;
 }
 
 .normal {

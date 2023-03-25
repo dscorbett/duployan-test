@@ -25,6 +25,17 @@ const inputText = document.createElement('textarea');
 window.addEventListener('load', () => {
     outputText.style.height = window.getComputedStyle(outputText).height;
     outputText.textContent = '';
+
+    document.querySelectorAll('#keyboard span > div').forEach(hint => {
+        const prefix = hint.dataset.prefix ?? '';
+        const suffix = hint.dataset.suffix ?? '';
+        const parentValue = transliterate(prefix) + extract(hint.parentNode) + transliterate(suffix);
+        const hintValue = transliterate(prefix + extract(hint) + suffix);
+        if (parentValue !== hintValue) {
+            console.warn('Hint %s does not match keycap %s for %o', hintValue, parentValue, hint.parentNode);
+            hint.remove();
+        }
+    });
 });
 
 function protectWhiteSpace(text) {
@@ -39,7 +50,7 @@ function extract(node) {
                     const trimmedContent = child.textContent.trim();
                     text += trimmedContent || child.textContent;
                 }
-                return text + extract(child);
+                return text;
             },
             '');
     }
@@ -158,12 +169,13 @@ outputText.addEventListener('cut', copyOrCut);
 let textBefore = '';
 let textAfter = '';
 
-function transliterate() {
-    if (!autotransliteration.checked) {
-        return inputText.value;
+function transliterate(inputValue, autotransliterate = true, textBefore = '') {
+    if (!autotransliterate || !inputValue) {
+        return inputValue;
     }
+    console.log('transl: ' + inputValue);
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
-    return protectWhiteSpace(inputText.value.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
+    return protectWhiteSpace(inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
         if (disabled || substring.startsWith('<')) {
             disabled = false;
             return substring;
@@ -434,7 +446,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
             resetInput();
         }
         type(inputText, text);
-        outputText.textContent = textBefore + transliterate() + textAfter;
+        outputText.textContent = textBefore + transliterate(inputText.value, autotransliteration.checked, textBefore) + textAfter;
         let newPosition = outputText.textContent.length - textAfter.length;
         setSelectionRange(outputText, newPosition, newPosition);
         newPosition = inputText.value.length;
