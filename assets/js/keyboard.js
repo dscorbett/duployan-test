@@ -175,14 +175,16 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
     }
     console.log('transl: ' + inputValue);
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
-    return protectWhiteSpace(inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*|[^<]+', 'g')).map(substring => {
-        if (disabled || substring.startsWith('<')) {
+    return protectWhiteSpace(inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
+        if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|x+)>$)/iu)) {
             disabled = false;
             return substring;
         }
         disabled = false;
         substring = (substring
             .normalize()
+            .replace(/^<([ $,.\d\u034F]+)>$/u, '$1')
+            .replace(/^<x+>$/i, m => '\u2E3C'.repeat(m.length - 2))
             .replaceAll(/(?<=\p{L})\p{Upper}/gu, '\u{1BCA1}$&')
             .toLowerCase()
             .replaceAll(/(?<=[0-9]+)(?<!\/[0-9]+)\/(?=[0-9])(?![0-9]+\/)/g, '\u2044')
