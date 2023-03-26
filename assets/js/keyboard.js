@@ -326,6 +326,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
                     .replaceAll(RegExp(`(?<=${vowel})(?=${wVowel}|\u{1BC4A})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06})(?=${consonant})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=[\u{1BC41}\u{1BC42}]${iVowel})(?=\u{1BC44}|\u{1BC5A}|\u{1BC5B}|${wVowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${iVowel}${vowel}|${vowel}${iVowel})(?=${vowel}{2})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=${vowel})(?=${vowel}{2})`, 'gu'), '\u200C')
                 );
             }
