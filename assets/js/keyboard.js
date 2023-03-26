@@ -432,6 +432,7 @@ const DUPLOYAN_PATTERN = /[\u{1BC00}-\u{1BCA3}]/u;
 function getTextData(e) {
     let data;
     if (e.inputType === 'insertText'
+        || e.inputType === 'insertCompositionText'
         || e.inputType === 'insertReplacementText'
     ) {
         data = e.data;
