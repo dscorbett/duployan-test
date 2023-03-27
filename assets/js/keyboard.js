@@ -295,7 +295,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
             const sConsonant = '[\u{1BC1C}\u{1BC25}]';
             const curveConsonant = `(?:${mConsonant}|${nConsonant}|${jConsonant}|${sConsonant})`;
             const normalCircleVowel = '[\u{1BC41}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
-            const reversibleCircleVowel = `(?:${normalCircleVowel}|[\u{1BC5C}\u{1BC5D}\u{1BC60}])`;
+            const reversibleCircleVowel = `(?:${normalCircleVowel}|[\u{1BC5C}-\u{1BC60}])`;
             const circleVowel = `(?:(?:\u{1BC42}|${normalCircleVowel}R?)\\p{M}*)`;
             const iVowel = '(?:[\u{1BC46}\u{1BC47}]\\p{M}*)';
             const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}]\\p{M}*)';
