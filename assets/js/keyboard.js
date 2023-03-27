@@ -26,6 +26,7 @@ window.addEventListener('load', () => {
     outputText.style.height = window.getComputedStyle(outputText).height;
     outputText.textContent = '';
 
+    console.groupCollapsed('Validate keycap hints');
     document.querySelectorAll('#keyboard span > div').forEach(hint => {
         const prefix = hint.dataset.prefix ?? '';
         const suffix = hint.dataset.suffix ?? '';
@@ -36,6 +37,7 @@ window.addEventListener('load', () => {
             hint.remove();
         }
     });
+    console.groupEnd();
 });
 
 function protectWhiteSpace(text) {
@@ -173,7 +175,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
     if (!autotransliterate || !inputValue) {
         return inputValue;
     }
-    console.log('transl: ' + inputValue);
+    console.log('transliterate: %s', inputValue);
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
     return protectWhiteSpace(inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
         if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|x+)>$)/iu)) {
@@ -450,7 +452,25 @@ function getTextData(e) {
     return data.match(DUPLOYAN_PATTERN) ? null : protectWhiteSpace(data);
 }
 
+function jsonStringify(s) {
+    return JSON.stringify(s).replaceAll('\u034F', '\\u034F');
+}
+
+function debugTransliteration(label) {
+    console.groupCollapsed(label);
+    console.log('textBefore: %s', textBefore);
+    console.log('inputText: [%d,%d) %s', inputText.selectionStart, inputText.selectionEnd, jsonStringify(inputText.value));
+    console.log('textAfter: %s', textAfter);
+    console.log('output: [%d,%d) %s', getOutputSelectionStart(), getOutputSelectionEnd(), jsonStringify(outputText.textContent));
+    console.log('previousOutputSelectionStart: %s', previousOutputSelectionStart);
+    console.log('previousOutputSelectionEnd: %s', previousOutputSelectionEnd);
+    console.groupEnd();
+}
+
 document.getElementById('output').addEventListener('beforeinput', e => {
+    console.group('beforeinput');
+    console.log(e);
+    debugTransliteration('start');
     const text = getTextData(e);
     if (text !== null) {
         e.preventDefault();
@@ -458,6 +478,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
             || getOutputSelectionEnd() !== previousOutputSelectionEnd
         ) {
             resetInput();
+            debugTransliteration('after resetInput');
         }
         type(inputText, text);
         outputText.textContent = textBefore + transliterate(inputText.value, autotransliteration.checked, textBefore) + textAfter;
@@ -467,10 +488,15 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         setSelectionRange(inputText, newPosition, newPosition);
         previousOutputSelectionStart = getOutputSelectionStart();
         previousOutputSelectionEnd = getOutputSelectionEnd();
+        debugTransliteration('before scrollToCursor');
         scrollToCursor(previousOutputSelectionStart, previousOutputSelectionEnd);
+        debugTransliteration('after scrollToCursor');
     } else {
+        console.log('not an insertion event; clearing inputText');
         inputText.value = '';
         previousOutputSelectionStart = undefined;
         previousOutputSelectionEnd = undefined;
     }
+    debugTransliteration('end');
+    console.groupEnd();
 });
