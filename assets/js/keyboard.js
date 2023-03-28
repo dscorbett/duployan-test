@@ -305,41 +305,26 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
             const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}]\\p{M}*)';
             const curveVowel = `(?:(?:${iVowel}|${uVowel}|\u{1BC4B})\\p{M}*)`;
             const wVowel = '(?:[\u{1BC5C}-\u{1BC60}]\\p{M}*)';
-            const consonantNotInOnsetBeforeL = `(?:${lConsonant}|${curveConsonant})`;
-            const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]${iVowel}(?=${pConsonant}|${fConsonant}))`;
+            const noLaitin = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]\\p{M}*[\u{1BC41}\u{1BC42}]\\p{M}*${iVowel}(?=${tConsonant}\\p{M}*${iVowel}${nConsonant}))`;
+            const noLip = `(?<![\u{1BC06}\u{1BC16}\u{1BC17}]\\p{M}*${iVowel}(?=${pConsonant}|${fConsonant}))`;
             const consonantalI = `(?:(?<=^|\\P{L})${iVowel}(?=${circleVowel}(?!${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant}))|\u{1BC4A})`;
             const lineObstruent = `(?:${pConsonant}|${tConsonant}|${fConsonant}|${kConsonant})`;
-            const consonant = `(?:${lineObstruent}|${lConsonant}|${curveConsonant}|${consonantalI})`;
+            const consonant = `(?:(?:${lineObstruent}|${lConsonant}|${curveConsonant}|${consonantalI})\\p{M}*)`;
+            const consonantOrH = `(?:${consonant}|${hConsonant}\\p{M}*)`;
             const vowel = `(?:${circleVowel}|${curveVowel}|${wVowel})`;
-            const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC5A}\u{1BC5B}])`;
-            const openSyllable = `(${consonant}|\\p{L}\u200C?${hConsonant})?${vowel}+(?!(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}])`;
-            const onset = `(?:${hConsonant}|${consonant}|\u{1BC1C}(?:${lConsonant}|${mConsonant}|${nConsonant})|\u{1BC1C}?${lineObstruent}${lConsonant}?)`;
-            const complexCoda = `(?:(?:${lConsonant}?(?:${lineObstruent}|${mConsonant}|${nConsonant})\u{1BC1C})|(?:${lConsonant}(?:${lineObstruent}|${mConsonant}|${nConsonant})|(?:${pConsonant}|${fConsonant}|${kConsonant})(?:${tConsonant}|\u{1BC25}(?!\u{1BC1C}))|\u{1BC0B}\u{1BC06}|${mConsonant}${pConsonant}|\u{1BC1A}(?:${tConsonant}|${kConsonant})|\u{1BC22}${kConsonant}|\u{1BC1C}(?:${pConsonant}|${tConsonant}|${kConsonant}))\u{1BC1C}?|(?:${lConsonant}|${mConsonant}|${nConsonant})\u{1BC1C}|(?:${lConsonant}|\u{1BC1A})(?:${jConsonant}|\u{1BC25})|\u{1BC03}[\u{1BC1B}\u{1BC23}])`;
+            const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC51}-\u{1BC53}\u{1BC5A}\u{1BC5B}]\\p{M}*)`;
+            const noSmallInitialVowel = `(?<!(?:^|\\P{L})\\p{M}*(?:[\u{1BC41}\u{1BC42}\u{1BC61}-\u{1BC64}]\\p{M}*|${iVowel})(?!${hConsonant})(?!${consonantOrH}{2}))`;
+            const noConsonantLiquidOnset = `(?!(?:${pConsonant}|\u{1BC03}|${fConsonant}|${kConsonant})\\p{M}*[\u{1BC06}\u{1BC0B}])`;
+            const onset = `(?:${consonantOrH}|\u{1BC1C}\\p{M}*(?:${lConsonant}|${mConsonant}|${nConsonant})\\p{M}*|(?:\u{1BC1C}\\p{M}*)?${lineObstruent}\\p{M}*(?:${lConsonant}\\p{M}*)?)`;
+            const noUVowelDiphthong = `(?!(?<=${consonant})\u{1BC5B}\\p{M}*(?:${iVowel}|[\u{1BC51}\u{1BC52}]))`;
             if (autosyllabification.checked && !word.startsWith('\u200C')) {
                 word = (word
-                    .replaceAll(RegExp(`(?<=${openSyllable}${consonant}?)${noLip}(?=(${hConsonant}|${consonant})${vowel})`, 'gu'), 'Z')
-                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda}(?<!${consonant}{3}))${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${openSyllable}(?!${consonant}${onset}${vowel})${complexCoda})${noLip}(?=${onset}${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${openSyllable}${consonant})${noLip}(?=(${hConsonant}|${consonant})+${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(^|\\P{L})\\p{M}*${vowel}\\p{M}*)Z(?=${consonant})`, 'gu'), '')
-                    .replaceAll('Z', '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel})${noLip}(?=(?!${consonantNotInOnsetBeforeL})${consonant}[\u{1BC06}\u{1BC0B}]${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}${noLip}${consonant})(?=${consonant}[\u{1BC06}\u{1BC0B}]?${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}${consonant}?)(?=${hConsonant}${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(^|\\P{L}|${hConsonant})${bigVowel})(?=${consonant}+${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}|\u{1BC4A})(?=${hConsonant}${vowel}|\u{1BC5B})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}${hConsonant})(?=${consonant}+${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=\u{1BC5B})(?=${circleVowel}|${wVowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${wVowel})(?=${wVowel}|${circleVowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${wVowel}|${circleVowel})(?=${wVowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(?!\u{1BC5B})${vowel})(?=${uVowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${uVowel})(?=${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel})(?=${wVowel}|\u{1BC4A})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06})(?=${consonant})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=[\u{1BC41}\u{1BC42}]${iVowel})(?=\u{1BC44}|\u{1BC5A}|\u{1BC5B}|${wVowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${iVowel}${vowel}|${vowel}${iVowel})(?=${vowel}{2})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel})(?=${vowel}{2})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${vowel}${noConsonantLiquidOnset}${consonantOrH})${consonantOrH}${vowel}`, 'gu'), '\u200C$&')
+                    .replaceAll(RegExp(`(?<=${vowel}${noSmallInitialVowel}${noLaitin}${noLip}${consonantOrH}*)(?=${onset}${vowel})${consonantOrH}+${vowel}`, 'gu'), '\u200C$&')
+                    .replaceAll(RegExp(`(?<=(?!(?:(?![\u{1BC5A}\u{1BC5B}])${circleVowel}|${wVowel})${iVowel})${noUVowelDiphthong}${bigVowel})(?=${vowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=(?!${iVowel}${circleVowel})${noUVowelDiphthong}${vowel})(?=${bigVowel})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06}\\p{M}*)(?=${consonantOrH})`, 'gu'), '\u200C')
+                    .replaceAll(RegExp(`(?<=${vowel}+)${vowel}{2}(?!${vowel})`, 'gu'), '\u200C$&')
                 );
             }
             word = (word
