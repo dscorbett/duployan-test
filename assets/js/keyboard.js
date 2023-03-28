@@ -240,6 +240,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
             .replaceAll(/wī(?![aio])/g, '\u{1BC5E}\u0304')
             .replaceAll('xw', '\u{1BC53}')
             .replaceAll(/;+(?=\p{L})/gu, '\u200C')
+            .replaceAll('--', '–')
             .replaceAll('-', '\u{2E40}')
             .replaceAll('h', '\u{1BC00}')
             .replaceAll(/(?<=\p{L})(?<!x)x/gu, '\u{1BC01}')
