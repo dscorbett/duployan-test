@@ -27,13 +27,14 @@ window.addEventListener('load', () => {
     outputText.textContent = '';
 
     console.groupCollapsed('Validate keycap hints');
-    document.querySelectorAll('#keyboard span > div').forEach(hint => {
+    document.querySelectorAll('#keyboard .hint').forEach(hint => {
         const prefix = hint.dataset.prefix ?? '';
         const suffix = hint.dataset.suffix ?? '';
-        const parentValue = transliterate(prefix) + extract(hint.parentNode) + transliterate(suffix);
+        const keycap = hint.parentNode.firstChild;
+        const parentValue = transliterate(prefix) + extract(keycap) + transliterate(suffix);
         const hintValue = transliterate(prefix + extract(hint) + suffix);
         if (parentValue !== hintValue) {
-            console.warn('Hint %s does not match keycap %s for %o', hintValue, parentValue, hint.parentNode);
+            console.warn('Hint %s does not match keycap %s for %o', hintValue, parentValue, keycap);
             hint.remove();
         }
     });
@@ -111,9 +112,9 @@ function type(element, text) {
     setSelectionRange(element, newPosition, newPosition);
 }
 
-document.querySelectorAll('#keyboard span').forEach(key => key.addEventListener('click', e => {
+document.querySelectorAll('#keyboard > *').forEach(key => key.addEventListener('click', e => {
     e.preventDefault();
-    type(outputText, extract(key));
+    type(outputText, extract(key.firstChild));
     resetInput();
     outputText.focus();
     scrollToCursor(getOutputSelectionStart(), getOutputSelectionEnd());

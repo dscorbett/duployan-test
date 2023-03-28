@@ -30,12 +30,13 @@ limitations under the License.
     --weight: normal;
     --decoration: none;
     --small-gap: 5px;
-    font-family: Noto Sans, sans-serif;
+    --font-stack: Noto Sans, sans-serif;
+    font-family: var(--font-stack);
     background: #ddd;
 }
 
 .Dupl {
-    font-family: Duployan, sans-serif;
+    font-family: Duployan, var(--font-stack);
 }
 
 #output {
@@ -57,11 +58,12 @@ limitations under the License.
 
 #keyboard {
     margin-top: var(--small-gap);
+    padding: unset;
 }
 
-#keyboard span {
+#keyboard > * {
     --key-size: 2em;
-    display: inline-block;
+    display: block;
     float: left;
     margin: 0 var(--small-gap) var(--small-gap) 0;
     min-width: var(--key-size);
@@ -74,7 +76,7 @@ limitations under the License.
     position: relative;
 }
 
-#keyboard span:hover {
+#keyboard > :hover {
     position: relative;
     top: 1px;
     left: 1px;
@@ -82,16 +84,20 @@ limitations under the License.
     cursor: pointer;
 }
 
-#keyboard span > div {
+.hint {
     position: absolute;
-    bottom: -40%;
+    bottom: -36%;
     right: 5%;
     font-size: 50%;
     color: grey;
 }
 
-#keyboard span > div.top {
-    top: -30%;
+#keyboard > .desc {
+    line-height: calc(var(--key-size) * 0.75);
+}
+
+.desc .hint {
+    top: -25%;
 }
 
 .normal {
