@@ -206,7 +206,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
     }
     console.log('transliterate: %s', inputValue);
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
-    return protectWhiteSpace(inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
+    return inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
         if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|x+)>$)/iu)) {
             disabled = false;
             return substring;
@@ -431,7 +431,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             );
             return word;
         }).join('');
-    }).join(''));
+    }).join('');
 }
 
 let previousOutputSelectionStart;
