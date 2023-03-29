@@ -19,6 +19,7 @@ limitations under the License.
 
 const autotransliteration = document.querySelector('#autotransliteration');
 const autosyllabification = document.querySelector('#autosyllabification');
+const infoPlaceholder = document.querySelector('#info-placeholder');
 const outputText = document.querySelector('#output');
 const inputText = document.createElement('textarea');
 
@@ -39,6 +40,18 @@ window.addEventListener('load', () => {
         }
     });
     console.groupEnd();
+
+    document.querySelectorAll('.to-transliterate').forEach(node => {
+        node.classList.remove('to-transliterate');
+        node.classList.add('Dupl');
+        node.textContent = transliterate(extract(node));
+    });
+
+    document.querySelectorAll('#keyboard .info').forEach(info => {
+        const infoIcon = document.createElement('span');
+        infoIcon.classList.add('info-icon');
+        info.parentNode.insertBefore(infoIcon, info.nextSibling);
+    });
 });
 
 function protectWhiteSpace(text) {
@@ -119,6 +132,21 @@ document.querySelectorAll('#keyboard > *').forEach(key => key.addEventListener('
     outputText.focus();
     scrollToCursor(getOutputSelectionStart(), getOutputSelectionEnd());
 }));
+
+document.querySelectorAll('#keyboard .info').forEach(info => {
+    info.parentNode.addEventListener('mouseenter', e => {
+        const infoClone = info.cloneNode(true);
+        infoClone.classList.remove('info');
+        infoClone.id = 'current-info';
+        infoPlaceholder.parentNode.insertBefore(infoClone, infoPlaceholder);
+    });
+    info.parentNode.addEventListener('mouseleave', e => {
+        const currentInfo = document.querySelector('#current-info');
+        if (currentInfo) {
+            currentInfo.remove();
+        }
+    });
+});
 
 function getOutputTextRange() {
     const selection = window.getSelection();
@@ -386,6 +414,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇𛱂‌𛱞𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄‌𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰆𛱇‌𛰅𛱁‌𛰆𛱇𛰜‌𛰃𛱇/g, '$1𛰆𛱇‌𛰅𛱁‌𛰆𛱇𛰜‌𛰃𛱆')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰖(?!\u200C|$)/g, '$1𛰀𛰆')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰙𛱇‌𛰃𛰆𛱂𛱆𛰃/g, '$1𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰙𛱇𛰃‌𛰆𛱂𛱆𛰃/g, '$1𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃')

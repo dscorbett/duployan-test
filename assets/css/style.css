@@ -31,12 +31,14 @@ limitations under the License.
     --decoration: none;
     --small-gap: 5px;
     --font-stack: Noto Sans, sans-serif;
+    --dupl-font-stack: Duployan, var(--font-stack);
     font-family: var(--font-stack);
     background: #ddd;
 }
 
 .Dupl {
-    font-family: Duployan, var(--font-stack);
+    font-family: var(--dupl-font-stack);
+    font-style: normal;
 }
 
 #output {
@@ -98,6 +100,35 @@ limitations under the License.
 
 .desc .hint {
     top: -25%;
+}
+
+.info {
+    display: none;
+}
+
+.info-icon {
+    font-family: var(--dupl-font-stack);
+    color: blue;
+}
+
+#keyboard .info-icon::before {
+    content: '?\20DD';
+    position: absolute;
+    top: -25%;
+    left: 5%;
+    font-size: 50%;
+}
+
+#keyboard .desc .info-icon::before {
+    top: -15%;
+}
+
+#info-placeholder {
+    font-style: italic;
+}
+
+#current-info + #info-placeholder {
+    display: none;
 }
 
 .normal {

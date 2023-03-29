@@ -66,13 +66,22 @@ limitations under the License.
         >
 
 </div>
-        Keycap colors:
-        <span class="normal">Normal</span>
-        <span class="alt">Alternative form</span>
-        <span class="non-orienting">Non-orienting form</span>
+        <div>
+            <b>Keycap colors:</b>
+            <span class="normal">Normal</span>
+            <span class="alt">Alternative form</span>
+            <span class="non-orienting">Non-orienting form</span>
+        </div>
+        <div>
+            <span class="Dupl"></span>
+            <span>
+                <b>Character details:</b>
+                <span id="info-placeholder">(Hover over any key with the <span class="info-icon Dupl">?⃝</span> icon)</span>
+            </span>
+        </div>
         <ul id="keyboard">
             <li class="normal"><span class="keycap Dupl">𛰀</span><span class="hint">h</span>
-            <li class="normal"><span class="keycap Dupl">𛰁</span><span class="hint" data-prefix="d">x</span>
+            <li class="normal"><span class="keycap Dupl">𛰁</span><span class="hint" data-prefix="d">x</span><span class="info">Less common variant of <span class="to-transliterate">h</span></span>
             <li class="normal"><span class="keycap Dupl">𛰂</span><span class="hint">p</span>
             <li class="normal"><span class="keycap Dupl">𛰃</span><span class="hint">t</span>
             <li class="normal"><span class="keycap Dupl">𛰄</span><span class="hint">f</span>
@@ -124,22 +133,22 @@ limitations under the License.
             <li class="alt"><span class="keycap Dupl">𛱟&#x034F;&#x034F;&#x034F;</span><span class="hint" data-prefix="d">wei</span>
             <li class="normal"><span class="keycap Dupl">𛱠</span><span class="hint">waw</span>
             <li class="alt"><span class="keycap Dupl">𛱠&#x034F;&#x034F;&#x034F;</span><span class="hint" data-prefix="d">waw</span>
-            <li class="normal"><span class="keycap Dupl">𛲟</span><span class="hint">=</span>
+            <li class="normal"><span class="keycap Dupl">𛲟</span><span class="hint">=</span><span class="info">Double dash: introduces a new line of dialogue or a subsection of a paragraph</span>
             <li class="normal"><span class="keycap Dupl">⸼</span><span class="hint">x</span>
-            <li class="normal"><span class="keycap Dupl">𛲜</span>
-            <li class="normal"><span class="keycap Dupl"></span>
-            <li class="normal"><span class="keycap Dupl">✝</span>
-            <li class="normal"><span class="keycap Dupl"></span>
-            <li class="normal"><span class="keycap Dupl">☠</span>
-            <li class="normal"><span class="keycap Dupl">𛰜𛲡𛰃</span><span class="hint">ST</span>
-            <li class="normal"><span class="keycap Dupl">𛰛𛲡𛰅</span><span class="hint">ShK</span>
-            <li class="normal desc"><span class="keycap Dupl">𛰜𛲡𛰇𛲡𛰛</span><span class="hint">SBSh</span>
-            <li class="normal"><span class="keycap Dupl">𛱇𛰃𛲡𛰜</span><span class="hint">ItS</span>
+            <li class="normal"><span class="keycap Dupl">𛲜</span><span class="info">Logograph for the Eucharist (Chinook: <span lang="chn" class="to-transliterate">likalisti</span>)</span>
+            <li class="normal"><span class="keycap Dupl"></span><span class="info">Latin cross pommy</span>
+            <li class="normal"><span class="keycap Dupl">✝</span><span class="info">Latin cross</span>
+            <li class="normal"><span class="keycap Dupl"></span><span class="info">Calendar symbol for the Feast of the Sacred Heart (Chinook: <span lang="chn" class="to-transliterate">;sikrid hart f ;shisyus</span>)</span>
+            <li class="normal"><span class="keycap Dupl">☠</span><span class="info">Calendar symbol for All Souls’ Day (Chinook: <span lang="chn" class="to-transliterate">pirgatori tilikom klaska son</span>)</span>
+            <li class="normal"><span class="keycap Dupl">𛰜𛲡𛰃</span><span class="hint">ST</span><span class="info">Abbreviation: <span lang="chn" class="to-transliterate">sahali taii</span></span>
+            <li class="normal"><span class="keycap Dupl">𛰛𛲡𛰅</span><span class="hint">ShK</span><span class="info">Abbreviation: <span lang="chn" class="to-transliterate">;shisyu kri</span></span>
+            <li class="normal desc"><span class="keycap Dupl">𛰜𛲡𛰇𛲡𛰛</span><span class="hint">SBSh</span><span class="info">Abbreviation: <span lang="chn" class="to-transliterate">sin shon ;batist</span></span>
+            <li class="normal"><span class="keycap Dupl">𛱇𛰃𛲡𛰜</span><span class="hint">ItS</span><span class="info">Abbreviation: “et cetera”</span>
             <li class="normal"><span class="keycap" data-string=" ">space</span>
-            <li class="normal"><span class="keycap" data-string="&#x200C;">syll. break</span><span class="hint" data-prefix="d" data-suffix="d">;</span>
-            <li class="normal"><span class="keycap" data-string="&#x1BCA1;">overlap</span>
-            <li class="alt"><span class="keycap" data-string="&#x1BCA0;">overlap</span>
-            <li class="normal"><span class="keycap" data-string="&#x1BC9D;">shade</span>
+            <li class="normal"><span class="keycap" data-string="&#x200C;">syll. break</span><span class="hint" data-prefix="d" data-suffix="d">;</span><span class="info">Zero width non-joiner: breaks the cursive connection between syllables and resets the baseline</span>
+            <li class="normal"><span class="keycap" data-string="&#x1BCA1;">overlap</span><span class="info">Normal continuing overlap</span>
+            <li class="alt"><span class="keycap" data-string="&#x1BCA0;">overlap</span><span class="info">Single-letter overlap (not needed for Chinook)</span>
+            <li class="normal"><span class="keycap" data-string="&#x1BC9D;">shade</span><span class="info">Shade the preceding character (not used in Chinook)</span>
             <li class="normal"><span class="keycap Dupl">“</span><span class="hint">"</span>
             <li class="normal"><span class="keycap Dupl">”</span><span class="hint" data-prefix="&quot;">"</span>
             <li class="normal"><span class="keycap Dupl">„</span><span class="hint">,,</span>
