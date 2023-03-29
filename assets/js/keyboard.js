@@ -200,7 +200,7 @@ outputText.addEventListener('cut', copyOrCut);
 let textBefore = '';
 let textAfter = '';
 
-function transliterate(inputValue, autotransliterate = true, textBefore = '') {
+function transliterate(inputValue, autotransliterate = true, autosyllabify = true, textBefore = '') {
     if (!autotransliterate || !inputValue) {
         return inputValue;
     }
@@ -347,7 +347,7 @@ function transliterate(inputValue, autotransliterate = true, textBefore = '') {
             const noConsonantLiquidOnset = `(?!(?:${pConsonant}|\u{1BC03}|${fConsonant}|${kConsonant})\\p{M}*[\u{1BC06}\u{1BC0B}])`;
             const onset = `(?:${consonantOrH}|\u{1BC1C}\\p{M}*(?:${lConsonant}|${mConsonant}|${nConsonant})\\p{M}*|(?:\u{1BC1C}\\p{M}*)?${lineObstruent}\\p{M}*(?:${lConsonant}\\p{M}*)?)`;
             const noUVowelDiphthong = `(?!(?<=${consonant})\u{1BC5B}\\p{M}*(?:${iVowel}|[\u{1BC51}\u{1BC52}]))`;
-            if (autosyllabification.checked && !word.startsWith('\u200C')) {
+            if (autosyllabify && !word.startsWith('\u200C')) {
                 word = (word
                     .replaceAll(RegExp(`(?<=${vowel}${noConsonantLiquidOnset}${consonantOrH})${consonantOrH}${vowel}`, 'gu'), '\u200C$&')
                     .replaceAll(RegExp(`(?<=${vowel}${noSmallInitialVowel}${noLaitin}${noLip}${consonantOrH}*)(?=${onset}${vowel})${consonantOrH}+${vowel}`, 'gu'), '\u200C$&')
@@ -499,7 +499,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
             debugTransliteration('after resetInput');
         }
         type(inputText, text);
-        outputText.textContent = textBefore + transliterate(inputText.value, autotransliteration.checked, textBefore) + textAfter;
+        outputText.textContent = textBefore + transliterate(inputText.value, autotransliteration.checked, autosyllabification.checked, textBefore) + textAfter;
         let newPosition = outputText.textContent.length - textAfter.length;
         setSelectionRange(outputText, newPosition, newPosition);
         newPosition = inputText.value.length;
