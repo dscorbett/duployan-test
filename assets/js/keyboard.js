@@ -230,6 +230,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('\u0301', '')
             .replaceAll('ẖ', 'h')
             .replaceAll(/[ʼ‘’]/g, "'")
+            .replaceAll('x̱', 'x̣')
             .replaceAll(/(?<=\p{L}\p{M}*'?)(?<!x)x(?!\u0323)/gu, 'x̣')
             .replaceAll(/x(?!x|\u0323)(?='?\p{L})/gu, 'x̣')
             .replaceAll('qu', 'kw')
