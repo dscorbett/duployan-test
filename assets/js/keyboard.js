@@ -248,6 +248,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('eu', 'xwʔ')
             .replaceAll(/[ey]/g, 'i')
             .replaceAll('iwi', 'üi')
+            .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
             .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə/gu, 'u')
             .replaceAll('ə', 'a')
             .replaceAll(/(?<!a|x\u0323?)wh/g, 'ʔhw')
