@@ -331,6 +331,8 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/ø \u034F*/g, '')
             .replace(/^ø+$/, '')
             .replaceAll(/ø+/g, ' ')
+            .replaceAll(/(?<=[«‹]) /g, '\u00A0')
+            .replaceAll(/ (?=[!:;?»›])/g, '\u00A0')
         );
         const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
         return substring.match(RegExp(`(?!\u034F)[${wordCharacter}]+|\u034F+|[^${wordCharacter}]*`, 'gu')).map(word => {
