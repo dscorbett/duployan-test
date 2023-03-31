@@ -247,7 +247,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/(?<=\p{L}\p{M}*)i(?=ya|ü)/gu, '')
             .replaceAll('eu', 'xwʔ')
             .replaceAll(/[ey]/g, 'i')
-            .replaceAll('iwi', 'üi')
+            .replaceAll(/(?<!wi?)iwi/g, 'üi')
             .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
             .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə/gu, 'u')
             .replaceAll('ə', 'a')
@@ -263,7 +263,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)"/gu, '“')
             .replaceAll('"', '”')
             .replaceAll(',,', '„')
-            .replaceAll(/wii(?![aio])/g, '\u{1BC5F}')
+            .replaceAll('wii', '\u{1BC5F}')
             .replaceAll(/w[ao]w(?![aio])/g, '\u{1BC60}')
             .replaceAll(/th(?!w)/g, '\u{1BC11}')
             .replaceAll('lh', '\u{1BC17}')
@@ -285,8 +285,8 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/[ao]w(?![ao]|i(?![aio]))/g, '\u{1BC5A}')
             .replaceAll('wa', '\u{1BC5C}')
             .replaceAll('wo', '\u{1BC5D}')
-            .replaceAll(/wi(?![aio])/g, '\u{1BC5E}')
-            .replaceAll(/wī(?![aio])/g, '\u{1BC5E}\u0304')
+            .replaceAll('wi', '\u{1BC5E}')
+            .replaceAll('wī', '\u{1BC5E}\u0304')
             .replaceAll(/x\u0323?w/g, '\u{1BC53}')
             .replaceAll(/;+(?=\p{L})/gu, '\u200C')
             .replaceAll('--', '–')
@@ -368,15 +368,13 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             const noSmallInitialVowel = `(?<!(?:^|\\P{L})\\p{M}*(?:[\u{1BC41}\u{1BC42}\u{1BC61}-\u{1BC64}]\\p{M}*|${iVowel})(?!${hConsonant})(?!${consonantOrH}{2}))`;
             const noConsonantLiquidOnset = `(?!(?:${pConsonant}|\u{1BC03}|${fConsonant}|${kConsonant})\\p{M}*[\u{1BC06}\u{1BC0B}])`;
             const onset = `(?:${consonantOrH}|\u{1BC1C}\\p{M}*(?:${lConsonant}|${mConsonant}|${nConsonant})\\p{M}*|(?:\u{1BC1C}\\p{M}*)?${lineObstruent}\\p{M}*(?:${lConsonant}\\p{M}*)?)`;
-            const noUVowelDiphthong = `(?!(?<=${consonant})\u{1BC5B}\\p{M}*(?:${iVowel}|[\u{1BC51}\u{1BC52}]))`;
             if (autosyllabify && !word.startsWith('\u200C')) {
                 word = (word
                     .replaceAll(RegExp(`(?<=${vowel}${noConsonantLiquidOnset}${consonantOrH})${consonantOrH}${vowel}`, 'gu'), '\u200C$&')
                     .replaceAll(RegExp(`(?<=${vowel}${noSmallInitialVowel}${noLaitin}${noLip}${consonantOrH}*)(?=${onset}${vowel})${consonantOrH}+${vowel}`, 'gu'), '\u200C$&')
-                    .replaceAll(RegExp(`(?<=(?!(?:(?![\u{1BC5A}\u{1BC5B}])${circleVowel}|${wVowel})${iVowel})${noUVowelDiphthong}${bigVowel})(?=${vowel})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=(?!${iVowel}${circleVowel})${noUVowelDiphthong}${vowel})(?=${bigVowel})`, 'gu'), '\u200C')
                     .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06}\\p{M}*)(?=${consonantOrH})`, 'gu'), '\u200C')
-                    .replaceAll(RegExp(`(?<=${vowel}+)${vowel}{2}(?!${vowel})`, 'gu'), '\u200C$&')
+                    .replaceAll(RegExp(`(?<=(?!([\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5B}\u{1BC5C}\u{1BC5D}]\\p{M}*|${iVowel})${iVowel}|\u{1BC44}\\p{M}*[\u{1BC51}-\u{1BC53}]|${iVowel}[\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5B}]|\u{1BC5B}\\p{M}*[\u{1BC51}-\u{1BC53}]|[\u{1BC5E}\u{1BC5F}]\\p{M}*[\u{1BC41}\u{1BC42}])${vowel})${vowel}`, 'gu'), '\u200C$&')
+                    .replaceAll(RegExp(`(?<=${vowel})(?=(${vowel}{2})+(?!${vowel}))`, 'gu'), '\u200C')
                 );
             }
             word = (word
@@ -429,6 +427,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
                 .replaceAll(RegExp(`(?<=${nConsonant}\u{1BC47})${normalCircleVowel}(?=${nConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${sConsonant}\u{1BC47})${normalCircleVowel}(?=${sConsonant})`, 'gu'), '$&R')
                 .replaceAll(RegExp(`(?<=${iVowel})${normalCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
+                .replaceAll(RegExp(`(?<=[\u{1BC5E}\u{1BC5F}]\\p{M}*)${reversibleCircleVowel}`, 'gu'), '$&R')
                 .replaceAll(/\u{1BC41}R/gu, '\u{1BC42}')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '$1𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇$/g, '$1𛰃𛱆')
