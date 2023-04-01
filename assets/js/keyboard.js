@@ -96,7 +96,7 @@ function setSelectionRange(element, start, end) {
 function scrollToCursor(start, end) {
     if (window.getSelection().rangeCount !== 0) {
         const innerHTML = outputText.innerHTML;
-        outputText.innerHTML = outputText.textContent.substr(0, previousOutputSelectionStart) + '<br id="scrollTarget">' + outputText.textContent.substr(previousOutputSelectionEnd);
+        outputText.innerHTML = outputText.textContent.substring(0, previousOutputSelectionStart) + '<br id="scrollTarget">' + outputText.textContent.substring(previousOutputSelectionEnd);
         const scrollTarget = document.querySelector('#scrollTarget');
         scrollTarget.scrollIntoView({block: 'end'});
         scrollTarget.remove();
@@ -109,14 +109,14 @@ function type(element, text) {
     let valueBefore;
     let valueAfter;
     if (element.nodeName === 'TEXTAREA') {
-        valueBefore = element.value.substr(0, element.selectionStart) + text;
-        valueAfter = element.value.substr(element.selectionEnd);
+        valueBefore = element.value.substring(0, element.selectionStart) + text;
+        valueAfter = element.value.substring(element.selectionEnd);
         element.value = valueBefore + valueAfter;
     } else {
         const range = getOutputTextRange();
         if (range !== null && outputText === element) {
-            valueBefore = element.textContent.substr(0, range.startOffset) + text;
-            valueAfter = element.textContent.substr(range.endOffset);
+            valueBefore = element.textContent.substring(0, range.startOffset) + text;
+            valueAfter = element.textContent.substring(range.endOffset);
         } else {
             valueBefore = element.textContent + text;
             valueAfter = '';
@@ -180,8 +180,8 @@ function getOutputSelectionEnd() {
 
 function resetInput() {
     inputText.value = '';
-    textBefore = outputText.textContent.substr(0, getOutputSelectionStart());
-    textAfter = outputText.textContent.substr(getOutputSelectionEnd());
+    textBefore = outputText.textContent.substring(0, getOutputSelectionStart());
+    textAfter = outputText.textContent.substring(getOutputSelectionEnd());
 }
 
 autotransliteration.addEventListener('change', resetInput);
