@@ -281,6 +281,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/‹‹|≪/g, '«')
             .replaceAll(/››|≫/g, '»')
             .replaceAll('ʰ', '')
+            .replaceAll(/hl(?!'?\.?\p{L})/gu,  '\u{1BC16}')
             .replaceAll(/(?<=\p{L}\p{M}*\.?)hl|ɬ/gu, '\u{1BC16}')
             .replaceAll('ng', '\u{1BC22}')
             .replaceAll('ts', '\u{1BC25}')
