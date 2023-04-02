@@ -41,6 +41,10 @@ limitations under the License.
     font-style: normal;
 }
 
+label {
+    display: inline-block;
+}
+
 #output {
     width: 100%;
     font-weight: var(--weight);
