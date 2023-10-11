@@ -216,6 +216,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
         disabled = false;
         substring = (substring
             .normalize()
+            .replaceAll('Å', '\u{1BC9C}')
             .replace(/^<([ $,.\d\u034F]+)>$/u, '$1')
             .replace(/^<x+>$/i, m => '\u2E3C'.repeat(m.length - 2))
             .replaceAll(/(?<=\p{L}\p{M}*)\p{Upper}/gu, '\u{1BCA1}$&')
@@ -333,7 +334,6 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('õ', '\u{1BC62}\u0317')
             .replaceAll('ĩ', '\u{1BC64}\u0300')
             .replaceAll('ã', '\u{1BC64}\u0301')
-            .replaceAll('å', '\u{1BC9C}')
             .replaceAll('⊕', '\u{1BC9C}')
             .replaceAll('', '\u{1BC9C}')
             .replaceAll('=', '\u{1BC9F}')
