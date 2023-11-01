@@ -224,6 +224,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('\\1', 'P')
             .replaceAll('\\2', 'R')
             .replaceAll(/[PR]+(?=[PR])/g, '')
+            .replaceAll('[likalisti]', '\u{1BC9C}')
             .replaceAll(/\[sic\]/g, '[ø]')
             .replaceAll(/(?<=\d+)(?<!\/\d+)\/(?=\d)(?!\d+\/)/g, '\u2044')
             .replaceAll(/(?<=\d)o/g, '\u00BA')
