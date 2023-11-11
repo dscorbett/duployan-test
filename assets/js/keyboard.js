@@ -393,6 +393,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
                 );
             }
             word = (word
+                .replaceAll(RegExp(`\u{1BCA1}(${hConsonant})`, 'gu'), '\u200C$1')
                 .replaceAll(/^\u200C+/g, '')
                 .replaceAll(RegExp(consonantalI, 'gu'), '\u{1BC4A}')
                 .replaceAll(RegExp(`(?<=${nConsonant}${circleVowel})${iVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '\u{1BC4B}')
