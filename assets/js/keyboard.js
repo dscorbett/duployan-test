@@ -237,7 +237,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('i\u0304', 'ī')
             .replaceAll('o\u0306', 'ŏ')
             .replaceAll('u\u0306', 'ŭ')
-            .replaceAll(/x[\u0307\u030C\u0323\u0325\u0331]/g, 'ẋ')
+            .replaceAll(/x[\u0307\u030C\u0323\u0325\u0331]|[χꭓ]/g, 'ẋ')
             .replaceAll(/(?<=\p{L}\p{M}*'?)(?<!x)x/gu, 'ẋ')
             .replaceAll(/x(?!x)(?='?\p{L})/gu, 'ẋ')
             .replaceAll(/[\u0300\u0301\u0302\u0304\u0306\u0308\u030A\u030F\u0313\u0323\u0327\u032C\u0331\u0361ˈˌ·ˑ]/g, '')
