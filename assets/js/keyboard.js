@@ -448,6 +448,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
                 .replaceAll(/\u{1BC41}(\p{M}*)R/gu, '\u{1BC42}$1')
                 .replaceAll(/\u{1BC46}(\p{M}*)R/gu, '\u{1BC47}$1')
                 .replaceAll(/\u{1BC51}(\p{M}*)R/gu, '\u{1BC52}$1')
+                .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰀𛱁‌𛰖𛱇𛰂/g, '$1𛰀𛱁𛰀‌𛰆𛱇𛰂')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '$1𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇$/g, '$1𛰃𛱆')
                 .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇‌𛱚‌𛱇𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
