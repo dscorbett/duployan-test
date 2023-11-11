@@ -254,7 +254,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/o[ou]/g, 'u')
             .replaceAll(/(?<=\p{L}\p{M}*)i(?=ya|ü)/gu, '')
             .replaceAll('eu', 'xwʔ')
-            .replaceAll(/[eyɛ]/g, 'i')
+            .replaceAll(/[eyɛɨ]/g, 'i')
             .replaceAll(/(?<!wi?)iwi/g, 'üi')
             .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
             .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə/gu, 'u')
