@@ -1,6 +1,6 @@
 /*
 Copyright 2021 Google LLC
-Copyright 2023 David Corbett
+Copyright 2023-2024 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -237,7 +237,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('o\u0303', 'õ')
             .replaceAll('u\u0303', 'ũ')
             .replaceAll(/(j\u0361|y)u|u\u0308/g, 'ü')
-            .replaceAll(/t͡ʃ|j\u030C/g, 'c\u030C')
+            .replaceAll(/t͡?ʃ|j\u030C/g, 'c\u030C')
             .replaceAll('i\u0304', 'ī')
             .replaceAll('o\u0306', 'ŏ')
             .replaceAll('u\u0306', 'ŭ')
