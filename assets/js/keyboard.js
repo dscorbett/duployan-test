@@ -275,6 +275,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)"/gu, '“')
             .replaceAll('"', '”')
             .replaceAll(',,', '„')
+            .replaceAll('⸽', '⁝')
             .replaceAll('wii', '\u{1BC5F}')
             .replaceAll(/w[ao]w(?![aio])/g, '\u{1BC60}')
             .replaceAll(/th(?!w)/g, '\u{1BC11}')
