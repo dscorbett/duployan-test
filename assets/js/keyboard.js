@@ -236,7 +236,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll('i\u0303', 'ĩ')
             .replaceAll('o\u0303', 'õ')
             .replaceAll('u\u0303', 'ũ')
-            .replaceAll(/(j\u0361|y)u|u\u0308/g, 'ü')
+            .replaceAll(/(j\u0361|y)(o[ou]|u)|u\u0308/g, 'ü')
             .replaceAll(/t͡?ʃ|j\u030C/g, 'c\u030C')
             .replaceAll('i\u0304', 'ī')
             .replaceAll('o\u0306', 'ŏ')
