@@ -6,7 +6,7 @@
         <meta charset="utf-8">
 <!--
 Copyright 2021 Google LLC
-Copyright 2023 David Corbett
+Copyright 2023-2024 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -62,11 +62,12 @@ limitations under the License.
             enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
             enableControl('decoration', '--decoration', control => control.value);
         </script>
-        <div id="output" class="Dupl normal" autofocus contenteditable
+        <div id="output" class="Dupl" autofocus contenteditable
             autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
         >
 
 </div>
+        <div id="mock-output" class="Dupl"></div>
         <div>
             <b>Keycap colors:</b>
             <span class="normal">Normal</span>

@@ -21,11 +21,12 @@ const autotransliteration = document.querySelector('#autotransliteration');
 const autosyllabification = document.querySelector('#autosyllabification');
 const infoPlaceholder = document.querySelector('#info-placeholder');
 const outputText = document.querySelector('#output');
+const scrollText = document.querySelector('#mock-output');
 const inputText = document.createElement('textarea');
 
 window.addEventListener('load', () => {
-    outputText.style.height = window.getComputedStyle(outputText).height;
-    outputText.textContent = '';
+    scrollText.style.height =  outputText.style.height = window.getComputedStyle(outputText).height;
+    scrollText.textContent = outputText.textContent = '';
 
     console.groupCollapsed('Validate keycap hints');
     document.querySelectorAll('#keyboard .hint').forEach(hint => {
@@ -93,17 +94,44 @@ function setSelectionRange(element, start, end) {
     }
 }
 
-function scrollToCursor(start, end) {
-    if (window.getSelection().rangeCount !== 0) {
-        const innerHTML = outputText.innerHTML;
-        outputText.innerHTML = outputText.textContent.substring(0, previousOutputSelectionStart) + '<br id="scrollTarget">' + outputText.textContent.substring(previousOutputSelectionEnd);
-        const scrollTarget = document.querySelector('#scrollTarget');
-        scrollTarget.scrollIntoView({block: 'end'});
-        scrollTarget.remove();
-        outputText.innerHTML = innerHTML;
-        setSelectionRange(outputText, start, end);
-    }
-}
+let previousTextLength;
+let previousScrollHeight;
+
+outputText.addEventListener('scroll', e => previousScrollHeight = undefined);
+
+window.addEventListener('load', () => {
+    scrollText.style.height = window.getComputedStyle(outputText).height;
+    scrollText.textContent = '';
+});
+
+window.setInterval(
+    () => {
+        if (document.activeElement !== outputText || previousTextLength === outputText.textContent.length) {
+            return;
+        }
+        previousTextLength = outputText.textContent.length;
+        const start = getOutputSelectionStart();
+        const end = getOutputSelectionEnd();
+        if (window.getSelection().rangeCount !== 0) {
+            scrollText.textContent = outputText.textContent.substring(0, previousOutputSelectionStart);
+            scrollText.style.display = 'block';
+            let scrollHeight = scrollText.scrollHeight;
+            scrollText.style.display = null;
+            if (scrollHeight !== previousScrollHeight) {
+                console.log('scrollHeight: %s -> %s', previousScrollHeight, scrollHeight);
+                const innerHTML = outputText.innerHTML;
+                outputText.innerHTML = outputText.textContent.substring(0, previousOutputSelectionStart) + '<br id="scrollTarget">' + outputText.textContent.substring(previousOutputSelectionEnd);
+                const scrollTarget = document.querySelector('#scrollTarget');
+                scrollTarget.scrollIntoView({block: 'end'});
+                scrollTarget.remove();
+                outputText.innerHTML = innerHTML;
+                previousScrollHeight = scrollHeight;
+            }
+            setSelectionRange(outputText, start, end);
+        }
+    },
+    20,
+)
 
 function type(element, text) {
     let valueBefore;
@@ -132,7 +160,6 @@ document.querySelectorAll('#keyboard > *').forEach(key => key.addEventListener('
     type(outputText, extract(key.firstChild));
     resetInput();
     outputText.focus();
-    scrollToCursor(getOutputSelectionStart(), getOutputSelectionEnd());
 }));
 
 document.querySelectorAll('#keyboard .info').forEach(info => {
@@ -557,9 +584,6 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         setSelectionRange(inputText, newPosition, newPosition);
         previousOutputSelectionStart = getOutputSelectionStart();
         previousOutputSelectionEnd = getOutputSelectionEnd();
-        debugTransliteration('before scrollToCursor');
-        scrollToCursor(previousOutputSelectionStart, previousOutputSelectionEnd);
-        debugTransliteration('after scrollToCursor');
     } else {
         console.log('not an insertion event; clearing inputText');
         inputText.value = '';
