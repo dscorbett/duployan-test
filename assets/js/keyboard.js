@@ -417,7 +417,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             const consonant = `(?:(?:${lineObstruent}|${lConsonant}|${curveConsonant}|${consonantalI})\\p{M}*)`;
             const consonantOrH = `(?:${consonant}|${hConsonant}\\p{M}*)`;
             const bigVowel = `(?:${wVowel}|[\u{1BC44}\u{1BC51}-\u{1BC53}\u{1BC5A}\u{1BC5B}][PR]?\\p{M}*)`;
-            const noSmallInitialVowel = `(?<!(?:^|\\P{L})\\p{M}*(?:[\u{1BC41}\u{1BC42}\u{1BC61}-\u{1BC64}][PR]?\\p{M}*|${iVowel})(?!${hConsonant})(?!${consonantOrH}{2}))`;
+            const noSmallInitialVowel = `(?<!(?:^|\\P{L})\\p{M}*(?:[\u{1BC61}-\u{1BC64}][PR]?\\p{M}*|${iVowel})(?=${lConsonant}|${jConsonant}|${sConsonant}))`;
             const noConsonantLiquidOnset = `(?!(?:${pConsonant}|\u{1BC03}|${fConsonant}|${kConsonant})\\p{M}*[\u{1BC06}\u{1BC0B}])`;
             const onset = `(?:${consonantOrH}|\u{1BC1C}\\p{M}*(?:${lConsonant}|${mConsonant}|${nConsonant})\\p{M}*|(?:\u{1BC1C}\\p{M}*)?${lineObstruent}\\p{M}*(?:${lConsonant}\\p{M}*)?)`;
             if (autosyllabify && !word.startsWith('\u200C')) {
