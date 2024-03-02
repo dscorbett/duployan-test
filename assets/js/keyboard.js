@@ -247,7 +247,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replace(/^<([ $,.\d\u034F]+)>$/u, '$1')
             .replace(/^<x+>$/i, m => '\u2E3C'.repeat(m.length - 2))
             .replaceAll(/£(?=£*\p{L})|(?<=\p{L}£*)£(?!£*\d)/gu, 'Ɬ')
-            .replaceAll(/(?<=\p{L}\p{M}*)\p{Upper}/gu, '\u{1BCA1}$&')
+            .replaceAll(/(?<=\p{L}\p{M}*)(?!Ø)\p{Upper}/gu, '\u{1BCA1}$&')
             .toLowerCase()
             .replaceAll('\\1', 'P')
             .replaceAll('\\2', 'R')
