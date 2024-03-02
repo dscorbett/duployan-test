@@ -321,6 +321,7 @@ function transliterate(inputValue, autotransliterate = true, autosyllabify = tru
             .replaceAll(/c'?h|c\u030C|[dt][jᴊ]|tch?/g, '\u{1BC23}')
             .replaceAll(/sh|s\u030C|[ʃᴊ]/g, '\u{1BC1B}')
             .replaceAll(/k[h']/g, '\u{1BC14}')
+            .replaceAll(/(?<!\p{L}\p{M}*)'(?=\p{N})/gu, '’')
             .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)'+/gu, m => '‹'.repeat(m.length))
             .replaceAll(/(?<=\p{L}\p{M}*)'(?=\p{L})/gu, '')
             .replaceAll(/(?<!‹[^›']*)(?<!')'(?!\p{L})/gu, '')
