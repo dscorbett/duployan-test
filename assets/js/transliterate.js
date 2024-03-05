@@ -82,7 +82,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Digraphs
             .replaceAll(/qu(?=[aeiou])/g, 'kw')
             .replaceAll(/th(?!w)/g, 'θ')
-            .replaceAll('kh', 'ḵ')
             .replaceAll('kʼ', 'ḵ')
             .replaceAll('sh', 'š')
             .replaceAll('lh', 'ƚ')
