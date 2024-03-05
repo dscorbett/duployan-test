@@ -111,6 +111,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Pronunciations that are not distinguished
             .replaceAll('q', 'k')
             .replaceAll('z', 's')
+            .replaceAll(/ŋ(?=[kgḵ])/g, 'n')
             .replaceAll('υ', 'u')
             .replaceAll(/[æɑα]/g, 'a')
             .replaceAll(/[ωꞷ]/g, 'o')
