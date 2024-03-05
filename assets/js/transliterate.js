@@ -58,7 +58,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[ǝә]/g, 'ə')
             .replaceAll('ʷ', 'w')
             .replaceAll(/(?<=[aeiouə])~/g, '\u0303')
-            .replaceAll('ɂ', 'ʔ')
+            .replaceAll(/(?<=[\p{L}\p{M}])7(?!º|\p{N})|(?<!\p{N})7(?!º)(?=\p{L})|ɂ/gu, 'ʔ')
             .replaceAll(/[ʻʽ\u0313‘]|’(?!\p{N})/gu, 'ʼ')
             .replaceAll('≪', '«')
             .replaceAll('≫', '»')
