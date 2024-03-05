@@ -124,7 +124,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<=\p{L})ɬ/gu, 'ƚ')
             .replaceAll('ɬ', 'ł')
             .replaceAll(/(?<=\p{L})(?<!x)x/gu, 'ẋ')
-            .replaceAll(/x(?!x)(?=\p{L})/gu, 'ẋ')
+            .replaceAll(/x(?=x*(?!x)\p{L})/gu, 'ẋ')
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')

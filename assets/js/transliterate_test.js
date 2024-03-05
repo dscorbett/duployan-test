@@ -157,6 +157,9 @@ if (window.location.pathname === '/') {
     assertTransliterates('x', '⸼');
     assertTransliterates('xx', '⸼⸼');
     assertTransliterates('<xxx>', '⸼⸼⸼');
+    assertTransliterates('axxx', '𛱁𛰁⸼⸼');
+    assertTransliterates('xxxa', '𛰁𛰁𛰁𛱁');
+    assertTransliterates('axxxa', '𛱁𛰁𛰁‌𛰁𛱁');
     assertTransliterates('ST', '𛰜𛲡𛰃');
     assertTransliterates('"a"', '“𛱁”');
     assertTransliterates(',,', '„');
