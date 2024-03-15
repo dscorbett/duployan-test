@@ -82,7 +82,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/qu(?=[aeiou])/g, 'kw')
             .replaceAll(/th(?!w)/g, 'θ')
             .replaceAll('kʼ', 'ḵ')
-            .replaceAll('sh', 'š')
+            .replaceAll(/[sz]h/g, 'š')
             .replaceAll('lh', 'ƚ')
             .replaceAll(/c['ʼ]?h|j\u030C/g, 'č')
             .replaceAll('ng', 'ŋ')
