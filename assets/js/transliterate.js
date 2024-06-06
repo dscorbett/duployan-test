@@ -41,13 +41,12 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<=\d+)(?<!\/\d+)\/(?=\d)(?!\d+\/)/g, '\u2044')
             .replaceAll(/(?<=\d)o/g, '\u00BA')
             // Quotation marks
-            .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)"/gu, '“')
+            .replaceAll(/(?<![\p{L}\p{N}\p{Pc}\p{Pe}\p{Pf}\p{Po}\p{S}]\p{M}*)"/gu, '“')
             .replaceAll('"', '”')
             .replaceAll(',,', '„')
             .replaceAll(/(?<!\p{L}\p{M}*)'(?=\p{N})/gu, '’')
             .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)['‘]+/gu, m => '‹'.repeat(m.length))
-            .replaceAll(/(?<!‹[^›']*)(?<!')['’](?![\p{L}\p{N}])/gu, 'ʼ')
-            .replaceAll(/'(?=\p{N})/gu, '’')
+            .replaceAll(/(?<!‹[^›']*)(?<=\p{L}[\p{M}·•]*)(?<!')['’]/gu, 'A')
             .replaceAll(/['’](?![\p{L}\p{N}])/gu, '›')
             .replaceAll('‹‹', '«')
             .replaceAll('››', '»')
@@ -59,7 +58,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ʷ', 'w')
             .replaceAll(/(?<=[aeiouə])~/g, '\u0303')
             .replaceAll(/(?<=[\p{L}\p{M}])7(?!º|\p{N})|(?<!\p{N})7(?!º)(?=\p{L})|ɂ/gu, 'ʔ')
-            .replaceAll(/[ʻʽ\u0313‘]|’(?!\p{N})/gu, 'ʼ')
+            .replaceAll(/[`ʻʽˀ\u0313‘]|’(?!\p{N})/gu, 'ʼ')
             .replaceAll('≪', '«')
             .replaceAll('≫', '»')
             .replaceAll('⸽', '⁝')
@@ -81,10 +80,9 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Digraphs
             .replaceAll(/qu(?=[aeiou])/g, 'kw')
             .replaceAll(/th(?!w)/g, 'θ')
-            .replaceAll('kʼ', 'ḵ')
             .replaceAll(/[sz]h/g, 'š')
             .replaceAll('lh', 'ƚ')
-            .replaceAll(/c['ʼ]?h|j\u030C/g, 'č')
+            .replaceAll(/c[Aʼ]?h|j\u030C/g, 'č')
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
             .replaceAll(/(?<=[\p{L}\p{M}])hl|(?<![\p{L}\p{M}])hl(?![\p{L}\p{M}])/gu, 'ł')
@@ -115,8 +113,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[æɑα]/g, 'a')
             .replaceAll(/[ωꞷ]/g, 'o')
             .replaceAll(/[eèɛɨɩει]|y(?!u)/g, 'i')
-            .replaceAll(/(?<![ptkcḵ])ʼ/g, 'ʔ')
-            .replaceAll(/[\u0300-\u0304\u0306\u0308\u030A\u030F\u0313\u0323\u0325\u0327\u032C\u0331\u0361ʰʹʼˈˌ·ˑ•]/g, '')
             .replaceAll('tɬ', 'tl')
             .replaceAll(/(?<=[kḵ])w(?![aioə])/g, '')
             // More special cases
@@ -125,6 +121,11 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ɬ', 'ł')
             .replaceAll(/(?<=\p{L})(?<!x)x/gu, 'ẋ')
             .replaceAll(/x(?=x*(?!x)\p{L})/gu, 'ẋ')
+            .replaceAll(/([aiouãõĩīŏũə])[Aʼ](?=\1)/gu, '$1ʔ')
+            // Single characters for sequences that involve modifiers
+            .replaceAll(/k[Aʼ]/g, 'ḵ')
+            // Unused modifiers
+            .replaceAll(/[A\u0300-\u0304\u0306\u0308\u030A\u030F\u0313\u0323\u0325\u0327\u032C\u0331\u0361ʰʹʼˈˌ·ˑ•]/g, '')
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
@@ -147,11 +148,10 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('wii', 'η')
             .replaceAll('wi', 'ι')
             .replaceAll('w', 'o')
-            // Glottal stop and ambiguous apostrophe
-            .replaceAll(/([aiouãõüĩīŏũǖə])['ʔ]\1(?![aiouãõüĩīŏũǖə])(?=\p{L})/gu, '$1')
-            .replaceAll(/([aiouãõüĩīŏũǖə])['ʔ](?=\1)/g, '$1h')
-            .replaceAll("'", '')
-            .replaceAll(/(?<=\p{L})ʔ(?=[aiouwãõüĩīŏũǖə])/gu, ';')
+            // Glottal stop
+            .replaceAll(/([aiouãõĩīŏũə])ʔ\1(?![aiouãõĩīŏũə])(?=\p{L})/gu, '$1')
+            .replaceAll(/([aiouãõĩīŏũə])ʔ(?=\1)/g, '$1h')
+            .replaceAll(/(?<=\p{L})ʔ(?=[aiouwãõĩīŏũə])/gu, ';')
             .replaceAll('ʔ', '')
             // Non-breaking space inside quotation marks
             .replaceAll(/(?<=[«‹]) /g, '\u00A0')
