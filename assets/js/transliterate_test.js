@@ -28,14 +28,14 @@ if (window.location.pathname === '/') {
 
     // Characters
     assertTransliterates('h', '𛰀');
-    assertTransliterates('ẋ', '𛰁');
-    assertTransliterates('x̌', '𛰁');
-    assertTransliterates('x̣', '𛰁');
-    assertTransliterates('x̥', '𛰁');
-    assertTransliterates('x̱', '𛰁');
-    assertTransliterates('ի', '𛰁');
-    assertTransliterates('χ', '𛰁');
-    assertTransliterates('ꭓ', '𛰁');
+    assertTransliterates('ẋ', '𛰀');
+    assertTransliterates('x̌', '𛰀');
+    assertTransliterates('x̣', '𛰀');
+    assertTransliterates('x̥', '𛰀');
+    assertTransliterates('x̱', '𛰀');
+    assertTransliterates('ի', '𛰀');
+    assertTransliterates('χ', '𛰀');
+    assertTransliterates('ꭓ', '𛰀');
     assertTransliterates('xa', '𛰁𛱁');
     assertTransliterates('p', '𛰂');
     assertTransliterates('ʙ', '𛰂');
@@ -51,7 +51,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('m', '𛰙');
     assertTransliterates('n', '𛰚');
     assertTransliterates('sh', '𛰛');
-    assertTransliterates('sի', '𛰜𛰁');
+    assertTransliterates('sի', '𛰜𛰀');
     assertTransliterates('j', '𛰛');
     assertTransliterates('š', '𛰛');
     assertTransliterates('ʃ', '𛰛');
@@ -66,11 +66,11 @@ if (window.location.pathname === '/') {
     assertTransliterates('g', '𛰊');
     assertTransliterates('r', '𛰋');
     assertTransliterates('th', '𛰑');
-    assertTransliterates('tի', '𛰃𛰁');
+    assertTransliterates('tի', '𛰃𛰀');
     assertTransliterates('thwi', '𛰃𛰀𛱞');
     assertTransliterates("k'", '𛰔');
     assertTransliterates('kh', '𛰅𛰀');
-    assertTransliterates('kի', '𛰅𛰁');
+    assertTransliterates('kի', '𛰅𛰀');
     assertTransliterates('hl', '𛰖');
     assertTransliterates('ɬ', '𛰖');
     assertTransliterates('ƚ', '𛰖');

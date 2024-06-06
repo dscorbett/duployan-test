@@ -91,7 +91,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/eu|yu\u0304/g, 'ǖ')
             .replaceAll(/o[ou]/g, 'u')
             // Alternative spellings
-            .replaceAll(/x[\u030C\u0323\u0325\u0331]|[իχꭓ]/g, 'ẋ')
+            .replaceAll(/h\^|x[\u030C\u0323\u0325\u0331]|[ɧχիẋꭓ]/g, 'h')
             .replaceAll('ʙ', 'p')
             .replaceAll('ᴅ', 't')
             .replaceAll(/[ƛʟ]/g, 'tɬ')
