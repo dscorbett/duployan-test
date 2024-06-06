@@ -65,6 +65,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // NFC
             .replaceAll('a\u0303', 'ã')
             .replaceAll('e\u0300', 'è')
+            .replaceAll('i\u0308', 'ï')
             .replaceAll('c\u030C', 'č')
             .replaceAll('i\u0303', 'ĩ')
             .replaceAll('i\u0304', 'ī')
@@ -86,7 +87,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
             .replaceAll(/(?<=[\p{L}\p{M}])hl|(?<![\p{L}\p{M}])hl(?![\p{L}\p{M}])/gu, 'ł')
-            .replaceAll('j\u0361', 'y')
+            .replaceAll(/j\u0361|ï/g, 'y')
             .replaceAll(/eu|yu\u0304/g, 'ǖ')
             .replaceAll(/o[ou]/g, 'u')
             // Alternative spellings
