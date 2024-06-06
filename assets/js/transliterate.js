@@ -114,11 +114,14 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('υ', 'u')
             .replaceAll(/[æɑα]/g, 'a')
             .replaceAll(/[ωꞷ]/g, 'o')
-            .replaceAll(/[eèɛɨɩει]|y(?!u)/g, 'i')
+            .replaceAll(/[eèɛɨɩει]/g, 'i')
+            .replaceAll(/(?<=\p{L}[A\p{M}\p{Lm}·•]*)(?<!(?<!\p{L}[A\p{M}\p{Lm}·•]*)l[A\p{M}\p{Lm}·•]*)i(?=[A\p{M}\p{Lm}·•]*y(?![A\p{M}\p{Lm}·•]*i[A\p{M}\p{Lm}·•]*(?!\p{L})))/gu, '')
+            .replaceAll(/(?<=\p{L}[\p{M}·•]*)i(?=[A\p{M}\p{Lm}·•]*ü)/gu, '')
+            .replaceAll(/y(?!u)/g, 'i')
             .replaceAll('tɬ', 'tl')
             .replaceAll(/(?<=[kḵ])w(?![aioə])/g, '')
             // More special cases
-            .replaceAll(/ɬ(?=[aiouwãõüĩīŏũǖə])/g, 'ł')
+            .replaceAll(/ɬ(?=[aiouwyãõüĩīŏũǖə])/g, 'ł')
             .replaceAll(/(?<=\p{L})ɬ/gu, 'ƚ')
             .replaceAll('ɬ', 'ł')
             .replaceAll(/(?<=\p{L})(?<!x)x/gu, 'ẋ')
@@ -134,8 +137,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('yu', 'ü')
             // Anti-digraph dot
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
-            // Elision
-            .replaceAll(/(?<=\p{L})i(?=[yü])/gu, '')
             // Schwa
             .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
             .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə/gu, 'u')
