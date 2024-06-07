@@ -91,7 +91,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/eu|yu\u0304/g, 'ǖ')
             .replaceAll(/o[ou]/g, 'u')
             // Alternative spellings
-            .replaceAll(/h\^|x[\u030C\u0323\u0325\u0331]|[ɧχիẋꭓ]/g, 'h')
+            .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧχիẋꭓ]/g, 'h')
             .replaceAll('ʙ', 'p')
             .replaceAll('ᴅ', 't')
             .replaceAll(/[ƛʟ]/g, 'tɬ')
@@ -119,7 +119,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<=\p{L}[\p{M}·•]*)i(?=[A\p{M}\p{Lm}·•]*ü)/gu, '')
             .replaceAll(/y(?!u)/g, 'i')
             .replaceAll('tɬ', 'tl')
-            .replaceAll(/(?<=[kḵ])w(?![aioə])/g, '')
+            .replaceAll(/(?<=[kḵ]|(?<!ə[A\p{M}\p{Lm}·•]*)[hxẋ])w(?![aioə])/g, '')
             // More special cases
             .replaceAll(/ɬ(?=[aiouwyãõüĩīŏũǖə])/g, 'ł')
             .replaceAll(/(?<=\p{L})ɬ/gu, 'ƚ')
@@ -138,8 +138,12 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Anti-digraph dot
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
             // Schwa
+            .replaceAll(/(?<=\p{L})əwə/gu, 'io')
+            .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'ui')
             .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
-            .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə/gu, 'u')
+            .replaceAll(/(?<=\p{L})wə(?!(?![aiouãõĩīŏũə])\p{L}(?![aiouwãõüĩīŏũǖə]))/gu, 'u')
+            .replaceAll('wə', 'wi')
+            .replaceAll(/ə[hxẋ]w(?![aiouwãõüĩīŏũǖə])/g, 'o')
             .replaceAll('ə', 'a')
             // “w”
             .replaceAll(/(?<!a)wh/g, 'hw')
