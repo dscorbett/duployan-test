@@ -52,7 +52,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('››', '»')
             // Homoglyphs, confusables, glyph variants, etc.
             .replaceAll('η', 'ŋ')
-            .replaceAll(/[łƚ]/g, 'ɬ')
+            .replaceAll(/[łƚɿꞁ]/g, 'ɬ')
             .replaceAll('r̾', 'ř')
             .replaceAll(/[ǝә]/g, 'ə')
             .replaceAll('ʷ', 'w')
@@ -91,7 +91,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/eu|yu\u0304/g, 'ǖ')
             .replaceAll(/o[ou]/g, 'u')
             // Alternative spellings
-            .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧχիẋꭓ]/g, 'h')
+            .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
             .replaceAll('ʙ', 'p')
             .replaceAll('ᴅ', 't')
             .replaceAll(/[ƛʟ]/g, 'tɬ')
