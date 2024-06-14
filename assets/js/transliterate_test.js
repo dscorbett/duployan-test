@@ -108,9 +108,11 @@ if (window.location.pathname === '/') {
     assertTransliterates('ꞷu', '𛱄‌𛱛');
     assertTransliterates('aw', '𛱚');
     assertTransliterates('ow', '𛱚');
+    assertTransliterates('aw.a', '𛱚‌𛱁');
     assertTransliterates('awi', '𛱁‌𛱞');
     assertTransliterates('awia', '𛱚‌𛱊𛱁');
     assertTransliterates('wa', '𛱜');
+    assertTransliterates('awa', '𛱁‌𛱜');
     assertTransliterates('i', '𛱆');
     assertTransliterates('e', '𛱆');
     assertTransliterates('y', '𛱆');
@@ -145,6 +147,8 @@ if (window.location.pathname === '/') {
     assertTransliterates('wo', '𛱝');
     assertTransliterates('wi', '𛱞');
     assertTransliterates('wii', '𛱟');
+    assertTransliterates('wi.i', '𛱞‌𛱆');
+    assertTransliterates('awii', '𛱁‌𛱟');
     assertTransliterates('wei', '𛱟');
     assertTransliterates('waw', '𛱠');
     assertTransliterates('wow', '𛱠');
