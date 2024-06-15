@@ -20,7 +20,7 @@ export default transliterate;
 function transliterate(inputValue, autosyllabify = true, textBefore = '') {
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
     return inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
-        if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|x+)>$)/iu)) {
+        if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|0\+|x+)>$)/iu)) {
             disabled = false;
             return substring;
         }
@@ -30,6 +30,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .normalize('NFD')
             .replaceAll('A\u030A', '\u{1BC9C}')
             .replace(/^<([ $,.\d\u034F]+)>$/u, '$1')
+            .replace(/^<0\+>$/, '\u{1BC9C}')
             .replace(/^<x+>$/i, m => '\u2E3C'.repeat(m.length - 2))
             .replaceAll(/£(?=£*\p{L})|(?<=\p{L}£*)£(?!£*\d)/gu, 'Ɬ')
             .replaceAll(/(?<=\p{L}\p{M}*)(?!Ø)\p{Upper}/gu, '\u{1BCA1}$&')
