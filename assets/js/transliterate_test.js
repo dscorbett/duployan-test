@@ -367,6 +367,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('hloima', '𛰀𛰆𛱄𛱆‌𛰙𛱁');
     assertTransliterates('hahlip', '𛰀𛱁𛰀‌𛰆𛱇𛰂');
     assertTransliterates('pasaiuks', '𛰂𛱁‌𛰜𛱁𛱆‌𛱛͏͏͏𛰅𛰜');
+    assertTransliterates('tʼəmanəwas', '𛰃𛱂‌𛰙𛱁‌𛰚𛱜͏͏͏𛰜');
     assertTransliterates('taird', '𛰃𛱁𛱆𛰋𛰈');
     assertTransliterates('til', '𛰃𛱇𛰆');
     assertTransliterates('fairman', '𛰄𛱁𛱆𛰋‌𛰙𛱁𛰚');
@@ -377,9 +378,11 @@ if (window.location.pathname === '/') {
     assertTransliterates('nawitka', '𛰚𛱁‌𛱞‌𛰃𛰅𛱁');
     assertTransliterates('naif', '𛰚𛱁𛱇𛰄');
     assertTransliterates('nain', '𛰚𛱁𛱇𛰚');
+    assertTransliterates('miməlust', '𛰙𛱇𛰙‌𛰆𛱛𛰜𛰃')
     assertTransliterates('mithwit', '𛰙𛱇𛰃‌𛰀𛱞͏͏͏𛰃');
     assertTransliterates('mitlait', '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃');
     assertTransliterates('gitop', '𛰊𛱆𛰃‌𛱄͏͏͏𛰂');
+    assertTransliterates('chikʰəmin', '𛰣𛱇𛰅‌𛰙𛱇𛰚')
     assertTransliterates('ala', '𛱁‌𛰆𛱂');
     assertTransliterates('è', '𛱊');
     assertTransliterates('itluil', '𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰆');
