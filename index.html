@@ -21,18 +21,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
         <title>{{ site.title }}</title>
-        <script>
-            const root = document.documentElement;
-
-            function enableControl(id, property, valueCallback) {
-                const control = document.getElementById(id);
-                function updateControl() {
-                    root.style.setProperty(property, valueCallback(control));
-                }
-                control.addEventListener('change', updateControl);
-                window.addEventListener('load', updateControl);
-            }
-        </script>
+        <script type="module" src="{{ 'assets/js/state.js' | relative_url }}"></script>
         <link rel="stylesheet" href="{{ 'assets/css/style.css' | relative_url }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
@@ -58,15 +47,9 @@ limitations under the License.
             Auto-syllabify:
             <input type="checkbox" id="autosyllabification" checked>
         </label>
-        <script>
-            enableControl('bold', '--weight', control => control.checked ? 'bold' : 'normal');
-            enableControl('decoration', '--decoration', control => control.value);
-        </script>
         <div id="output" class="Dupl" autofocus contenteditable
             autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-        >
-
-</div>
+        ></div>
         <div id="mock-output" class="Dupl"></div>
         <div>
             <b>Keycap colors:</b>
@@ -174,6 +157,7 @@ limitations under the License.
             <li class="normal"><span class="keycap Dupl">◌̯</span><span class="info">On <span class="to-transliterate">i</span>: <span lang="und-fonipa">/ɛ/</span></span>
             <li class="normal"><span class="keycap Dupl">◌̌</span><span class="info">On <span lang="oka" class="to-transliterate">u</span>: Shuswap <i lang="shs">ŭh</i>, or “a very dull sound” in Okanagan</span>
         </ul>
+        <script type="module" src="{{ 'assets/js/controls.js' | relative_url }}"></script>
         <script type="module" src="{{ 'assets/js/keyboard.js' | relative_url }}"></script>
         <script type="module" src="{{ 'assets/js/transliterate_test.js' | relative_url }}"></script>
     </body>

@@ -16,6 +16,7 @@ limitations under the License.
 */
 
 import transliterate0 from "./transliterate.js";
+import serializeParameters from "./state.js";
 
 const autotransliteration = document.querySelector('#autotransliteration');
 const autosyllabification = document.querySelector('#autosyllabification');
@@ -25,9 +26,6 @@ const scrollText = document.querySelector('#mock-output');
 const inputText = document.createElement('textarea');
 
 window.addEventListener('load', () => {
-    scrollText.style.height =  outputText.style.height = window.getComputedStyle(outputText).height;
-    scrollText.textContent = outputText.textContent = '';
-
     console.groupCollapsed('Validate keycap hints');
     document.querySelectorAll('#keyboard .hint').forEach(hint => {
         const prefix = hint.dataset.prefix ?? '';
@@ -103,8 +101,11 @@ let previousScrollHeight;
 outputText.addEventListener('scroll', e => previousScrollHeight = undefined);
 
 window.addEventListener('load', () => {
-    scrollText.style.height = window.getComputedStyle(outputText).height;
-    scrollText.textContent = '';
+    const originalTextContent = outputText.textContent;
+    scrollText.textContent = outputText.textContent = '\n\n';
+    scrollText.style.height =  outputText.style.height = window.getComputedStyle(outputText).height;
+    scrollText.textContent = outputText.textContent = originalTextContent;
+    setSelectionRange(outputText, originalTextContent.length, originalTextContent.length);
 });
 
 window.setInterval(
@@ -161,6 +162,7 @@ function type(element, text) {
 document.querySelectorAll('#keyboard > *').forEach(key => key.addEventListener('click', e => {
     e.preventDefault();
     type(outputText, extract(key.firstChild));
+    serializeParameters();
     resetInput();
     outputText.focus();
 }));
@@ -216,6 +218,8 @@ function resetInput() {
 
 autotransliteration.addEventListener('change', resetInput);
 autosyllabification.addEventListener('change', resetInput);
+autotransliteration.addEventListener('change', serializeParameters);
+autosyllabification.addEventListener('change', serializeParameters);
 
 function copyOrCut(e) {
     e.preventDefault();
@@ -251,6 +255,7 @@ document.getElementById('output').addEventListener('input', e => {
         outputText.textContent = outputText.textContent.replace(DOUBLE_CGJ, '');
         setSelectionRange(outputText, newPosition, newPosition);
     }
+    serializeParameters();
 });
 
 const DUPLOYAN_PATTERN = /[\u{1BC00}-\u{1BCA3}]/u;
@@ -306,6 +311,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
         }
         type(inputText, text);
         outputText.textContent = textBefore + transliterate(inputText.value, autotransliteration.checked, autosyllabification.checked, textBefore) + textAfter;
+        serializeParameters();
         let newPosition = outputText.textContent.length - textAfter.length;
         setSelectionRange(outputText, newPosition, newPosition);
         newPosition = inputText.value.length;
