@@ -66,8 +66,11 @@ function extract(node) {
         return [...node.childNodes].reduce(
             (text, child) => {
                 if (child.nodeType === Node.TEXT_NODE) {
-                    const trimmedContent = child.textContent.trim();
-                    text += trimmedContent || child.textContent;
+                    let newText = child.textContent.trim() || child.textContent;
+                    if (newText !== '◌' && newText.startsWith('◌')) {
+                        newText = newText.substring(1);
+                    }
+                    text += newText;
                 }
                 return text;
             },
