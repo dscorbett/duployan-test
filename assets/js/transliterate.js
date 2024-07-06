@@ -359,8 +359,8 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱆‌𛰃𛰆𛱛𛱆𛰗/g, '$1𛱆‌𛰃𛰆𛱛͏͏͏‌𛱇𛰗')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱆𛲡𛰃𛲡𛰜$/g, '$1𛱇𛰃𛲡𛰜')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛱇𛰀𛰃/g, '$1𛱆𛰀𛰃')
-                    // Reversible circle vowels
-                    .replaceAll(RegExp(`${reversibleCircleVowel}R`, 'gu'), '$&\u034F\u034F\u034F')
+                    // Reversible vowels
+                    .replaceAll(RegExp(`(${reversibleCircleVowel}|\u{1BC53})R`, 'gu'), '$&\u034F\u034F\u034F')
                     .replaceAll('R', '')
                 );
                 return word;
