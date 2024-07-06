@@ -19,8 +19,8 @@ export default transliterate;
 
 function transliterate(inputValue, autosyllabify = true, textBefore = '') {
     let disabled = textBefore.lastIndexOf('>') < textBefore.lastIndexOf('<');
-    return inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<[^>]*>?|[^<]+', 'g')).map(substring => {
-        if (disabled || substring.match(/^<(?!([ $,.\d\u034F]+|0\+|x+)>$)/iu)) {
+    return inputValue.match(RegExp((disabled ? '^[^>]+|' : '') + '<<|<[^>]*>?|[^<]+', 'g')).map(substring => {
+        if (disabled || substring.match(/^<(?!<|(([ $,.\d\u034F]+|0\+|x+)>)$)/iu)) {
             disabled = false;
             return substring;
         }
@@ -49,8 +49,8 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<![\p{L}\p{N}\p{P}\p{S}]\p{M}*)['‘]+/gu, m => '‹'.repeat(m.length))
             .replaceAll(/(?<!‹[^›']*)(?<=\p{L}[\p{M}·•]*)(?<!')['’]/gu, 'A')
             .replaceAll(/['’](?![\p{L}\p{N}])/gu, '›')
-            .replaceAll('‹‹', '«')
-            .replaceAll('››', '»')
+            .replaceAll(/<<|‹‹/g, '«')
+            .replaceAll(/>>|››/g, '»')
             // Homoglyphs, confusables, glyph variants, etc.
             .replaceAll('η', 'ŋ')
             .replaceAll(/[łƚɿꞁ]/g, 'ɬ')
