@@ -223,6 +223,7 @@ function copyOrCut(e) {
     e.clipboardData.setData('text/plain', unprotectWhiteSpace(selection.toString()));
     if (e.type === 'cut') {
         selection.deleteFromDocument();
+        serializeParameters();
     }
 }
 
