@@ -1,5 +1,5 @@
 /*
-Copyright 2024 David Corbett
+Copyright 2023-2024 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ function deserializeParameters() {
     const boldParam = url.searchParams.get('b');
     const decorationParam = url.searchParams.get('d');
     if (textContentParam !== null) {
-        output.textContent = textContentParam;
+        output.textContent = protectWhiteSpace(textContentParam);
     }
     if (noAutotransliterationParam !== null) {
         autotransliteration.checked = !noAutotransliterationParam;
@@ -55,7 +55,7 @@ function serializeParameters() {
     const url = new URL(window.location);
     url.search = '';
     if (output.textContent) {
-        url.searchParams.set('t', output.textContent);
+        url.searchParams.set('t', unprotectWhiteSpace(output.textContent));
     }
     if (!autotransliteration.checked) {
         url.searchParams.set('T', '1');
@@ -70,4 +70,12 @@ function serializeParameters() {
         url.searchParams.set('d', decoration.selectedIndex);
     }
     window.history.replaceState(null, '', url);
+}
+
+export function protectWhiteSpace(text) {
+    return text.replaceAll(/[\t\n\r ]\u034F*/g, '$&\u034F\u034F\u034F');
+}
+
+export function unprotectWhiteSpace(text) {
+    return text.replaceAll(/(^|[\t\n\r ])\u034F+/g, '$1');
 }

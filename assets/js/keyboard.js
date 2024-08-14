@@ -16,7 +16,7 @@ limitations under the License.
 */
 
 import transliterate0 from "./transliterate.js";
-import serializeParameters from "./state.js";
+import serializeParameters, { protectWhiteSpace, unprotectWhiteSpace } from "./state.js";
 
 const autotransliteration = document.querySelector('#autotransliteration');
 const autosyllabification = document.querySelector('#autosyllabification');
@@ -54,10 +54,6 @@ window.addEventListener('load', () => {
         info.parentNode.insertBefore(infoIcon, info.nextSibling);
     });
 });
-
-function protectWhiteSpace(text) {
-    return text.replaceAll(/[\t\n\r ]/g, '$&\u034F\u034F\u034F');
-}
 
 function extract(node) {
     function extract(node) {
@@ -224,7 +220,7 @@ autosyllabification.addEventListener('change', serializeParameters);
 function copyOrCut(e) {
     e.preventDefault();
     const selection = window.getSelection();
-    e.clipboardData.setData('text/plain', selection.toString().replaceAll(/(^|[\t\n\r ])\u034F\u034F\u034F/g, '$1'));
+    e.clipboardData.setData('text/plain', unprotectWhiteSpace(selection.toString()));
     if (e.type === 'cut') {
         selection.deleteFromDocument();
     }
