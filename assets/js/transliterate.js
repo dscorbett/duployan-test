@@ -102,6 +102,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[ġᴋ]/g, 'q')
             .replaceAll(/[jʃᴊ]/g, 'š')
             .replaceAll('ᴢ', 's')
+            .replaceAll('ð', 'θ')
             .replaceAll(/[ĸк]/g, 'ḵ')
             .replaceAll(/[ʌᴇ]/g, 'ə')
             .replaceAll('i\u0330', 'ī')
