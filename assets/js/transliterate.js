@@ -35,6 +35,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replace(/^<x+>$/i, m => '\u2E3C'.repeat(m.length - 2))
             .replaceAll(/£(?=£*\p{L})|(?<=\p{L}£*)£(?!£*\d)/gu, 'Ɬ')
             .replaceAll('X', 'χ')
+            .replaceAll(RegExp(`(?<=[${wordCharacter}])E`, 'gu'), 'ᴇ')
             .replaceAll(/(?<=\p{L}\p{M}*)(?!Ø)\p{Upper}/gu, '\u{1BCA1}$&')
             .toLowerCase()
             .replaceAll('\\1', 'P')
@@ -88,11 +89,12 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[sz]h/g, 'š')
             .replaceAll('lh', 'ƚ')
             .replaceAll(/c[Aʼ]?h|j\u030C/g, 'č')
+            .replaceAll('tc', 'č')
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
             .replaceAll(/(?<=[\p{L}\p{M}])hl|(?<![\p{L}\p{M}])hl(?![\p{L}\p{M}])/gu, 'ł')
             .replaceAll(/j\u0361|ï/g, 'y')
-            .replaceAll(/eu|yu\u0304/g, 'ǖ')
+            .replaceAll(/eu|yu\u0304(?!\p{M})/gu, 'ǖ')
             .replaceAll(/o[ou]/g, 'u')
             // Alternative spellings
             .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
@@ -136,6 +138,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/([aiouãõĩīŏũə])[Aʼ](?=\1)/gu, '$1ʔ')
             // Single characters for sequences that involve modifiers
             .replaceAll(/k[Aʼ]/g, 'ḵ')
+            .replaceAll(/g[Aʼ]/g, 'h')
             // Unused modifiers
             .replaceAll(/[A\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBʰʹʼˈˌ·ˑᵅᶷ•⁽⁾𐞂]/g, '')
             // Glottal stop
