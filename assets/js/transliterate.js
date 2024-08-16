@@ -25,6 +25,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             return substring;
         }
         disabled = false;
+        const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
         substring = (substring
             // Initial normalization
             .normalize('NFD')
@@ -144,7 +145,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
-            .replaceAll(/aw(?![ao]|i(?![ao]))/g, 'á')
+            .replaceAll(RegExp(`aw(?![ao]|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)i(?![ao]))`, 'gu'), 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
             // Anti-digraph dot
@@ -238,7 +239,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replace(/^ø+$/, '')
             .replaceAll(/ø+/g, ' ')
         );
-        const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
         return (substring
             .match(RegExp(`(?!\u034F)[${wordCharacter}]+|\u034F+|[^${wordCharacter}]*`, 'gu'))
             .map(word => {
