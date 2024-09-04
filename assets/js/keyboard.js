@@ -260,8 +260,8 @@ const DUPLOYAN_PATTERN = /[\u{1BC00}-\u{1BCA3}]/u;
 function getTextData(e) {
     let data;
     if (e.inputType === 'insertText'
-        || e.inputType === 'insertCompositionText'
         || e.inputType === 'insertReplacementText'
+        || e.type === 'compositionend'
     ) {
         data = e.data;
     } else if (e.inputType === 'insertParagraph') {
@@ -272,6 +272,8 @@ function getTextData(e) {
         || e.inputType === 'insertFromYank'
     ) {
         data = e.dataTransfer.getData('text/plain');
+    } else if (e.inputType === 'insertCompositionText') {
+        data = '';
     } else {
         return null;
     }
@@ -293,15 +295,37 @@ function debugTransliteration(label) {
     console.groupEnd();
 }
 
-document.getElementById('output').addEventListener('beforeinput', e => {
+let preCompositionTextBefore;
+let preCompositionTextAfter;
+let preCompositionPreviousOutputSelectionStart;
+let preCompositionPreviousOutputSelectionEnd;
+let preCompositionInputText;
+
+document.getElementById('output').addEventListener('compositionstart', e => {
+    preCompositionTextBefore = textBefore;
+    preCompositionTextAfter = textAfter;
+    preCompositionPreviousOutputSelectionStart = previousOutputSelectionStart;
+    preCompositionPreviousOutputSelectionEnd = previousOutputSelectionEnd;
+    preCompositionInputText = inputText.value;
+});
+
+document.getElementById('output').addEventListener('compositionend', e => {
+    textBefore = preCompositionTextBefore;
+    textAfter = preCompositionTextAfter;
+    previousOutputSelectionStart = preCompositionPreviousOutputSelectionStart;
+    previousOutputSelectionEnd = preCompositionPreviousOutputSelectionEnd;
+    inputText.value = preCompositionInputText;
+});
+
+function acceptInput(e) {
     console.group('beforeinput');
     console.log(e);
     debugTransliteration('start');
     const text = getTextData(e);
     if (text !== null) {
         e.preventDefault();
-        if (getOutputSelectionStart() !== previousOutputSelectionStart
-            || getOutputSelectionEnd() !== previousOutputSelectionEnd
+        if ((getOutputSelectionStart() !== previousOutputSelectionStart || getOutputSelectionEnd() !== previousOutputSelectionEnd)
+            && e.type !== 'compositionend'
         ) {
             resetInput();
             debugTransliteration('after resetInput');
@@ -323,4 +347,7 @@ document.getElementById('output').addEventListener('beforeinput', e => {
     }
     debugTransliteration('end');
     console.groupEnd();
-});
+}
+
+document.getElementById('output').addEventListener('beforeinput', acceptInput);
+document.getElementById('output').addEventListener('compositionend', acceptInput);
