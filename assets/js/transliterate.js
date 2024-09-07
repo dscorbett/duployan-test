@@ -110,7 +110,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[ʌᴇ]/g, 'ə')
             .replaceAll('i\u0330', 'ī')
             .replaceAll('u\u0306', 'ŏ')
-            .replaceAll('ow', 'aw')
+            .replaceAll(/ow(?![aio])/g, 'aw')
             .replaceAll('e\u0303', 'ã')
             .replaceAll('ə̃', 'ũ')
             // Affirmative interjection “è”
