@@ -123,6 +123,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[æɑαε]/g, 'a')
             .replaceAll(/[ωꞷ]/g, 'o')
             .replaceAll(/[eèɛɨɩɪι]/g, 'i')
+            .replaceAll(/(?<=a[A\p{M}\p{Lm}·•]*)i(?=[A\p{M}\p{Lm}·•]*y)/gu, '')
             .replaceAll(/(?<=\p{L}[A\p{M}\p{Lm}·•]*)(?<!(?<!\p{L}[A\p{M}\p{Lm}·•]*)l[A\p{M}\p{Lm}·•]*)i(?=[A\p{M}\p{Lm}·•]*y(?![A\p{M}\p{Lm}·•]*i[A\p{M}\p{Lm}·•]*(?!\p{L})))/gu, '')
             .replaceAll(/(?<=\p{L}[\p{M}·•]*)i(?=[A\p{M}\p{Lm}·•]*ü)/gu, '')
             .replaceAll(/y(?!u)/g, 'i')
