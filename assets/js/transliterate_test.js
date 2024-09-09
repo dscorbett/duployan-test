@@ -321,15 +321,24 @@ if (window.location.pathname === '/') {
     assertTransliterates('os', '𛱄𛰜');
     assertTransliterates('on', '𛱄𛰚');
     assertTransliterates('om', '𛱄𛰙');
-    assertTransliterates('wap', '𛱜͏͏͏𛰂');
-    assertTransliterates('wat', '𛱜͏͏͏𛰃');
-    assertTransliterates('waf', '𛱜͏͏͏𛰄');
-    assertTransliterates('wak', '𛱜͏͏͏𛰅');
-    assertTransliterates('wal', '𛱜͏͏͏𛰆');
-    assertTransliterates('wash', '𛱜͏͏͏𛰛');
-    assertTransliterates('was', '𛱜͏͏͏𛰜');
+    assertTransliterates('wap', '𛱜𛰂');
+    assertTransliterates('wat', '𛱜𛰃');
+    assertTransliterates('waf', '𛱜𛰄');
+    assertTransliterates('wak', '𛱜𛰅');
+    assertTransliterates('wal', '𛱜𛰆');
+    assertTransliterates('wash', '𛱜𛰛');
+    assertTransliterates('was', '𛱜𛰜');
     assertTransliterates('wan', '𛱜𛰚');
-    assertTransliterates('wam', '𛱜͏͏͏𛰙');
+    assertTransliterates('wam', '𛱜𛰙');
+    assertTransliterates('wip', '𛱞𛰂');
+    assertTransliterates('wit', '𛱞𛰃');
+    assertTransliterates('wif', '𛱞𛰄');
+    assertTransliterates('wik', '𛱞𛰅');
+    assertTransliterates('wil', '𛱞͏͏͏𛰆');
+    assertTransliterates('wish', '𛱞͏͏͏𛰛');
+    assertTransliterates('wis', '𛱞𛰜');
+    assertTransliterates('win', '𛱞𛰚');
+    assertTransliterates('wim', '𛱞𛰙');
     assertTransliterates('ip', '𛱆𛰂');
     assertTransliterates('it', '𛱇𛰃');
     assertTransliterates('if', '𛱆𛰄');
@@ -385,7 +394,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('naif', '𛰚𛱁𛱇𛰄');
     assertTransliterates('nain', '𛰚𛱁𛱇𛰚');
     assertTransliterates('miməlust', '𛰙𛱇𛰙‌𛰆𛱛𛰜𛰃')
-    assertTransliterates('mithwit', '𛰙𛱇𛰃‌𛰀𛱞͏͏͏𛰃');
+    assertTransliterates('mithwit', '𛰙𛱇𛰃‌𛰀𛱞𛰃');
     assertTransliterates('mitlait', '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃');
     assertTransliterates('gitop', '𛰊𛱆𛰃‌𛱄͏͏͏𛰂');
     assertTransliterates('chikʰəmin', '𛰣𛱇𛰅‌𛰙𛱇𛰚')
