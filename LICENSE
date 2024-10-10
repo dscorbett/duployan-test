@@ -4,7 +4,7 @@ Copyright: Copyright 2021 Google LLC
 License: Apache-2.0
 
 Files: *.otf
-Copyright: Copyright (c) 2018-2019, 2022-2023, David Corbett (corbett.dav@northeastern.edu).
+Copyright: Copyright (c) 2018-2019, 2022-2024, David Corbett (corbett.dav@northeastern.edu).
   Copyright (c) 2019-2022, Google LLC.
 License: OFL-1.1
 
@@ -214,7 +214,7 @@ License: Apache-2.0
 License: OFL-1.1
   This Font Software is licensed under the SIL Open Font License, Version 1.1.
   This license is copied below, and is also available with a FAQ at:
-  http://scripts.sil.org/OFL
+  https://openfontlicense.org
 
 
   -----------------------------------------------------------
