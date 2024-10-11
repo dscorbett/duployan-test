@@ -149,7 +149,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
-            .replaceAll(RegExp(`aw(?![ao]|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)i(?![ao]))`, 'gu'), 'á')
+            .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)i(?![ao])` : ''})`, 'gu'), 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
             // Anti-digraph dot
