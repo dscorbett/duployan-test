@@ -95,7 +95,9 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<=[\p{L}\p{M}])hl|(?<![\p{L}\p{M}])hl(?![\p{L}\p{M}])/gu, 'ł')
             .replaceAll(/j\u0361|ï/g, 'y')
             .replaceAll(/eu|yu\u0304(?!\p{M})/gu, 'ǖ')
-            .replaceAll(/o[ou]/g, 'u')
+            .replaceAll(/(?<=a)ou/g, 'w')
+            .replaceAll(/ou(?=[aæɑαεoωꞷieèɛɨɩɪιəʌᴇ])(?!i\u0330|[eəʌᴇ]\u0303)/g, 'w')
+            .replaceAll(/oo(?!u)|ou/g, 'u')
             // Alternative spellings
             .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
             .replaceAll('ʙ', 'p')
