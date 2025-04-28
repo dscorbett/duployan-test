@@ -1,6 +1,6 @@
 /*
 Copyright 2021 Google LLC
-Copyright 2023-2024 David Corbett
+Copyright 2023-2025 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[ǝɘә∂]/g, 'ə')
             .replaceAll('ʷ', 'w')
             .replaceAll(/(?<=[aeiouə])~/g, '\u0303')
-            .replaceAll(/(?<=[\p{L}\p{M}])7(?!º|\p{N})|(?<!\p{N})7(?!º)(?=\p{L})|ɂ/gu, 'ʔ')
+            .replaceAll(/(?<=\p{L}\p{M}*)7(?!º|\p{N})|(?<!\p{N})7(?!º)(?=\p{L})|ɂ/gu, 'ʔ')
             .replaceAll(/[\u0060ʻʽˀ\u0313‘]|’(?!\p{N})/gu, 'ʼ')
             .replaceAll('≪', '«')
             .replaceAll('≫', '»')
@@ -93,7 +93,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('tc', 'č')
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
-            .replaceAll(/(?<=[\p{L}\p{M}])hl|(?<![\p{L}\p{M}])hl(?![\p{L}\p{M}])/gu, 'ł')
+            .replaceAll(/(?<=\p{L}\p{M}*)hl|(?<!\p{L}\p{M}*)hl(?![\p{L}\p{M}])/gu, 'ł')
             .replaceAll(/j\u0361|ï/g, 'y')
             .replaceAll(/eu|yu\u0304(?!\p{M})/gu, 'ǖ')
             .replaceAll(/(?<=a)ou/g, 'w')
