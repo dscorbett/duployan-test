@@ -383,11 +383,14 @@ if (window.location.pathname === '/') {
     assertTransliterates('pasaiuks', '𛰂𛱁‌𛰜𛱁𛱆‌𛱛͏͏͏𛰅𛰜');
     assertTransliterates('tʼəmanəwas', '𛰃𛱂‌𛰙𛱁‌𛰚𛱜𛰜');
     assertTransliterates('taird', '𛰃𛱁𛱆𛰋𛰈');
+    assertTransliterates('tikwilla', '𛰃𛱇‌𛰅𛱞𛰆‌𛰆𛱂');
     assertTransliterates('til', '𛰃𛱇𛰆');
     assertTransliterates(';flawirs', '𛰄𛰆𛱚𛱆𛰋𛰜');
     assertTransliterates('fairman', '𛰄𛱁𛱆𛰋‌𛰙𛱁𛰚');
     assertTransliterates('kluchmin', '𛰅𛰆𛱛͏͏͏𛰣‌𛰙𛱇𛰚');
     assertTransliterates('kwash', '𛰅𛱜͏͏͏𛰛');
+    assertTransliterates('kwankwan', '𛰅𛱜͏͏͏𛰚‌𛰅𛱜͏͏͏𛰚');
+    assertTransliterates('kwit.shati\1', '𛰅𛱞𛰃‌𛰛𛱁‌𛰃𛱆');
     assertTransliterates('liplit', '𛰆𛱇𛰂𛰆𛱇𛰃');
     assertTransliterates('lipap', '𛰆𛱇𛰂𛱂𛰂');
     assertTransliterates(';shanwari', '𛰛𛱁𛰚𛱜͏͏͏𛰋𛱇');
