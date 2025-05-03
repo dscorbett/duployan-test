@@ -266,7 +266,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                 const curveConsonant = `(?:${mConsonant}|${nConsonant}|${jConsonant}|${sConsonant})`;
                 const normalCircleVowel = '[\u{1BC41}\u{1BC44}\u{1BC5A}\u{1BC5B}]';
                 const reversibleCircleVowel = `(?:${normalCircleVowel}|[\u{1BC5C}-\u{1BC60}])`;
-                const circleVowel = `(?:(?:\u{1BC42}|${normalCircleVowel}[PR]?)\\p{M}*)`;
+                const circleVowel = `(?:(?:\u{1BC42}|${normalCircleVowel}[PR]?(?![PR]))\\p{M}*)`;
                 const iVowel = '(?:[\u{1BC46}\u{1BC47}][PR]?\\p{M}*)';
                 const uVowel = '(?:[\u{1BC51}-\u{1BC53}\u{1BC61}-\u{1BC64}][PR]?\\p{M}*)';
                 const curveVowel = `(?:(?:${iVowel}|${uVowel}|\u{1BC4B}[PR]?)\\p{M}*)`;
@@ -310,6 +310,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                     .replaceAll(RegExp(`(?<=${vowel}[PR]?\\p{M}*)\u{1BC64}(?=[\u0300\u0301\u0316\u0317])`, 'gu'), '\u{1BC62}')
                     .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})\u{1BC41}(?=\u{1BC46}(${hConsonant}|\\P{L}|$))`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=^|\\P{L}|${hConsonant})${reversibleCircleVowel}(?=\u{1BC46}(?!${hConsonant}|\\P{L}|$))`, 'gu'), '$&R')
+                    .replaceAll(RegExp(`(?<=(^|\\P{L}|${hConsonant})${iVowel})${circleVowel}(?=${tConsonant}|${lConsonant})`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=(^|\\P{L}|${hConsonant})${normalCircleVowel})\u{1BC46}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${pConsonant})${reversibleCircleVowel}(?=\u{1BC46}|[\u{1BC51}\u{1BC53}](?!\\p{M}*R))`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${tConsonant})${reversibleCircleVowel}(?=\u{1BC46}${jConsonant})`, 'gu'), '$&R')

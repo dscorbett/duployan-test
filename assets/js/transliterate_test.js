@@ -1,5 +1,5 @@
 /*
-Copyright 2024 David Corbett
+Copyright 2024-2025 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -349,10 +349,10 @@ if (window.location.pathname === '/') {
     assertTransliterates('in', '𛱇𛰚');
     assertTransliterates('im', '𛱇𛰙');
     assertTransliterates('iap', '𛱊𛱁𛰂');
-    assertTransliterates('iat', '𛱆𛱁𛰃');
+    assertTransliterates('iat', '𛱆𛱂𛰃');
     assertTransliterates('iaf', '𛱊𛱁𛰄');
     assertTransliterates('iak', '𛱊𛱁𛰅');
-    assertTransliterates('ial', '𛱆𛱁𛰆');
+    assertTransliterates('ial', '𛱆𛱂𛰆');
     assertTransliterates('iash', '𛱆𛱁𛰛');
     assertTransliterates('ias', '𛱊𛱁𛰜');
     assertTransliterates('ian', '𛱆𛱁𛰚');
