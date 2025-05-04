@@ -400,6 +400,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('nawitka', '𛰚𛱁‌𛱞‌𛰃𛰅𛱁');
     assertTransliterates('naif', '𛰚𛱁𛱇𛰄');
     assertTransliterates('nain', '𛰚𛱁𛱇𛰚');
+    assertTransliterates('novimbir', '𛰚𛱄‌𛰉𛱇𛰙‌𛰇𛱆𛰋');
     assertTransliterates('miməlust', '𛰙𛱇𛰙‌𛰆𛱛𛰜𛰃')
     assertTransliterates('mithwit', '𛰙𛱇𛰃‌𛰀𛱞𛰃');
     assertTransliterates('mitlait', '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃');

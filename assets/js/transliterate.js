@@ -329,6 +329,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                     .replaceAll(RegExp(`(?<=${tConsonant})${reversibleCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${tConsonant})\u{1BC46}(?!\\p{M}*(P|${iVowel}*${jConsonant}))`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${tConsonant})[\u{1BC51}\u{1BC53}](?!\\p{M}*(P|${lConsonant}))`, 'gu'), '$&R')
+                    .replaceAll(RegExp(`(?<=${fConsonant})\u{1BC46}(?=\\p{M}*${mConsonant})`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=(?<!${lConsonant})${kConsonant})(?!\u{1BC5B})${normalCircleVowel}(?=${kConsonant})`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${lConsonant})${reversibleCircleVowel}(?=${hConsonant}|\\P{L}|$)`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${kConsonant}${lConsonant})${reversibleCircleVowel}`, 'gu'), '$&R')
