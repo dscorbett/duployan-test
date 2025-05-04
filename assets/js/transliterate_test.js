@@ -20,6 +20,9 @@ if (window.location.pathname === '/') {
     function assertEquals(input, expected, f = x => x) {
         const actual = f(input);
         console.assert(actual === expected, '%s -> %s; expected: %s', input, actual, expected);
+        if (actual !== expected) {
+            document.documentElement.classList.add('test-failure');
+        }
     }
 
     function assertTransliterates(input, expected) {
@@ -390,7 +393,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('kluchmin', '𛰅𛰆𛱛͏͏͏𛰣‌𛰙𛱇𛰚');
     assertTransliterates('kwash', '𛰅𛱜͏͏͏𛰛');
     assertTransliterates('kwankwan', '𛰅𛱜͏͏͏𛰚‌𛰅𛱜͏͏͏𛰚');
-    assertTransliterates('kwit.shati\1', '𛰅𛱞𛰃‌𛰛𛱁‌𛰃𛱆');
+    assertTransliterates('kwit.shati\\1', '𛰅𛱞𛰃‌𛰛𛱁‌𛰃𛱆');
     assertTransliterates('liplit', '𛰆𛱇𛰂𛰆𛱇𛰃');
     assertTransliterates('lipap', '𛰆𛱇𛰂𛱂𛰂');
     assertTransliterates(';shanwari', '𛰛𛱁𛰚𛱜͏͏͏𛰋𛱇');
