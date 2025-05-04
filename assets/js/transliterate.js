@@ -25,7 +25,8 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             return substring;
         }
         disabled = false;
-        const wordCharacter = '\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}';
+        const modifierPunctuation = '·•′⁽⁾';
+        const wordCharacter = `\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}${modifierPunctuation}`;
         substring = (substring
             // Initial normalization
             .normalize('NFD')
@@ -145,7 +146,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/k[Aʼ]/g, 'ḵ')
             .replaceAll(/g[Aʼ]/g, 'h')
             // Unused modifiers
-            .replaceAll(/[A\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBʰʹʼˈˌ·ˑᵅᶷ•⁽⁾𐞂]/g, '')
+            .replaceAll(RegExp(`[A\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBªʰʹʼˈˌˑᵃᵅᶷ𐞂${modifierPunctuation}]`, 'g'), '')
             // Glottal stop
             .replaceAll(/([aiouãõĩīŏũə])ʔ\1(?![aiouãõĩīŏũə])(?=\p{L})/gu, '$1')
             .replaceAll(/([aiouãõĩīŏũə])ʔ(?=\1)/g, '$1h')
