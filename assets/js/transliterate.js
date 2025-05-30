@@ -25,7 +25,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             return substring;
         }
         disabled = false;
-        const modifierPunctuation = '·•′⁽⁾';
+        const modifierPunctuation = '·•′⁽⁾∙';
         const wordCharacter = `\\p{L}\\p{M}\u200C\u{1BCA0}-\u{1BCA3}${modifierPunctuation}`;
         substring = (substring
             // Initial normalization
@@ -85,12 +85,13 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('u\u0308\u0304', 'ǖ')
             .replaceAll('u\u0308', 'ü')
             .replaceAll('x\u0307', 'ẋ')
+            .replaceAll('z\u030C', 'ž')
             // Digraphs
             .replaceAll(/qu(?=[aeiou])/g, 'kw')
             .replaceAll(/th(?!w)/g, 'θ')
             .replaceAll(/[sz]h/g, 'š')
             .replaceAll('lh', 'ƚ')
-            .replaceAll(/c[Aʼ]?h|j\u030C/g, 'č')
+            .replaceAll(/c[Aʼ]?h|d[žʒᶻ]|j\u030C/g, 'č')
             .replaceAll('tc', 'č')
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
@@ -101,13 +102,16 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/ou(?=[aæɑαεoωꞷieèɛɨɩɪιəʌᴇ])(?!i\u0330|[eəʌᴇ]\u0303)/g, 'w')
             .replaceAll(/oo(?!u)|ou/g, 'u')
             // Alternative spellings
-            .replaceAll(/h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
+            .replaceAll(/[•∙]/g, '·')
+            .replaceAll(/g[Aʼ]|h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
+            .replaceAll('φ', 'hw')
+            .replaceAll('h̾', 'ẋ')
             .replaceAll('ʙ', 'p')
             .replaceAll(/[ᴅᴛ]/g, 't')
             .replaceAll(/[ƛʟ]/g, 'tɬ')
             .replaceAll('ɢ', 'k')
             .replaceAll(/[ġᴋ]/g, 'q')
-            .replaceAll(/[jʃᴊ]|s\u0327/g, 'š')
+            .replaceAll(/[jžʃʒᴊ]|s\u0327/g, 'š')
             .replaceAll('ᴢ', 's')
             .replaceAll('ð', 'θ')
             .replaceAll(/[ĸк]/g, 'ḵ')
@@ -128,25 +132,37 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[æɑαε]/g, 'a')
             .replaceAll(/[ωꞷ]/g, 'o')
             .replaceAll(/[eèɛɨɩɪι]/g, 'i')
-            .replaceAll(/(?<=a[A\p{M}\p{Lm}·•]*)i(?=[A\p{M}\p{Lm}·•]*y)/gu, '')
-            .replaceAll(/(?<=\p{L}[A\p{M}\p{Lm}·•]*)(?<!(?<!\p{L}[A\p{M}\p{Lm}·•]*)l[A\p{M}\p{Lm}·•]*)i(?=[A\p{M}\p{Lm}·•]*y(?![A\p{M}\p{Lm}·•]*i[A\p{M}\p{Lm}·•]*(?!\p{L})))/gu, '')
-            .replaceAll(/(?<=\p{L}[\p{M}·•]*)i(?=[A\p{M}\p{Lm}·•]*ü)/gu, '')
+            .replaceAll(/(?<=a[A\p{M}\p{Lm}·]*)i[A\p{M}\p{Lm}·]*(?=y)/gu, '')
+            .replaceAll(/(?<=\p{L}[A\p{M}\p{Lm}·]*)(?<!(?<!\p{L}[A\p{M}\p{Lm}·]*)l[A\p{M}\p{Lm}·]*)i[A\p{M}\p{Lm}·]*(?=y(?![A\p{M}\p{Lm}·]*i[A\p{M}\p{Lm}·]*(?!\p{L})))/gu, '')
+            .replaceAll(/(?<=\p{L}[\p{M}·]*)i(?=[A\p{M}\p{Lm}·]*ü)/gu, '')
             .replaceAll(/y(?!u)/g, 'i')
-            .replaceAll(/(?<=u[A\p{M}\p{Lm}·•]*)w(?![A\p{M}\p{Lm}·•]*[aioə])/gu, '')
-            .replaceAll(/t[A\p{M}\p{Lm}·•]*ɬ/gu, 'tl')
-            .replaceAll(/(?<=[kḵ]|(?<!ə[A\p{M}\p{Lm}·•]*)[hxẋ])w(?![aioə])/g, '')
+            .replaceAll(/(?<=u[A\p{M}\p{Lm}·]*)w(?![A\p{M}\p{Lm}·]*[aioə])/gu, '')
+            .replaceAll(/t[A\p{M}\p{Lm}·]*ɬ/gu, 'tl')
+            .replaceAll(/(?<=[kḵ][Aʼ]?|(?<!ə[A\p{M}\p{Lm}·]*)[hx])w(?![aioə])/gu, '')
             // More special cases
             .replaceAll(/ɬ(?=[aiouwyãõüĩīŏũǖə])/g, 'ł')
             .replaceAll(/(?<=\p{L})ɬ/gu, 'ƚ')
             .replaceAll('ɬ', 'ł')
             .replaceAll(/(?<=\p{L})(?<!x)x/gu, 'ẋ')
             .replaceAll(/x(?=x*(?!x)\p{L})/gu, 'ẋ')
-            .replaceAll(/([aiouãõĩīŏũə])[Aʼ](?=\1)/gu, '$1ʔ')
-            // Single characters for sequences that involve modifiers
-            .replaceAll(/k[Aʼ]/g, 'ḵ')
-            .replaceAll(/g[Aʼ]/g, 'h')
             // Unused modifiers
-            .replaceAll(RegExp(`[A\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBªʰʹʼˈˌˑᵃᵅᶷ𐞂${modifierPunctuation}]`, 'g'), '')
+            .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
+            // Apostrophe (first pass)
+            .replaceAll(/[Aʼ]/g, '\u0313')
+            .replaceAll('k̓', 'ḵ')
+            // Schwa
+            .replaceAll(/(?<=\p{L})əwə/gu, 'io')
+            .replaceAll(/(?<=(?![hx])\p{L}\p{M}*)wə(?=[lłƚr]\p{M}*(?!\p{L}))/gu, 'ui')
+            .replaceAll(/ə(?=[lłƚr]\p{M}*(?!\p{L}))/gu, 'i')
+            .replaceAll(/(?<=\p{L})wə(?!(?![aiouáãõĩīŏũə])\p{L}(?![aiouwáãõüēĩīŏũǖə]))/gu, 'u')
+            .replaceAll(/ə[hxẋ]?w(?![aiouwáãõüĩīŏũǖə])/g, 'o')
+            .replaceAll('wə', 'wi')
+            .replaceAll(/(?<=[aiouáãõüĩīŏũǖə](?![aiouáãõüĩīŏũǖə])\p{L})ə(?=(?![aiouáãõüĩīŏũǖə])\p{L}[aiouáãõüĩīŏũǖə])/gu, 'Ə')
+            .replaceAll(/(?<!Ə.)Ə(?!.Ə)/g, '')
+            .replaceAll(/[Əə]/g, 'a')
+            // Apostrophe (second pass)
+            .replaceAll(/(?<=[aiouãõĩīŏũə])\u0313/gu, 'ʔ')
+            .replaceAll(/\u0313/g, '')
             // Glottal stop
             .replaceAll(/([aiouãõĩīŏũə])ʔ\1(?![aiouãõĩīŏũə])(?=\p{L})/gu, '$1')
             .replaceAll(/([aiouãõĩīŏũə])ʔ(?=\1)/g, '$1h')
@@ -154,31 +170,23 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
-            .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)i(?![ao])` : ''})`, 'gu'), 'á')
+            .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)\\.?i(?!\\.?[ao])` : ''})`, 'gu'), 'á')
+            .replaceAll(/(?<=[aiouãõĩīŏũə]\.?)aw/gu, 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
+            // “hw”
+            .replaceAll(/wh(?=\.?[aiouáãõüēĩīŏũǖ])/g, 'hw')
             // Anti-digraph dot
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
-            // Schwa
-            .replaceAll(/(?<=\p{L})əwə/gu, 'io')
-            .replaceAll(/(?<=(?!(?<![cklrstw]'?)h|x)\p{L}\p{M}*'?)wə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'ui')
-            .replaceAll(/ə(?=[lɬr]\p{M}*(?!\p{L}))/gu, 'i')
-            .replaceAll(/(?<=\p{L})wə(?!(?![aiouáãõĩīŏũə])\p{L}(?![aiouwáãõüēĩīŏũǖə]))/gu, 'u')
-            .replaceAll(/ə[hxẋ]?w(?![aiouwáãõüĩīŏũǖə])/g, 'o')
-            .replaceAll('wə', 'wi')
-            .replaceAll(/(?<=[aiouáãõüĩīŏũǖə](?![aiouáãõüĩīŏũǖə])\p{L})ə(?=(?![aiouáãõüĩīŏũǖə])\p{L}[aiouáãõüĩīŏũǖə])/gu, 'Ə')
-            .replaceAll(/(?<!Ə.)Ə(?!.Ə)/g, '')
-            .replaceAll(/[Əə]/g, 'a')
             // “w”
-            .replaceAll(/(?<!a)wh/g, 'hw')
             .replaceAll('wá', 'ά')
             .replaceAll('wa', 'α')
             .replaceAll('wo', 'ω')
             .replaceAll('wi', 'ι')
             .replaceAll('wē', 'η')
-            .replaceAll('iι', 'üi')
+            .replaceAll(/(?<![aouáãõüēĩīŏũǖάαω])iι/g, 'üi')
             .replaceAll('iw', 'ü')
-            .replaceAll('w', 'o')
+            .replaceAll('w', 'u')
             .replaceAll('ē', 'ii')
             // Non-breaking space inside quotation marks
             .replaceAll(/(?<=[«‹]) /g, '\u00A0')
@@ -290,6 +298,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                         .replaceAll(RegExp(`(?<=${vowel}${noSmallInitialVowel}${noLaitin}${noLip}${consonantOrH}*)(?=${onset}${vowel})${consonantOrH}+${vowel}`, 'gu'), '\u200C$&')
                         .replaceAll(RegExp(`(?<=(^|\\P{L})(?<!\u200C)\u{1BC06}\\p{M}*)(?=${consonantOrH})`, 'gu'), '\u200C')
                         .replaceAll(RegExp(`(?<=(?!([\u{1BC41}\u{1BC42}\u{1BC44}\u{1BC5B}\u{1BC5C}\u{1BC5D}][PR]?\\p{M}*|${iVowel})${iVowel}|\u{1BC44}[PR]?\\p{M}*[\u{1BC51}-\u{1BC53}]|${iVowel}[\u{1BC41}\u{1BC42}\u{1BC44}]|\u{1BC5B}[PR]?\\p{M}*[\u{1BC51}-\u{1BC53}]|[\u{1BC5E}][PR]?\\p{M}*[\u{1BC41}\u{1BC42}])${vowel})${vowel}`, 'gu'), '\u200C$&')
+                        .replaceAll(RegExp(`(?<=${consonantalI}${circleVowel})(?=${vowel})`, 'gu'), '\u200C')
                         .replaceAll(RegExp(`(?<=${vowel})(?!(?<=^${iVowel}*)${iVowel}+(?!${vowel}))(?=(${vowel}{2})+(?!${vowel}))`, 'gu'), '\u200C')
                     );
                 }
@@ -377,7 +386,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱂‌𛰃𛱇‌𛰆𛱁𛰙/g, '$1𛰃𛱂‌𛰃𛱆‌𛰆𛱁𛰙')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇$/g, '$1𛰃𛱆')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇‌𛱚‌𛱇𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
-                    .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱇𛱂‌𛱞𛰃/g, '$1𛰃𛱆‌𛱚‌𛱇𛰃')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄‌𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰃𛱛R‌𛰙𛱄𛰆𛱄R/g, '$1𛰃𛱛‌𛰙𛱄𛰆𛱄R')
                     .replaceAll(/^((?:\u034F\u034F\u034F)?)𛰆𛱇‌𛰅𛱁‌𛰆𛱇𛰜‌𛰃𛱇/g, '$1𛰆𛱇‌𛰅𛱁‌𛰆𛱇𛰜‌𛰃𛱆')
