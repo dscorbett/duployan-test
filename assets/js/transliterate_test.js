@@ -391,6 +391,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('til', '𛰃𛱇𛰆');
     assertTransliterates(';flawirs', '𛰄𛰆𛱚𛱆𛰋𛰜');
     assertTransliterates('fairman', '𛰄𛱁𛱆𛰋‌𛰙𛱁𛰚');
+    assertTransliterates('klaska', '𛰅𛰆𛱁𛰜‌𛰅𛱁');
     assertTransliterates('kluchmin', '𛰅𛰆𛱛͏͏͏𛰣‌𛰙𛱇𛰚');
     assertTransliterates('kwash', '𛰅𛱜͏͏͏𛰛');
     assertTransliterates('kwankwan', '𛰅𛱜͏͏͏𛰚‌𛰅𛱜͏͏͏𛰚');
