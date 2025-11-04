@@ -171,7 +171,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
             .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)\\.?i(?!\\.?[ao])` : ''})`, 'gu'), 'á')
-            .replaceAll(/(?<=[aiouãõĩīŏũə]\.?)aw/gu, 'á')
+            .replaceAll(/(?<=[aouãõĩīŏũə]\.?)aw/gu, 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
             // “hw”
