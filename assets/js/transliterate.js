@@ -117,7 +117,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ð', 'θ')
             .replaceAll(/[ĸк]/g, 'ḵ')
             .replaceAll(/n\u0303|ɲ/g, 'ŋ')
-            .replaceAll(/[ʌᴇ]/g, 'ə')
+            .replaceAll(/a̱|[ʌᴇ]/g, 'ə')
             .replaceAll('i\u0330', 'ī')
             .replaceAll('u\u0306', 'ŏ')
             .replaceAll(/ow(?![aio])/g, 'aw')
