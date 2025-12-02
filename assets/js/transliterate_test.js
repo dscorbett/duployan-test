@@ -403,6 +403,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('naif', '𛰚𛱁𛱇𛰄');
     assertTransliterates('nain', '𛰚𛱁𛱇𛰚');
     assertTransliterates('novimbir', '𛰚𛱄‌𛰉𛱇𛰙‌𛰇𛱆𛰋');
+    assertTransliterates('makʷst', '𛰙𛱄𛰅𛰜𛰃');
     assertTransliterates('miməlust', '𛰙𛱇𛰙‌𛰆𛱛𛰜𛰃')
     assertTransliterates('mithwit', '𛰙𛱇𛰃‌𛰀𛱞𛰃');
     assertTransliterates('mitlait', '𛰙𛱆𛰃‌𛰆𛱂𛱆𛰃');

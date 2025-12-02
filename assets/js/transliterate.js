@@ -140,6 +140,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/y(?!u)/g, 'i')
             .replaceAll(/(?<=u[A\p{M}\p{Lm}·]*)w(?![A\p{M}\p{Lm}·]*[aioə])/gu, '')
             .replaceAll(/t[A\p{M}\p{Lm}·]*ɬ/gu, 'tl')
+            .replaceAll(/a(?=[\p{M}·]*[kḵ][Aʼ]?w(?![aioə]))/gu, 'o')
             .replaceAll(/(?<=[kḵ][Aʼ]?|(?<!ə[A\p{M}\p{Lm}·]*)[hx])w(?![aioə])/gu, '')
             // Unused modifiers
             .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
