@@ -101,7 +101,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('ɑ', '𛱁');
     assertTransliterates('ε', '𛱁');
     assertTransliterates('o', '𛱄');
-    assertTransliterates('w', '𛱛');
+    assertTransliterates('w', '𛱛̌');
     assertTransliterates('ω', '𛱄');
     assertTransliterates('ꞷ', '𛱄');
     assertTransliterates('ŏ', '𛱄̆');
@@ -158,7 +158,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('wei', '𛱟');
     assertTransliterates('waw', '𛱠');
     assertTransliterates('wow', '𛱠');
-    assertTransliterates('wo.w', '𛱝‌𛱛');
+    assertTransliterates('wo.w', '𛱝‌𛱛̌');
     assertTransliterates('wawa', '𛱜‌𛱜');
     assertTransliterates('Å', '𛲜');
     assertTransliterates('', '𛲜');
@@ -223,7 +223,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('təlk', '𛰃𛱁𛰆𛰅');
     assertTransliterates('kwə', '𛰅𛱛');
     assertTransliterates('ə', '𛱁');
-    assertTransliterates('wh', '𛱛𛰀');
+    assertTransliterates('wh', '𛱛̌𛰀');
     assertTransliterates('awh', '𛱚𛰀');
     assertTransliterates("a'i", '𛱁𛱇');
     assertTransliterates("a'a", '𛱁‌𛰀𛱁');

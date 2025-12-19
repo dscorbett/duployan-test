@@ -188,7 +188,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('wē', 'η')
             .replaceAll(/(?<![aouáãõüēĩīŏũǖάαω])iι/g, 'üi')
             .replaceAll('iw', 'ü')
-            .replaceAll('w', 'u')
+            .replaceAll('w', 'u\u030C')
             .replaceAll('ē', 'ii')
             // Non-breaking space inside quotation marks
             .replaceAll(/(?<=[«‹]) /g, '\u00A0')
