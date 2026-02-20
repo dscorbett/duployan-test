@@ -1,5 +1,5 @@
 /*
-Copyright 2024-2025 David Corbett
+Copyright 2024-2026 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('ω', '𛱄');
     assertTransliterates('ꞷ', '𛱄');
     assertTransliterates('ŏ', '𛱄̆');
-    assertTransliterates('ŭ', '𛱄̆');
+    assertTransliterates('ŭ', '𛱛̌');
     assertTransliterates('u', '𛱛');
     assertTransliterates('oo', '𛱛');
     assertTransliterates('ou', '𛱛');
@@ -247,7 +247,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('ta', '𛰃𛱂');
     assertTransliterates('tai', '𛰃𛱁𛱆');
     assertTransliterates('to', '𛰃𛱄͏͏͏');
-    assertTransliterates('tŭ', '𛰃𛱄͏͏͏̆');
+    assertTransliterates('tŭ', '𛰃𛱛͏͏͏̌');
     assertTransliterates('twa', '𛰃𛱜͏͏͏');
     assertTransliterates('tih', '𛰃𛱇𛰀');
     assertTransliterates('tia', '𛰃𛱇𛱂');

@@ -1,6 +1,6 @@
 /*
 Copyright 2021 Google LLC
-Copyright 2023-2025 David Corbett
+Copyright 2023-2026 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -98,7 +98,10 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ng', 'ŋ')
             .replaceAll('rh', 'ř')
             .replaceAll(/(?<=\p{L}\p{M}*)hl|(?<!\p{L}\p{M}*)hl(?![\p{L}\p{M}])/gu, 'ł')
+            .replaceAll('ee', 'i')
             .replaceAll(/j\u0361|ï/g, 'y')
+            .replaceAll('w\u0361', 'w')
+            .replaceAll('w\u0360aw', 'wá')
             .replaceAll(/eu|yu\u0304(?!\p{M})/gu, 'ǖ')
             .replaceAll(/(?<=a)ou/g, 'w')
             .replaceAll(/ou(?=[aæɑαεoωꞷieèɛɨɩɪιəʌᴇ])(?!i\u0330|[eəʌᴇ]\u0303)/g, 'w')
@@ -117,10 +120,12 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ᴢ', 's')
             .replaceAll('ð', 'θ')
             .replaceAll(/[ĸк]/g, 'ḵ')
+            .replaceAll('ʕ', 'ř')
             .replaceAll(/n\u0303|ɲ/g, 'ŋ')
             .replaceAll(/a̱|[ʌᴇ]/g, 'ə')
             .replaceAll('i\u0330', 'ī')
-            .replaceAll('u\u0306', 'ŏ')
+            .replaceAll(/u\u0306(?=\.?\p{L})/gu, 'ŏ')
+            .replaceAll('u\u0306', 'u\u030C')
             .replaceAll(/ow(?![aio])/g, 'aw')
             .replaceAll('e\u0303', 'ã')
             .replaceAll('ə̃', 'ũ')
@@ -143,7 +148,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/a(?=[\p{M}·]*[kḵ][Aʼ]?w(?![aioə]))/gu, 'o')
             .replaceAll(/(?<=[kḵ][Aʼ]?|(?<!ə[A\p{M}\p{Lm}·]*)[hx])w(?![aioə])/gu, '')
             // Unused modifiers
-            .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
+            .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0360\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
             // More special cases
             .replaceAll(/(?<=\p{L})ɬ(?![aiouwyãõüĩīŏũǖə])/gu, 'ƚ')
             .replaceAll('ɬ', 'ł')
@@ -172,7 +177,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Single characters for sequences
             .replaceAll(/[dt]š/g, 'č')
             .replaceAll('ts', 'c')
-            .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[${wordCharacter}]*)\\.?i(?!\\.?[ao])` : ''})`, 'gu'), 'á')
+            .replaceAll(RegExp(`aw(?![ao]${autosyllabify ? `|(?<!(;(?=\\p{L})|\u200C)[.${wordCharacter}]*)i(?!\\.?[ao])` : ''})`, 'gu'), 'á')
             .replaceAll(/(?<=[aouãõĩīŏũə]\.?)aw/gu, 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
@@ -367,9 +372,9 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
                     .replaceAll(RegExp(`(?<=${jConsonant})${wiVowel}(?=${tConsonant}|${lConsonant}|${nConsonant}|${jConsonant})`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${sConsonant})${wiVowel}(?=${pConsonant}|${tConsonant}|${fConsonant}|${nConsonant}|${sConsonant})`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${lConsonant})\u{1BC46}(?!\\p{M}*P)`, 'gu'), '$&R')
-                    .replaceAll(RegExp(`(?<=${lConsonant})[\u{1BC51}\u{1BC53}](?!\\p{M}*P)`, 'gu'), '$&R')
+                    .replaceAll(RegExp(`(?<=${lConsonant}${circleVowel}?)[\u{1BC51}\u{1BC53}](?!\\p{M}*P)`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${curveConsonant})\u{1BC46}(?!\\p{M}*P)`, 'gu'), '$&R')
-                    .replaceAll(RegExp(`(?<=${curveConsonant})[\u{1BC51}\u{1BC53}](?!\\p{M}*P)`, 'gu'), '$&R')
+                    .replaceAll(RegExp(`(?<=${curveConsonant}${circleVowel}?)[\u{1BC51}\u{1BC53}](?!\\p{M}*P)`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<!\\p{L})\u{1BC46}(?=\u200C?(${hConsonant}|${iVowel}))`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${hConsonant})\u{1BC46}(?=\\p{M}*(${hConsonant}|[^\\p{L}\\p{M}]|$))`, 'gu'), '$&R')
                     .replaceAll(RegExp(`(?<=${consonant}${vowel}*${iVowel})\u{1BC46}(?!\\p{M}*P)`, 'gu'), '$&R')
