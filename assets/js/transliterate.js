@@ -131,6 +131,8 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('ə̃', 'ũ')
             // Affirmative interjection “è”
             .replaceAll(/(?<!\p{L}|(?!(?<=[\t\n\r ]\u034F*)\u034F)\p{M}|'|;)è(?!\p{L}|\p{M}|'|;)/gu, 'i\\8')
+            // Unused modifiers
+            .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0360\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
             // Pronunciations that are not distinguished
             .replaceAll('q', 'k')
             .replaceAll('z', 's')
@@ -147,8 +149,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/t[A\p{M}\p{Lm}·]*ɬ/gu, 'tl')
             .replaceAll(/a(?=[\p{M}·]*[kḵ][Aʼ]?w(?![aioə]))/gu, 'o')
             .replaceAll(/(?<=[kḵ][Aʼ]?|(?<!ə[A\p{M}\p{Lm}·]*)[hx])w(?![aioə])/gu, '')
-            // Unused modifiers
-            .replaceAll(RegExp(`[\u0300-\u0304\u0306\u0308\u030A\u030B\u030F\u0323-\u0325\u0327\u032C\u0331\u0360\u0361\u1ABBªʰʹˈˌːˑᵃᵅᶷ𐞁𐞂${modifierPunctuation}]|(?<=(?!\u034F)[\\p{L}\\p{M}${modifierPunctuation}]):(?=\\p{L})`, 'gu'), '')
             // More special cases
             .replaceAll(/(?<=\p{L})ɬ(?![aiouwyãõüĩīŏũǖə])/gu, 'ƚ')
             .replaceAll('ɬ', 'ł')
