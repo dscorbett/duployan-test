@@ -147,7 +147,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/y(?!u)/g, 'i')
             .replaceAll(/(?<=u[A\p{M}\p{Lm}·]*)w(?![A\p{M}\p{Lm}·]*[aioə])/gu, '')
             .replaceAll(/t[A\p{M}\p{Lm}·]*ɬ/gu, 'tl')
-            .replaceAll(/a(?=[\p{M}·]*k[Aʼ]?w(?![aioə]))/gu, 'o')
+            .replaceAll(/[aə](?=[\p{M}·]*k[Aʼ]?w(?![aioə]))/gu, 'o')
             .replaceAll(/(?<=k[Aʼ]?|(?<!ə[A\p{M}\p{Lm}·]*)[hx])w(?![aioə])/gu, '')
             // More special cases
             .replaceAll(/(?<=\p{L})ɬ(?![aiouwyãõüĩīŏũǖə])/gu, 'ƚ')
