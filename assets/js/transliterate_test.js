@@ -223,7 +223,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('təlk', '𛰃𛱁𛰆𛰅');
     assertTransliterates('kwə', '𛰅𛱛');
     assertTransliterates('ə', '𛱁');
-    assertTransliterates('wh', '𛱛̌𛰀');
+    assertTransliterates('wh', '𛰀');
     assertTransliterates('awh', '𛱚𛰀');
     assertTransliterates("a'i", '𛱁𛱇');
     assertTransliterates("a'a", '𛱁‌𛰀𛱁');

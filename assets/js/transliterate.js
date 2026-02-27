@@ -110,7 +110,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             // Alternative spellings
             .replaceAll(/[•∙ꞏ]/g, '·')
             .replaceAll(/g[Aʼ]|h\^|x([\u030C\u0323\u0325\u0331]|(?=w(?![aio])))|[ɧɹχիẋꭓ]/g, 'h')
-            .replaceAll('φ', 'hw')
             .replaceAll('h̾', 'ẋ')
             .replaceAll('ʙ', 'p')
             .replaceAll(/[ᴅᴛ]/g, 't')
@@ -129,6 +128,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/ow(?![aio])/g, 'aw')
             .replaceAll('e\u0303', 'ã')
             .replaceAll('ə̃', 'ũ')
+            .replaceAll(/(?<!a)wh|φ/g, 'hw')
             // Affirmative interjection “è”
             .replaceAll(/(?<!\p{L}|(?!(?<=[\t\n\r ]\u034F*)\u034F)\p{M}|'|;)è(?!\p{L}|\p{M}|'|;)/gu, 'i\\8')
             // Unused modifiers
@@ -181,8 +181,6 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll(/(?<=[aouãõĩīŏũə]\.?)aw/gu, 'á')
             .replaceAll('yu', 'ü')
             .replaceAll('ii', 'ē')
-            // “hw”
-            .replaceAll(/wh(?=\.?[aiouáãõüēĩīŏũǖ])/g, 'hw')
             // Anti-digraph dot
             .replaceAll(/(?<=[\p{L}\p{N}])\.(?=\p{L})/gu, '')
             // “w”
