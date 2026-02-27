@@ -89,7 +89,7 @@ function transliterate(inputValue, autosyllabify = true, textBefore = '') {
             .replaceAll('z\u030C', 'ž')
             // Digraphs
             .replaceAll(/qu(?=[aeiou])/g, 'kw')
-            .replaceAll(/th(?!w)/g, 'θ')
+            .replaceAll(autosyllabify ? /(?<!.)th|th(?!\.?([aiouwyáãïõüēĩīŏũǖə\p{M}]|j\u0361))|(?<=(;(?=\p{L})|\u200C)[.${wordCharacter}]*)th/gu : 'th', 'θ')
             .replaceAll(/[sz]h/g, 'š')
             .replaceAll(/l(h|y\u0303)/g, 'ƚ')
             .replaceAll(/c[Aʼ]?h|d[žʒᶻ]|j\u030C/g, 'č')

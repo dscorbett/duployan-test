@@ -70,7 +70,11 @@ if (window.location.pathname === '/') {
     assertTransliterates('r', '𛰋');
     assertTransliterates('th', '𛰑');
     assertTransliterates('tի', '𛰃𛰀');
-    assertTransliterates('thwi', '𛰃𛰀𛱞');
+    assertTransliterates('ath', '𛱁𛰑');
+    assertTransliterates('tha', '𛰑𛱂');
+    assertTransliterates('atha', '𛱁𛰃‌𛰀𛱁');
+    assertTransliterates(';atha', '𛱁𛰑𛱂');
+    assertTransliterates('athra', '𛱁𛰑‌𛰋𛱂');
     assertTransliterates("k'", '𛰔');
     assertTransliterates('kh', '𛰅𛰀');
     assertTransliterates('kի', '𛰅𛰀');
@@ -509,6 +513,7 @@ if (window.location.pathname === '/') {
     assertTransliterates('liplit', '𛰆𛱇𛰂𛰆𛱇𛰃');
     assertTransliterates('lipap', '𛰆𛱇𛰂𛱂𛰂');
     assertTransliterates(';shanwari', '𛰛𛱁𛰚𛱜͏͏͏𛰋𛱇');
+    assertTransliterates('shithaws', '𛰛𛱇𛰃‌𛰀𛱚𛰜');
     assertTransliterates('nawitka', '𛰚𛱁‌𛱞‌𛰃𛰅𛱁');
     assertTransliterates('naif', '𛰚𛱁𛱇𛰄');
     assertTransliterates('nain', '𛰚𛱁𛱇𛰚');
