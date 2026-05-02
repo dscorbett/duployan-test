@@ -6,7 +6,7 @@
         <meta charset="utf-8">
 <!--
 Copyright 2021 Google LLC
-Copyright 2023-2025 David Corbett
+Copyright 2023-2026 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,6 +21,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
         <title>{{ site.title }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/harfbuzzjs@0.10.3/hb.js"
+            integrity="sha384-l1fv9uAazyn5vAcAagc4M26Tjc1VIerO35+dt0T9DwfT5qs+I3nLROhfG/68hxvt"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/harfbuzzjs@0.10.3/hbjs.min.js"
+            integrity="sha384-Jm/OIDiZ782jHvJP81b50+rgz622sYQPglZOT3asXiHlS8CzVxXhhO+V9Mg82NKf"
+            crossorigin="anonymous"
+        ></script>
         <script type="module" src="{{ 'assets/js/state.js' | relative_url }}"></script>
         <link rel="stylesheet" href="{{ 'assets/css/style.css' | relative_url }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,6 +62,7 @@ limitations under the License.
             autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
         ></div>
         <div id="mock-output" class="Dupl"></div>
+        <button id="save-svg">Save as SVG</button>
         <div>
             <b>Keycap colors:</b>
             <span class="normal">Normal</span>
@@ -167,6 +176,7 @@ limitations under the License.
         </ul>
         <script type="module" src="{{ 'assets/js/controls.js' | relative_url }}"></script>
         <script type="module" src="{{ 'assets/js/keyboard.js' | relative_url }}"></script>
+        <script type="module" src="{{ 'assets/js/svg-export.js' | relative_url }}"></script>
         <script type="module" src="{{ 'assets/js/transliterate_test.js' | relative_url }}"></script>
     </body>
 </html>

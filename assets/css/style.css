@@ -1,6 +1,6 @@
 /*
 Copyright 2021 Google LLC
-Copyright 2023-2025 David Corbett
+Copyright 2023-2026 David Corbett
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -43,6 +43,11 @@ limitations under the License.
 .Dupl {
     font-family: var(--dupl-font-stack);
     font-style: normal;
+}
+
+button {
+    font-size: inherit;
+    margin-block: var(--small-gap);
 }
 
 label {
